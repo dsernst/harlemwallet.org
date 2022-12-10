@@ -1,27 +1,17 @@
+import { FormItem } from './FormItem'
+
 export const RegistrationForm = () => {
   return (
-    <form className="mt-5 space-y-2">
-      <label>
-        Your Name <input className="border-2" />
-      </label>
+    <form className="w-full px-4 mt-1 text-left rounded-lg shadow-xl bg-orange-50">
+      <FormItem label="Your Name" />
 
-      <label>
-        Your Mailing Address <input className="border-2" />
-      </label>
+      <FormItem label="Your Mailing Address" />
 
-      <label>
-        Your Email Address <input className="border-2" />
-      </label>
+      <FormItem label="Your Email Address" />
 
-      <a className="block py-1.5 mt-10 bg-cyan-200/75 rounded-sm cursor-pointer hover:bg-cyan-300">
+      <a className="block text-center py-1.5 my-5 bg-amber-200/75 rounded-md cursor-pointer font-medium border-amber-400 border hover:bg-amber-300">
         Submit
       </a>
-
-      <style jsx>{`
-        label {
-          display: block;
-        }
-      `}</style>
     </form>
   )
 }
