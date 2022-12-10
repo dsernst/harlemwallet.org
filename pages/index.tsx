@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
+import { RegistrationForm } from '../src/RegistrationForm'
 
 const Home: NextPage = () => {
   return (
@@ -10,20 +10,28 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center w-full px-20 text-center">
+      <main className="flex flex-col items-center justify-center w-full max-w-3xl px-20 text-center">
+        {/* Title */}
         <h1 className="text-5xl font-bold">Harlem Wallet</h1>
 
-        <p className="mt-3 text-2xl">
-          NYC Councilmember Kristin Jordan (D-9) is piloting a new initiative
-          for constituents to join participatory budgeting for the district.
-        </p>
+        {/* Intro section */}
+        <div className="mt-5 space-y-4 text-2xl text-left">
+          <p>
+            NYC Councilmember Kristin Jordan (D-9) is piloting a new initiative
+            for constituents to join participatory budgeting for the district.
+          </p>
 
-        <p className="mt-3 text-2xl">
-          To register, please provide your name, email address, and residential
-          mailing address within the district. In Spring 2023, all participants
-          will be mailed a postcard with a unique code to verify their
-          residency.
-        </p>
+          <p>
+            Please register below to begin the process of joining the pilot.
+          </p>
+          <p className="text-base">
+            In Spring 2023, all participants will be mailed a postcard with a
+            unique code to verify their residency.
+          </p>
+        </div>
+
+        {/* Registration Form */}
+        <RegistrationForm />
       </main>
     </div>
   )
