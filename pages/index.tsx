@@ -21,16 +21,16 @@ const Home: NextPage = () => {
             for constituents to join participatory budgeting for the district.
           </p>
 
-          <p className="text-base">
-            In Spring 2023, all participants will be mailed a postcard with a
-            unique code to verify their residency.
-          </p>
-
           <p className="text-lg italic">Please register to join the pilot:</p>
         </div>
 
         {/* Registration Form */}
         <RegistrationForm />
+
+        <p className="mt-8 text-base">
+          In Spring 2023, all participants will be mailed a postcard with a
+          unique code to verify their residency.
+        </p>
       </main>
     </div>
   )
