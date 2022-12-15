@@ -22,8 +22,8 @@ export const RegistrationForm = () => {
       {/* Register btn */}
       <a
         className="block text-center py-1.5 my-5 bg-amber-200/75 rounded-md cursor-pointer font-medium border-amber-400 border hover:bg-amber-300 shadow-md active:bg-amber-400 active:shadow-sm"
-        onClick={() => {
-          fetch('/api/register', {
+        onClick={async () => {
+          await fetch('/api/register', {
             body: JSON.stringify({ name, mailing_address, email }),
             method: 'POST',
             headers: {
@@ -31,10 +31,10 @@ export const RegistrationForm = () => {
               'Content-Type': 'application/json',
             },
           })
-          setSubmitted(!submitted)
+          setSubmitted(true)
         }}
       >
-        {!submitted ? 'Register' : "Nothing's being saved yet! 🙂"}
+        {!submitted ? 'Register' : 'Registered! 🙂'}
       </a>
     </form>
   )

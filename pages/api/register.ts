@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { firebase } from './_firebase'
 
 export type RegisterReqBody = {
   name: string
@@ -6,14 +7,22 @@ export type RegisterReqBody = {
   email: string
 }
 export type RegisterResp = {
-  name: string
+  success: true
 }
 
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<RegisterResp>
 ) {
-  console.log(req.body)
+  const { name, mailing_address, email } = req.body
 
-  res.status(200).json({ name: 'John Doe' })
+  const id = new Date().toISOString() + ' ' + String(Math.random()).slice(2, 7)
+
+  firebase
+    .firestore()
+    .collection('registrations')
+    .doc(id)
+    .set({ id, name, mailing_address, email })
+
+  res.status(200).json({ success: true })
 }
