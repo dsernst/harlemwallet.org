@@ -18,6 +18,9 @@ export default async function handler(
 
   const id = new Date().toISOString() + ' ' + String(Math.random()).slice(2, 7)
 
+  // // Wait 1 second (for testing)
+  // await new Promise((done) => setTimeout(() => done(void 4), 1000))
+
   await firebase
     .firestore()
     .collection('registrations')

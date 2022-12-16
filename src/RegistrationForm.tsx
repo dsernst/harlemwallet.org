@@ -1,11 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormItem } from './FormItem'
+import { Spinner } from './Spinner'
 
 export const RegistrationForm = () => {
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const [name, setName] = useState('')
   const [mailing_address, setMailingAddress] = useState('')
   const [email, setEmail] = useState('')
+
+  useEffect(() => {
+    if (submitted) setSubmitted(false)
+  }, [name, mailing_address, email])
 
   return (
     <form className="w-full px-4 mt-1 text-left rounded-lg shadow-xl bg-orange-50">
@@ -23,6 +29,7 @@ export const RegistrationForm = () => {
       <a
         className="block text-center py-1.5 my-5 bg-amber-200/75 rounded-md cursor-pointer font-medium border-amber-400 border hover:bg-amber-300 shadow-md active:bg-amber-400 active:shadow-sm"
         onClick={async () => {
+          setSubmitting(true)
           await fetch('/api/register', {
             body: JSON.stringify({ name, mailing_address, email }),
             method: 'POST',
@@ -31,10 +38,19 @@ export const RegistrationForm = () => {
               'Content-Type': 'application/json',
             },
           })
+          setSubmitting(false)
           setSubmitted(true)
         }}
       >
-        {!submitted ? 'Register' : 'Registered! 🙂'}
+        {submitting ? (
+          <>
+            <Spinner /> Saving...
+          </>
+        ) : !submitted ? (
+          'Register'
+        ) : (
+          'Registered! 🎉'
+        )}
       </a>
     </form>
   )
