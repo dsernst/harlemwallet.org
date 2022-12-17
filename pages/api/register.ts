@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { firebase } from './_firebase'
+import { sendEmail } from './_sendgrid'
 
 export type RegisterReqBody = {
   name: string
@@ -21,11 +22,21 @@ export default async function handler(
   // // Wait 1 second (for testing)
   // await new Promise((done) => setTimeout(() => done(void 4), 1000))
 
-  await firebase
-    .firestore()
-    .collection('registrations')
-    .doc(id)
-    .set({ id, name, mailing_address, email })
+  await Promise.all([
+    // Store in DB
+    firebase
+      .firestore()
+      .collection('registrations')
+      .doc(id)
+      .set({ id, name, mailing_address, email }),
+
+    // Notify admin
+    sendEmail({
+      to: 'new-registration@harlemwallet.org',
+      subject: 'Harlem Wallet: Registration',
+      body: `${name} - ${email}\n\n\n${mailing_address}`,
+    }),
+  ])
 
   return res.status(200).json({ success: true })
 }
