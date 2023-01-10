@@ -1,27 +1,22 @@
-# Next.js + Tailwind CSS Example
+## Development Instructions:
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.2)](https://tailwindcss.com/blog/tailwindcss-v3-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+### First Time Only:
 
-## Deploy your own
+1. Fork the repo
+2. Clone the repo down to your local machine and `cd` into it.
+3. Run `yarn` in the repository to install local `/node_module` dependencies.
+4. Duplicate & rename the file `TEMPLATE.env.local` into your own `.env.local`, which is already set to be ignored by git, for your dev API keys.
+5. Create a new project at https://firebase.google.com. Once a project is created, go to Build > Firestore Cloud Database > Create Database. The default settings are fine. Then go to Project Settings > Service Accounts > Create New Private Key. That should download a credentials `.json` file. Copy values from that into the firebase section of your `.env.local` file.
+6. Create a free account at https://sendgrid.com. Copy your API key into `.env.local`.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+You're now set up for development 🎉
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+### Every time:
 
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-```
-
-```bash
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
+To start the dev server:
 
 ```bash
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
+yarn dev
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+You should now be able to visit http://localhost:3000 to see the webapp on your local machine.
