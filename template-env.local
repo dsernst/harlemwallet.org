@@ -1,0 +1,10 @@
+## Copy this file, and rename it to .env.local, droping the `TEMPLATE_` file prefix
+## See Readme getting started instructions for these.
+
+# Firebase
+FIREBASE_CLIENT_EMAIL = <!-- something like xxxxxx@xxxxx.iam.gserviceaccount.com -->
+FIREBASE_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----\n Copy in the whole private key from a Service Account Credentials .json file  =\n-----END PRIVATE KEY-----\n"
+FIREBASE_PROJECT_ID = 
+
+# Sendgrid
+SENDGRID_API_KEY = <!-- something like SG.xxxxxxx.xxxxxxxxxx -->
