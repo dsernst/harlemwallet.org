@@ -31,6 +31,15 @@ const Home: NextPage = () => {
           In Spring 2023, all participants will be mailed a postcard with a
           unique code to verify their residency.
         </p>
+        <footer className="mt-8 text-xs">
+          <a
+            target="_blank"
+            className="text-blue-600 hover:underline"
+            href="/privacy-policy"
+          >
+            Privacy Policy
+          </a>
+        </footer>
       </main>
     </div>
   )
