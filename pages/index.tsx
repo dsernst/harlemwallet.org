@@ -12,13 +12,23 @@ const Home: NextPage = () => {
 
       <main className="flex flex-col items-center justify-center w-full max-w-3xl p-6 mx-auto text-center">
         {/* Title */}
-        <h1 className="text-5xl font-bold">Harlem Wallet</h1>
+        <h1 className="text-3xl font-bold">
+          The Community Wallet: Bringing Economic Democracy to Harlem
+        </h1>
 
         {/* Intro section */}
-        <div className="mt-5 space-y-6 text-2xl text-left">
+        <div className="mt-5 space-y-6 text-xl text-left">
+          <p>Hello District 9!</p>
           <p>
-            NYC Councilmember Kristin Jordan (D-9) is piloting a new initiative
-            for constituents to join participatory budgeting for the district.
+            This year Councilmember Kristin Jordan will conduct an open
+            democratic process to guide her allocation of $2 million of the 2024
+            capital budget.
+          </p>
+          <p>
+            We hope this will be a fun way for a larger number of Harlemites to
+            make their funding priorities heard. To participate, please register
+            below and you will be mailed a postcard with a unique code that you
+            can use to verify your residency in District 9.
           </p>
 
           <p className="text-lg italic">Please register to join the pilot:</p>
@@ -27,10 +37,6 @@ const Home: NextPage = () => {
         {/* Registration Form */}
         <RegistrationForm />
 
-        <p className="mt-8 text-base">
-          In Spring 2023, all participants will be mailed a postcard with a
-          unique code to verify their residency.
-        </p>
         <footer className="mt-8 text-xs">
           <a
             target="_blank"
