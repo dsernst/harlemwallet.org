@@ -28,7 +28,7 @@ export default async function handler(
       .firestore()
       .collection('registrations')
       .doc(id)
-      .set({ id, name, mailing_address, email }),
+      .set({ id, name, mailing_address, email, headers: req.headers }),
 
     // Notify admin
     sendEmail({
