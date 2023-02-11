@@ -25,7 +25,7 @@ const Home: NextPage = () => {
             capital budget.
           </p>
           <p>
-            We hope this will be a fun way for a larger number of Harlemites to
+            We hope this will be a better way for a larger number of Harlemites to
             make their funding priorities heard. To participate, please register
             below and you will be mailed a postcard with a unique code that you
             can use to verify your residency in District 9.
