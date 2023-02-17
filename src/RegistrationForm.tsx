@@ -27,7 +27,7 @@ export const RegistrationForm = () => {
 
       {/* Register btn */}
       <a
-        className="block text-center text-black font-medium font-form tracking-[1px] uppercase py-1.5 my-5 bg-fuchsia-blush rounded-md cursor-pointer hover:border-magenta-pink hover:border-2 hover:bg-cool-december hover:text-magenta-pink shadow-md active:bg-zinc-600 active:shadow-sm"
+        className="block text-center text-black font-medium font-form tracking-[1px] uppercase py-1.5 my-5 bg-fuchsia-blush rounded-md cursor-pointer border-2 border-fuchsia-blush hover:border-magenta-pink hover:bg-cool-december hover:text-magenta-pink shadow-md active:bg-zinc-600 active:shadow-sm"
         onClick={async () => {
           setSubmitting(true)
           await fetch('/api/register', {

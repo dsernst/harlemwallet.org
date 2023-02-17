@@ -17,7 +17,7 @@ const Home: NextPage = () => {
         </h1>
 
         {/* Intro section */}
-        <div className="mt-5 space-y-6 text-xl text-left text-shadow shadow-black font-body">
+        <div className="mt-5 space-y-6 text-xl text-left text-shadow-sm shadow-black font-body">
           <p>Hello District 9!</p>
           <p>
             This year Councilmember Kristin Jordan will conduct an open
