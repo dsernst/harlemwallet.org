@@ -1,22 +1,22 @@
-import axios from "axios"; // Axios for requests
-import moment from "moment"; // Moment date parsing
-import Link from "next/link"; // Dynamic links
-import Loader from "components/loader"; // Placeholder loader
-import Layout from "components/layout"; // Layout wrapper
-import { useRouter } from "next/router"; // Router for URL params
-import { useState, useEffect } from "react"; // State management
-import Navigation from "components/navigation"; // Navigation component
-import RemainingCredits from "components/credits";
-import ProposalBlocks from "components/proposalBlocks";
+import axios from 'axios' // Axios for requests
+import moment from 'moment' // Moment date parsing
+import Link from 'next/link' // Dynamic links
+import Loader from 'components/loader' // Placeholder loader
+import Layout from 'components/layout' // Layout wrapper
+import { useRouter } from 'next/router' // Router for URL params
+import { useState, useEffect } from 'react' // State management
+import Navigation from 'components/navigation' // Navigation component
+import RemainingCredits from 'components/credits'
+import ProposalBlocks from 'components/proposalBlocks'
 
 function Vote({ query }) {
-  const router = useRouter(); // Hook into router
-  const [data, setData] = useState(null); // Data retrieved from DB
-  const [loading, setLoading] = useState(true); // Global loading state
-  const [name, setName] = useState(""); // Voter name
-  const [votes, setVotes] = useState(null); // Option votes array
-  const [credits, setCredits] = useState(0); // Total available credits
-  const [submitLoading, setSubmitLoading] = useState(false); // Component (button) submission loading state
+  const router = useRouter() // Hook into router
+  const [data, setData] = useState(null) // Data retrieved from DB
+  const [loading, setLoading] = useState(true) // Global loading state
+  const [name, setName] = useState('') // Voter name
+  const [votes, setVotes] = useState(null) // Option votes array
+  const [credits, setCredits] = useState(0) // Total available credits
+  const [submitLoading, setSubmitLoading] = useState(false) // Component (button) submission loading state
 
   /**
    * Calculates culmulative number of votes and available credits on load
@@ -24,19 +24,19 @@ function Vote({ query }) {
    */
   const calculateVotes = (rData) => {
     // Collect array of all user votes per option
-    const votesArr = rData.vote_data.map((item, _) => item.votes);
+    const votesArr = rData.vote_data.map((item, _) => item.votes)
     // Multiple user votes (Quadratic Voting)
-    const votesArrMultiple = votesArr.map((item, _) => item * item);
+    const votesArrMultiple = votesArr.map((item, _) => item * item)
     // Set votes variable to array
-    setVotes(votesArr);
+    setVotes(votesArr)
     // Set credits to:
     setCredits(
       // Maximum votes -
       rData.event_data.credits_per_voter -
         // Sum of all QV multiplied votes
         votesArrMultiple.reduce((a, b) => a + b, 0)
-    );
-  };
+    )
+  }
 
   /**
    * Update votes array with QV weighted vote increment/decrement
@@ -44,20 +44,20 @@ function Vote({ query }) {
    * @param {boolean} increment true === increment, else decrement
    */
   const makeVote = (index, increment) => {
-    const tempArr = votes; // Collect all votes
+    const tempArr = votes // Collect all votes
     // Increment or decrement depending on boolean
     increment
       ? (tempArr[index] = tempArr[index] + 1)
-      : (tempArr[index] = tempArr[index] - 1);
+      : (tempArr[index] = tempArr[index] - 1)
 
-    setVotes(tempArr); // Set votes array
+    setVotes(tempArr) // Set votes array
     // Calculate new sumVotes
     const sumVotes = tempArr
       .map((num, _) => num * num)
-      .reduce((a, b) => a + b, 0);
+      .reduce((a, b) => a + b, 0)
     // Set available credits to maximum credits - sumVotes
-    setCredits(data.event_data.credits_per_voter - sumVotes);
-  };
+    setCredits(data.event_data.credits_per_voter - sumVotes)
+  }
 
   /**
    * componentDidMount
@@ -69,22 +69,22 @@ function Vote({ query }) {
       // If voter exists
       .then((response) => {
         // Set response data
-        setData(response.data);
+        setData(response.data)
         // Set name if exists
         setName(
-          response.data.voter_name !== null ? response.data.voter_name : ""
-        );
+          response.data.voter_name !== null ? response.data.voter_name : ''
+        )
         // Calculate QV votes with data
-        calculateVotes(response.data);
+        calculateVotes(response.data)
         // Toggle global loading state to false
-        setLoading(false);
+        setLoading(false)
       })
       // If voter does not exist
       .catch(() => {
         // Redirect to /place with error state default
-        router.push("/place?error=true");
-      });
-  }, []);
+        router.push('/place?error=true')
+      })
+  }, [])
 
   /**
    * Calculate render state of -/+ buttons based on possible actions
@@ -92,96 +92,96 @@ function Vote({ query }) {
    * @param {boolean} increment -/+ button toggle
    */
   const calculateShow = (current, increment) => {
-    const change = increment ? 1 : -1;
+    const change = increment ? 1 : -1
     const canOccur =
-      Math.abs(Math.pow(current, 2) - Math.pow(current + change, 2)) <= credits;
+      Math.abs(Math.pow(current, 2) - Math.pow(current + change, 2)) <= credits
     // Check for absolute squared value of current - absolute squared valueof current + 1 <= credits
 
     // If current votes === 0, and available credits === 0
     if (current === 0 && credits === 0) {
       // Immediately return false
-      return false;
+      return false
     }
 
     // Else, if adding
     if (increment) {
       // Check for state of current
-      return current <= 0 ? true : canOccur;
+      return current <= 0 ? true : canOccur
     } else {
       // Or check for inverse state when subtracting
-      if (data.event_data.event_title === "Wish List Poll") {
-        return (current >= 0 ? true : canOccur) && (current !== 0);
+      if (data.event_data.event_title === 'Wish List Poll') {
+        return (current >= 0 ? true : canOccur) && current !== 0
       } else {
-        return current >= 0 ? true : canOccur;
+        return current >= 0 ? true : canOccur
       }
     }
-  };
+  }
 
   /**
    * Vote submission POST
    */
   const submitVotes = async () => {
     // Toggle button loading state to true
-    setSubmitLoading(true);
+    setSubmitLoading(true)
 
     // POST data and collect status
-    const { status } = await axios.post("/api/events/vote", {
+    const { status } = await axios.post('/api/events/vote', {
       id: query.user, // Voter ID
       votes: votes, // Vote data
       name: name, // Voter name
-    });
+    })
 
     // If POST is a success
     if (status === 200) {
       // Redirect to success page
-      router.push(`success?event=${data.event_id}&user=${query.user}`);
+      router.push(`success?event=${data.event_id}&user=${query.user}`)
     } else {
       // Else, redirec to failure page
-      router.push(`failure?event=${data.event_id}&user=${query.user}`);
+      router.push(`failure?event=${data.event_id}&user=${query.user}`)
     }
 
     // Toggle button loading state to false
-    setSubmitLoading(false);
-  };
+    setSubmitLoading(false)
+  }
 
   /**
    * Toggle show/hide description
    * @param {number} key identifying the option the user clicked on
    */
   const toggleDescription = (key) => {
-    const description = document.getElementById("description-container-" + key);
-    const link = document.getElementById("link-container-" + key);
-    const toggleButton = document.getElementById("toggle-button-" + key);
-    if (toggleButton.alt === "down arrow") {
-      toggleButton.src = "/vectors/up_arrow.svg";
-      toggleButton.alt = "up arrow";
+    const description = document.getElementById('description-container-' + key)
+    const link = document.getElementById('link-container-' + key)
+    const toggleButton = document.getElementById('toggle-button-' + key)
+    if (toggleButton.alt === 'down arrow') {
+      toggleButton.src = '/vectors/up_arrow.svg'
+      toggleButton.alt = 'up arrow'
     } else {
-      toggleButton.src = "/vectors/down_arrow.svg";
-      toggleButton.alt = "down arrow";
+      toggleButton.src = '/vectors/down_arrow.svg'
+      toggleButton.alt = 'down arrow'
     }
     if (description) {
-      if (description.style.display === "none") {
-        description.style.display = "block";
+      if (description.style.display === 'none') {
+        description.style.display = 'block'
       } else {
-        description.style.display = "none";
+        description.style.display = 'none'
       }
     }
     if (link) {
-      if (link.style.display === "none") {
-        link.style.display = "block";
+      if (link.style.display === 'none') {
+        link.style.display = 'block'
       } else {
-        link.style.display = "none";
+        link.style.display = 'none'
       }
     }
-  };
+  }
 
   return (
     <Layout>
       {/* Navigation header */}
       <Navigation
         history={{
-          title: "Home",
-          link: "/",
+          title: 'Home',
+          link: '/',
         }}
         title="Place Votes"
       />
@@ -190,193 +190,255 @@ function Vote({ query }) {
         {/* Loading state check */}
         {!loading ? (
           <>
-          <aside id="table-of-contents_container">
-            <div className="toc-header">
-              <h3>Jump to an Option</h3>
-            </div>
-            <div id="table-of-contents">
-              {data.vote_data.map((option, i) => {
-                // Loop through each voteable option
-                return (
-                  <div key={i} className="toc-item">
-                    <a href={'#' + i}>{option.title}</a>
-                  </div>
-                );
-              })}
-            </div>
-          </aside>
-          <aside id="budget-container">
-            <RemainingCredits
-              creditBalance={data.event_data.credits_per_voter}
-              creditsRemaining={credits}
-            />
-            {data ? (
-              <>
-              {(moment() > moment(data.event_data.end_event_date)) ? (
-                <></>
-              ) : (
-                <>
-                  {/* Submission button states */}
-                  {submitLoading ? (
-                      // Check for existing button loading state
-                      <button className="submit__button" disabled>
-                        <Loader />
-                      </button>
-                    ) : (
-                      // Else, enable submission
-                      <button name="input-element" onClick={submitVotes} className="submit__button">
-                        Submit Votes
-                      </button>
-                    )}
-                </>
-              )}
-              </>
-            ) : null}
-          </aside>
-          <div className="ballot_container">
-            <div className="vote__info">
-              {/* General voting header */}
-              <div className="vote__info_heading">
-                <h1>Place your votes</h1>
-                <p>
-                  You can use up to{" "}
-                  <strong>{data.event_data.credits_per_voter} credits</strong> to
-                  vote during this event.
-                </p>
+            <aside id="table-of-contents_container">
+              <div className="toc-header">
+                <h3>Jump to an Option</h3>
               </div>
-
-              {/* Project name and description */}
-              <div className="event__details">
-                <div className="vote__loading event__summary">
-                  <h2>{data.event_data.event_title}</h2>
-                  <p>{data.event_data.event_description}</p>
-                  {data ? (
-                    <>
-                    {(moment() > moment(data.event_data.end_event_date)) ? (
-                      <>
-                      <h3>This event has concluded. Click below to to see the results!</h3>
-                      {/* Redirect to event dashboard */}
-                      <Link href={`/event?id=${data.event_id}`}>
-                        <a>See event dashboard</a>
-                      </Link>
-                      </>
-                    ) : (
-                      <>
-                      {(moment() < moment(data.event_data.start_event_date)) ? (
-                        <h3>This event begins {moment(data.event_data.start_event_date).format('MMMM Do YYYY, h:mm:ss a')}</h3>
-                      ) : (
-                        <h3>This event closes {moment(data.event_data.end_event_date).format('MMMM Do YYYY, h:mm:ss a')}</h3>
-                      )}
-                      </>
-                    )}
-                    </>
-                  ) : null}
-                </div>
+              <div id="table-of-contents">
+                {data.vote_data.map((option, i) => {
+                  // Loop through each voteable option
+                  return (
+                    <div key={i} className="toc-item">
+                      <a href={'#' + i}>{option.title}</a>
+                    </div>
+                  )
+                })}
               </div>
-
-              {/* Ballot */}
+            </aside>
+            <aside id="budget-container">
+              <RemainingCredits
+                creditBalance={data.event_data.credits_per_voter}
+                creditsRemaining={credits}
+              />
               {data ? (
                 <>
-                {/* Hide ballot if event hasn't started yet */}
-                {(moment() < moment(data.event_data.start_event_date)) ? (
-                  <></>
-                ) : (
-                  <>
-                  {/* Voteable options */}
-                  <div className="event__options">
-                    <h2>Voteable Options</h2>
-                    <div className="divider" />
-                    <div className="event__options_list">
-                      {data.vote_data.map((option, i) => {
-                        // Loop through each voteable option
-                        return (
-                          <div key={i} id={i} className="event__option_item">
-                            <div>
-                              <button className="title-container" onClick={() => toggleDescription(i)}>
-                                <label>Title</label>
-                                <h3>{option.title}</h3>
-                                  <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
-                              </button>
-                              {option.description !== "" ? (
-                                // If description exists, show description
-                                <div id={`description-container-${i}`}>
-                                  <label>Description</label>
-                                  <p className="event__option_item_desc">{option.description}</p>
-                                </div>
-                              ) : null}
-                              {option.url !== "" ? (
-                                // If URL exists, show URL
-                                <div id={`link-container-${i}`}>
-                                  <label>Link</label>
-                                  <a
-                                    href={option.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    {option.url}
-                                  </a>
-                                </div>
-                              ) : null}
-                            </div>
-                            {votes[i] !== 0 ? (
-                              <ProposalBlocks
-                                cost={Math.pow(votes[i], 2)}
-                              />
-                            ) : null}
-                            <div className="event__option_item_vote">
-                              <label>Votes</label>
-                              <input type="number" value={votes[i]} disabled />
-                              <div className="item__vote_buttons">
-                                {data ? (
-                                  <>
-                                  {(moment() > moment(data.event_data.end_event_date)) ? (
-                                    <></>
-                                  ) : (
-                                    <>
-                                      {/* Toggleable button states based on remaining credits */}
-                                      {calculateShow(votes[i], false) ? (
-                                        <button name="input-element" onClick={() => makeVote(i, false)}>
-                                          -
-                                        </button>
-                                      ) : (
-                                        <button className="button__disabled" disabled>
-                                          -
-                                        </button>
-                                      )}
-                                      {calculateShow(votes[i], true) ? (
-                                        <button name="input-element" onClick={() => makeVote(i, true)}>+</button>
-                                      ) : (
-                                        <button className="button__disabled" disabled>
-                                          +
-                                        </button>
-                                      )}
-                                    </>
-                                  )}
-                                  </>
-                                ) : null}
-                              </div>
-                              {data.voter_name !== "" && data.voter_name !== null ? (
-                                // If user has voted before, show historic votes
-                                <div className="existing__votes">
-                                  <span>
-                                    You last allocated{" "}
-                                    <strong>{data.vote_data[i].votes} votes </strong>
-                                    to this option.
-                                  </span>
-                                </div>
-                              ) : null}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  </>
-                )}
+                  {moment() > moment(data.event_data.end_event_date) ? (
+                    <></>
+                  ) : (
+                    <>
+                      {/* Submission button states */}
+                      {submitLoading ? (
+                        // Check for existing button loading state
+                        <button className="submit__button" disabled>
+                          <Loader />
+                        </button>
+                      ) : (
+                        // Else, enable submission
+                        <button
+                          name="input-element"
+                          onClick={submitVotes}
+                          className="submit__button"
+                        >
+                          Submit Votes
+                        </button>
+                      )}
+                    </>
+                  )}
                 </>
               ) : null}
+            </aside>
+            <div className="ballot_container">
+              <div className="vote__info">
+                {/* General voting header */}
+                <div className="vote__info_heading">
+                  <h1>Place your votes</h1>
+                  <p>
+                    You can use up to{' '}
+                    <strong>{data.event_data.credits_per_voter} credits</strong>{' '}
+                    to vote during this event.
+                  </p>
+                </div>
+
+                {/* Project name and description */}
+                <div className="event__details">
+                  <div className="vote__loading event__summary">
+                    <h2>{data.event_data.event_title}</h2>
+                    <p>{data.event_data.event_description}</p>
+                    {data ? (
+                      <>
+                        {moment() > moment(data.event_data.end_event_date) ? (
+                          <>
+                            <h3>
+                              This event has concluded. Click below to to see
+                              the results!
+                            </h3>
+                            {/* Redirect to event dashboard */}
+                            <Link href={`/event?id=${data.event_id}`}>
+                              <a>See event dashboard</a>
+                            </Link>
+                          </>
+                        ) : (
+                          <>
+                            {moment() <
+                            moment(data.event_data.start_event_date) ? (
+                              <h3>
+                                This event begins{' '}
+                                {moment(
+                                  data.event_data.start_event_date
+                                ).format('MMMM Do YYYY, h:mm:ss a')}
+                              </h3>
+                            ) : (
+                              <h3>
+                                This event closes{' '}
+                                {moment(data.event_data.end_event_date).format(
+                                  'MMMM Do YYYY, h:mm:ss a'
+                                )}
+                              </h3>
+                            )}
+                          </>
+                        )}
+                      </>
+                    ) : null}
+                  </div>
+                </div>
+
+                {/* Ballot */}
+                {data ? (
+                  <>
+                    {/* Hide ballot if event hasn't started yet */}
+                    {moment() < moment(data.event_data.start_event_date) ? (
+                      <></>
+                    ) : (
+                      <>
+                        {/* Voteable options */}
+                        <div className="event__options">
+                          <h2>Voteable Options</h2>
+                          <div className="divider" />
+                          <div className="event__options_list">
+                            {data.vote_data.map((option, i) => {
+                              // Loop through each voteable option
+                              return (
+                                <div
+                                  key={i}
+                                  id={i}
+                                  className="event__option_item"
+                                >
+                                  <div>
+                                    <button
+                                      className="title-container"
+                                      onClick={() => toggleDescription(i)}
+                                    >
+                                      <label>Title</label>
+                                      <h3>{option.title}</h3>
+                                      <img
+                                        id={`toggle-button-${i}`}
+                                        src="/vectors/down_arrow.svg"
+                                        alt="down arrow"
+                                      />
+                                    </button>
+                                    {option.description !== '' ? (
+                                      // If description exists, show description
+                                      <div id={`description-container-${i}`}>
+                                        <label>Description</label>
+                                        <p className="event__option_item_desc">
+                                          {option.description}
+                                        </p>
+                                      </div>
+                                    ) : null}
+                                    {option.url !== '' ? (
+                                      // If URL exists, show URL
+                                      <div id={`link-container-${i}`}>
+                                        <label>Link</label>
+                                        <a
+                                          href={option.url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {option.url}
+                                        </a>
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                  {votes[i] !== 0 ? (
+                                    <ProposalBlocks
+                                      cost={Math.pow(votes[i], 2)}
+                                    />
+                                  ) : null}
+                                  <div className="event__option_item_vote">
+                                    <label>Votes</label>
+                                    <input
+                                      type="number"
+                                      value={votes[i]}
+                                      disabled
+                                    />
+                                    <div className="item__vote_buttons">
+                                      {data ? (
+                                        <>
+                                          {moment() >
+                                          moment(
+                                            data.event_data.end_event_date
+                                          ) ? (
+                                            <></>
+                                          ) : (
+                                            <>
+                                              {/* Toggleable button states based on remaining credits */}
+                                              {calculateShow(
+                                                votes[i],
+                                                false
+                                              ) ? (
+                                                <button
+                                                  name="input-element"
+                                                  onClick={() =>
+                                                    makeVote(i, false)
+                                                  }
+                                                >
+                                                  -
+                                                </button>
+                                              ) : (
+                                                <button
+                                                  className="button__disabled"
+                                                  disabled
+                                                >
+                                                  -
+                                                </button>
+                                              )}
+                                              {calculateShow(votes[i], true) ? (
+                                                <button
+                                                  name="input-element"
+                                                  onClick={() =>
+                                                    makeVote(i, true)
+                                                  }
+                                                >
+                                                  +
+                                                </button>
+                                              ) : (
+                                                <button
+                                                  className="button__disabled"
+                                                  disabled
+                                                >
+                                                  +
+                                                </button>
+                                              )}
+                                            </>
+                                          )}
+                                        </>
+                                      ) : null}
+                                    </div>
+                                    {data.voter_name !== '' &&
+                                    data.voter_name !== null ? (
+                                      // If user has voted before, show historic votes
+                                      <div className="existing__votes">
+                                        <span>
+                                          You last allocated{' '}
+                                          <strong>
+                                            {data.vote_data[i].votes} votes{' '}
+                                          </strong>
+                                          to this option.
+                                        </span>
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : null}
+              </div>
             </div>
-          </div>
           </>
         ) : (
           // If loading, show global loading state
@@ -759,12 +821,12 @@ function Vote({ query }) {
         }
       `}</style>
     </Layout>
-  );
+  )
 }
 
 // Collect params from URL
 Vote.getInitialProps = ({ query }) => {
-  return { query };
-};
+  return { query }
+}
 
-export default Vote;
+export default Vote
