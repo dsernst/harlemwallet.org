@@ -6,7 +6,7 @@ import { Layout } from './Layout' // Layout wrapper
 import { useRouter } from 'next/router' // Router for URL params
 import { useState, useEffect } from 'react' // State management
 import { Navigation } from './Navigation' // Navigation component
-import RemainingCredits from 'components/credits'
+import { RemainingCredits } from './RemainingCredits'
 import ProposalBlocks from 'components/proposalBlocks'
 
 function Vote({ query }) {
