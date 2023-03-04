@@ -2,7 +2,7 @@ import axios from 'axios' // Axios for requests
 import moment from 'moment' // Moment date parsing
 import Link from 'next/link' // Dynamic links
 import { Loader } from './Loader' // Placeholder loader
-import Layout from 'components/layout' // Layout wrapper
+import { Layout } from './Layout' // Layout wrapper
 import { useRouter } from 'next/router' // Router for URL params
 import { useState, useEffect } from 'react' // State management
 import Navigation from 'components/navigation' // Navigation component
