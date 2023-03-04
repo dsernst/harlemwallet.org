@@ -63,27 +63,32 @@ function Vote({ query }) {
    * componentDidMount
    */
   useEffect(() => {
-    // Collect voter information on load
-    axios
-      .get(`/api/events/find?id=${query.user}`)
-      // If voter exists
-      .then((response) => {
-        // Set response data
-        setData(response.data)
-        // Set name if exists
-        setName(
-          response.data.voter_name !== null ? response.data.voter_name : ''
-        )
-        // Calculate QV votes with data
-        calculateVotes(response.data)
-        // Toggle global loading state to false
-        setLoading(false)
-      })
-      // If voter does not exist
-      .catch(() => {
-        // Redirect to /place with error state default
-        router.push('/place?error=true')
-      })
+    console.warn('FindUser replaced w/ placeholder loader')
+    setData({ vote_data: [], event_data: { credits_per_voter: 100 } })
+    setLoading(false)
+    return
+
+    // // Collect voter information on load
+    // axios
+    //   .get(`/api/events/find?id=${query.user}`)
+    //   // If voter exists
+    //   .then((response) => {
+    //     // Set response data
+    //     setData(response.data)
+    //     // Set name if exists
+    //     setName(
+    //       response.data.voter_name !== null ? response.data.voter_name : ''
+    //     )
+    //     // Calculate QV votes with data
+    //     calculateVotes(response.data)
+    //     // Toggle global loading state to false
+    //     setLoading(false)
+    //   })
+    //   // If voter does not exist
+    //   .catch(() => {
+    //     // Redirect to /place with error state default
+    //     router.push('/place?error=true')
+    //   })
   }, [])
 
   /**
