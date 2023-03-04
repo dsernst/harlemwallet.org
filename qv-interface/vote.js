@@ -7,7 +7,7 @@ import { useRouter } from 'next/router' // Router for URL params
 import { useState, useEffect } from 'react' // State management
 import { Navigation } from './Navigation' // Navigation component
 import { RemainingCredits } from './RemainingCredits'
-import ProposalBlocks from 'components/proposalBlocks'
+import { ProposalBlocks } from './ProposalBlocks'
 
 function Vote({ query }) {
   const router = useRouter() // Hook into router
