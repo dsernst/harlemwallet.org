@@ -5,7 +5,7 @@ import { Loader } from './Loader' // Placeholder loader
 import { Layout } from './Layout' // Layout wrapper
 import { useRouter } from 'next/router' // Router for URL params
 import { useState, useEffect } from 'react' // State management
-import Navigation from 'components/navigation' // Navigation component
+import { Navigation } from './Navigation' // Navigation component
 import RemainingCredits from 'components/credits'
 import ProposalBlocks from 'components/proposalBlocks'
 
