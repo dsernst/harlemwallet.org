@@ -36,4 +36,6 @@ yarn-error.log*
 next-env.d.ts
 
 yarn.lock
-db/
+db/*.json
+db/*.xlsx
+todo
