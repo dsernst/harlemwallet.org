@@ -20,15 +20,17 @@ const Home: NextPage = () => {
         <div className="mt-5 space-y-6 text-xl text-left text-shadow-sm shadow-black font-body">
           <p>Hello District 9!</p>
           <p>
-            This year Councilmember Kristin Jordan will conduct an open
-            democratic process to guide her allocation of $2 million of the 2024
-            capital budget.
+            Councilmember Kristin Jordan is experimenting with a new process to
+            get input from her constituents on the annual capital budget
+            allocation. This year's pilot will be non-binding. Your feedback
+            will test and refine the process to give our district a powerful new
+            democratic tool to make public funding decisions in a more equitable
+            and inclusive manner.
           </p>
           <p>
-            We hope this will be a better way for a larger number of Harlemites
-            to make their funding priorities heard. To participate, please
-            register below and you will be mailed a postcard with a unique code
-            that you can use to verify your residency in District 9.
+            To participate, please register below and you will receive a
+            postcard with a unique code that you can use to verify your
+            residency in District 9.
           </p>
 
           <p className="text-lg italic">Please register to join the pilot:</p>
