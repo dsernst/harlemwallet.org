@@ -3,10 +3,11 @@ import Link from 'next/link' // Dynamic links
 import { Loader } from './Loader' // Placeholder loader
 import { Layout } from './Layout' // Layout wrapper
 import { useRouter } from 'next/router' // Router for URL params
-import { useState, useEffect } from 'react' // State management
+import { useState } from 'react' // State management
 import { Navigation } from './Navigation' // Navigation component
 import { RemainingCredits } from './RemainingCredits'
 import { ProposalBlocks } from './ProposalBlocks'
+import { useUser } from './useUser'
 
 const eventHasEnded = false
 const credits_per_voter = 100
@@ -14,8 +15,9 @@ const credits_per_voter = 100
 function Vote() {
   const router = useRouter() // Hook into router
   const { query } = router
-  const [data, setData] = useState(null) // Data retrieved from DB
+  // const [data, setData] = useState(null) // Data retrieved from DB
   const [loading, setLoading] = useState(true) // Global loading state
+  const { vote_data } = useUser({ setLoading })
   const [name, setName] = useState('') // Voter name
   const [votes, setVotes] = useState<number[] | null>(null) // Option votes array
   const [credits, setCredits] = useState(0) // Total available credits
@@ -57,38 +59,6 @@ function Vote() {
     // Set available credits to maximum credits - sumVotes
     setCredits(credits_per_voter - sumVotes)
   }
-
-  /**
-   * componentDidMount
-   */
-  useEffect(() => {
-    console.warn('FindUser replaced w/ placeholder loader')
-    setData({ vote_data: [] })
-    setLoading(false)
-    return
-
-    // // Collect voter information on load
-    // axios
-    //   .get(`/api/events/find?id=${query.user}`)
-    //   // If voter exists
-    //   .then((response) => {
-    //     // Set response data
-    //     setData(response.data)
-    //     // Set name if exists
-    //     setName(
-    //       response.data.voter_name !== null ? response.data.voter_name : ''
-    //     )
-    //     // Calculate QV votes with data
-    //     calculateVotes(response.data)
-    //     // Toggle global loading state to false
-    //     setLoading(false)
-    //   })
-    //   // If voter does not exist
-    //   .catch(() => {
-    //     // Redirect to /place with error state default
-    //     router.push('/place?error=true')
-    //   })
-  }, [])
 
   /**
    * Calculate render state of -/+ buttons based on possible actions
@@ -198,7 +168,7 @@ function Vote() {
                 <h3>Jump to an Option</h3>
               </div>
               <div id="table-of-contents">
-                {data.vote_data.map((option, i) => {
+                {vote_data.map((option, i) => {
                   // Loop through each voteable option
                   return (
                     <div key={i} className="toc-item">
@@ -210,28 +180,24 @@ function Vote() {
             </aside>
             <aside id="budget-container">
               <RemainingCredits creditBalance={credits_per_voter} creditsRemaining={credits} />
-              {data ? (
+              {eventHasEnded ? (
+                <></>
+              ) : (
                 <>
-                  {eventHasEnded ? (
-                    <></>
+                  {/* Submission button states */}
+                  {submitLoading ? (
+                    // Check for existing button loading state
+                    <button className="submit__button" disabled>
+                      <Loader />
+                    </button>
                   ) : (
-                    <>
-                      {/* Submission button states */}
-                      {submitLoading ? (
-                        // Check for existing button loading state
-                        <button className="submit__button" disabled>
-                          <Loader />
-                        </button>
-                      ) : (
-                        // Else, enable submission
-                        <button name="input-element" onClick={submitVotes} className="submit__button">
-                          Submit Votes
-                        </button>
-                      )}
-                    </>
+                    // Else, enable submission
+                    <button name="input-element" onClick={submitVotes} className="submit__button">
+                      Submit Votes
+                    </button>
                   )}
                 </>
-              ) : null}
+              )}
             </aside>
             <div className="ballot_container">
               <div className="vote__info">
