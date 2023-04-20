@@ -12,7 +12,7 @@ const eventHasEnded = false
 const credits_per_voter = 100
 const end_event_date = new Date('Apr 31 2023 11:59:59 pm')
 
-function Vote() {
+export function QVInterface() {
   const router = useRouter()
   const { query } = router
   const { vote_data, loading, name } = useUser()
@@ -610,5 +610,3 @@ function Vote() {
     </div>
   )
 }
-
-export default Vote
