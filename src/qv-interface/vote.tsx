@@ -21,7 +21,7 @@ function Vote() {
   const [submitLoading, setSubmitLoading] = useState(false) // Component (button) submission loading state
 
   /**
-   * Calculates culmulative number of votes and available credits on load
+   * Calculates cumulative number of votes and available credits on load
    * @param {object} rData vote data object
    */
   const calculateVotes = (rData) => {
@@ -138,7 +138,7 @@ function Vote() {
       // Redirect to success page
       router.push(`success?event=${data.event_id}&user=${query.user}`)
     } else {
-      // Else, redirec to failure page
+      // Else, redirect to failure page
       router.push(`failure?event=${data.event_id}&user=${query.user}`)
     }
 
