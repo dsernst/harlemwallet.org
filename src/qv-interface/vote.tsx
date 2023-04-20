@@ -9,6 +9,7 @@ import { RemainingCredits } from './RemainingCredits'
 import { ProposalBlocks } from './ProposalBlocks'
 
 const eventHasEnded = false
+const credits_per_voter = 100
 
 function Vote() {
   const router = useRouter() // Hook into router
@@ -16,7 +17,7 @@ function Vote() {
   const [data, setData] = useState(null) // Data retrieved from DB
   const [loading, setLoading] = useState(true) // Global loading state
   const [name, setName] = useState('') // Voter name
-  const [votes, setVotes] = useState(null) // Option votes array
+  const [votes, setVotes] = useState<number[] | null>(null) // Option votes array
   const [credits, setCredits] = useState(0) // Total available credits
   const [submitLoading, setSubmitLoading] = useState(false) // Component (button) submission loading state
 
@@ -24,7 +25,7 @@ function Vote() {
    * Calculates cumulative number of votes and available credits on load
    * @param {object} rData vote data object
    */
-  const calculateVotes = (rData) => {
+  const calculateVotes = (rData: { vote_data: { votes: number }[] }) => {
     // Collect array of all user votes per option
     const votesArr = rData.vote_data.map((item, _) => item.votes)
     // Multiple user votes (Quadratic Voting)
@@ -34,7 +35,7 @@ function Vote() {
     // Set credits to:
     setCredits(
       // Maximum votes -
-      rData.event_data.credits_per_voter -
+      credits_per_voter -
         // Sum of all QV multiplied votes
         votesArrMultiple.reduce((a, b) => a + b, 0)
     )
