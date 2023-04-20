@@ -10,8 +10,9 @@ import { ProposalBlocks } from './ProposalBlocks'
 
 const eventHasEnded = false
 
-function Vote({ query }) {
+function Vote() {
   const router = useRouter() // Hook into router
+  const { query } = router
   const [data, setData] = useState(null) // Data retrieved from DB
   const [loading, setLoading] = useState(true) // Global loading state
   const [name, setName] = useState('') // Voter name
@@ -737,11 +738,6 @@ function Vote({ query }) {
       `}</style>
     </Layout>
   )
-}
-
-// Collect params from URL
-Vote.getInitialProps = ({ query }) => {
-  return { query }
 }
 
 export default Vote
