@@ -46,8 +46,8 @@ function Vote() {
    * @param {number} index of option to update
    * @param {boolean} increment true === increment, else decrement
    */
-  const makeVote = (index, increment) => {
-    const tempArr = votes // Collect all votes
+  const makeVote = (index: number, increment: boolean) => {
+    const tempArr = votes as number[] // Collect all votes
     // Increment or decrement depending on boolean
     increment ? (tempArr[index] = tempArr[index] + 1) : (tempArr[index] = tempArr[index] - 1)
 
@@ -55,7 +55,7 @@ function Vote() {
     // Calculate new sumVotes
     const sumVotes = tempArr.map((num, _) => num * num).reduce((a, b) => a + b, 0)
     // Set available credits to maximum credits - sumVotes
-    setCredits(data.event_data.credits_per_voter - sumVotes)
+    setCredits(credits_per_voter - sumVotes)
   }
 
   /**
