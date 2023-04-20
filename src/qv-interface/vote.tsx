@@ -17,12 +17,11 @@ function Vote() {
   const router = useRouter()
   const { query } = router
   const { vote_data, loading, name } = useUser()
+  const [submitting, setSubmitting] = useState(false) // Submission loading
   const [votes, setVotes] = useState<number[]>(projects.map(() => 0))
   const quadraticVotes = votes.map((itemVote, _) => itemVote ** 2)
   const totalQVUsed = quadraticVotes.reduce((a, b) => a + b, 0)
   const credits = credits_per_voter - totalQVUsed
-
-  const [submitLoading, setSubmitLoading] = useState(false) // Component (button) submission loading state
 
   /**
    * Update votes array with QV weighted vote increment/decrement
@@ -73,7 +72,7 @@ function Vote() {
    */
   const submitVotes = async () => {
     // Toggle button loading state to true
-    setSubmitLoading(true)
+    setSubmitting(true)
 
     // POST data and collect status
     const { status } = await axios.post('/api/events/vote', {
@@ -92,7 +91,7 @@ function Vote() {
     }
 
     // Toggle button loading state to false
-    setSubmitLoading(false)
+    setSubmitting(false)
   }
 
   /**
@@ -163,7 +162,7 @@ function Vote() {
               ) : (
                 <>
                   {/* Submission button states */}
-                  {submitLoading ? (
+                  {submitting ? (
                     // Check for existing button loading state
                     <button className="submit__button" disabled>
                       <Loader />
