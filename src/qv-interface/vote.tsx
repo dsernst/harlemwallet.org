@@ -12,6 +12,7 @@ import { projects } from '../projects'
 
 const eventHasEnded = false
 const credits_per_voter = 100
+const end_event_date = new Date('Apr 31 2023 11:59:59 pm')
 
 function Vote() {
   const router = useRouter()
@@ -51,10 +52,10 @@ function Vote() {
     // If POST is a success
     if (status === 200) {
       // Redirect to success page
-      router.push(`success?event=${data.event_id}&user=${query.user}`)
+      router.push(`success?user=${query.user}`)
     } else {
       // Else, redirect to failure page
-      router.push(`failure?event=${data.event_id}&user=${query.user}`)
+      router.push(`failure?user=${query.user}`)
     }
 
     // Toggle button loading state to false
@@ -65,10 +66,10 @@ function Vote() {
    * Toggle show/hide description
    * @param {number} key identifying the option the user clicked on
    */
-  const toggleDescription = (key) => {
+  const toggleDescription = (key: number) => {
     const description = document.getElementById('description-container-' + key)
     const link = document.getElementById('link-container-' + key)
-    const toggleButton = document.getElementById('toggle-button-' + key)
+    const toggleButton = document.getElementById('toggle-button-' + key) as HTMLImageElement
     if (toggleButton.alt === 'down arrow') {
       toggleButton.src = '/vectors/up_arrow.svg'
       toggleButton.alt = 'up arrow'
@@ -156,112 +157,87 @@ function Vote() {
                 {/* Project name and description */}
                 <div className="event__details">
                   <div className="vote__loading event__summary">
-                    <h2>{data.event_data.event_title}</h2>
-                    <p>{data.event_data.event_description}</p>
-                    {data ? (
-                      <>
-                        {eventHasEnded ? (
-                          <>
-                            <h3>This event has concluded. Click below to to see the results!</h3>
-                            {/* Redirect to event dashboard */}
-                            <Link href={`/event?id=${data.event_id}`}>
-                              <a>See event dashboard</a>
-                            </Link>
-                          </>
-                        ) : (
-                          <>{<h3>This event closes {data.event_data.end_event_date.toLocaleString()}</h3>}</>
-                        )}
-                      </>
-                    ) : null}
+                    <h2>EVENT_TITLE_PLACEHOLDER</h2>
+                    <p>event_description lorem ipsum placeholder</p>
+                    <>
+                      {eventHasEnded ? (
+                        <>
+                          <h3>This event has concluded. Click below to to see the results!</h3>
+                          {/* Redirect to event dashboard */}
+                          <Link href={`/event`}>
+                            <a>See event dashboard</a>
+                          </Link>
+                        </>
+                      ) : (
+                        <>{<h3>This event closes {end_event_date.toLocaleString()}</h3>}</>
+                      )}
+                    </>
                   </div>
                 </div>
 
                 {/* Ballot */}
-                {data ? (
-                  <>
-                    {/* Voteable options */}
-                    <div className="event__options">
-                      <h2>Voteable Options</h2>
-                      <div className="divider" />
-                      <div className="event__options_list">
-                        {data.vote_data.map((option, i) => {
-                          // Loop through each voteable option
-                          return (
-                            <div key={i} id={i} className="event__option_item">
-                              <div>
-                                <button className="title-container" onClick={() => toggleDescription(i)}>
-                                  <label>Title</label>
-                                  <h3>{option.title}</h3>
-                                  <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
-                                </button>
-                                {option.description !== '' ? (
-                                  // If description exists, show description
-                                  <div id={`description-container-${i}`}>
-                                    <label>Description</label>
-                                    <p className="event__option_item_desc">{option.description}</p>
-                                  </div>
-                                ) : null}
-                                {option.url !== '' ? (
-                                  // If URL exists, show URL
-                                  <div id={`link-container-${i}`}>
-                                    <label>Link</label>
-                                    <a href={option.url} target="_blank" rel="noopener noreferrer">
-                                      {option.url}
-                                    </a>
-                                  </div>
-                                ) : null}
+                <div className="event__options">
+                  <h2>Voteable Options</h2>
+                  <div className="divider" />
+                  <div className="event__options_list">
+                    {projects.map(([title, Allocation_Amount, description], i) => {
+                      // Loop through each voteable option
+                      return (
+                        <div key={i} id={'' + i} className="event__option_item">
+                          <div>
+                            <button className="title-container" onClick={() => toggleDescription(i)}>
+                              <label>Title</label>
+                              <h3>{title}</h3>
+                              <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
+                            </button>
+                            {!!description && (
+                              // If description exists, show description
+                              <div id={`description-container-${i}`}>
+                                <label>Description</label>
+                                <p className="event__option_item_desc">{description}</p>
                               </div>
-                              {votes[i] !== 0 ? <ProposalBlocks cost={votes[i] ** 2} /> : null}
-                              <div className="event__option_item_vote">
-                                <label>Votes</label>
-                                <input type="number" value={votes[i]} disabled />
-                                <div className="item__vote_buttons">
+                            )}
+                          </div>
+                          {votes[i] !== 0 ? <ProposalBlocks cost={votes[i] ** 2} /> : null}
+                          <div className="event__option_item_vote">
+                            <label>Votes</label>
+                            <input type="number" value={votes[i]} disabled />
+                            <div className="item__vote_buttons">
+                              <>
+                                {eventHasEnded ? (
+                                  <></>
+                                ) : (
                                   <>
-                                    {eventHasEnded ? (
-                                      <></>
+                                    {/* 0 is min vote */}
+                                    {votes[i] > 0 ? (
+                                      <button name="input-element" onClick={() => makeVote(i, false)}>
+                                        -
+                                      </button>
                                     ) : (
-                                      <>
-                                        {/* 0 is min vote */}
-                                        {votes[i] > 0 ? (
-                                          <button name="input-element" onClick={() => makeVote(i, false)}>
-                                            -
-                                          </button>
-                                        ) : (
-                                          <button className="button__disabled" disabled>
-                                            -
-                                          </button>
-                                        )}
-                                        {/* Enough credits remaining? */}
-                                        {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
-                                          <button name="input-element" onClick={() => makeVote(i, true)}>
-                                            +
-                                          </button>
-                                        ) : (
-                                          <button className="button__disabled" disabled>
-                                            +
-                                          </button>
-                                        )}
-                                      </>
+                                      <button className="button__disabled" disabled>
+                                        -
+                                      </button>
+                                    )}
+                                    {/* Enough credits remaining? */}
+                                    {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
+                                      <button name="input-element" onClick={() => makeVote(i, true)}>
+                                        +
+                                      </button>
+                                    ) : (
+                                      <button className="button__disabled" disabled>
+                                        +
+                                      </button>
                                     )}
                                   </>
-                                </div>
-                                {data.voter_name !== '' && data.voter_name !== null ? (
-                                  // If user has voted before, show historic votes
-                                  <div className="existing__votes">
-                                    <span>
-                                      You last allocated <strong>{data.vote_data[i].votes} votes </strong>
-                                      to this option.
-                                    </span>
-                                  </div>
-                                ) : null}
-                              </div>
+                                )}
+                              </>
                             </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  </>
-                ) : null}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
           </>
