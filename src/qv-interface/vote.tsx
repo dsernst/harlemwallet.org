@@ -1,10 +1,8 @@
 import axios from 'axios' // Axios for requests
 import Link from 'next/link' // Dynamic links
 import { Loader } from './Loader' // Placeholder loader
-import { Layout } from './Layout' // Layout wrapper
 import { useRouter } from 'next/router' // Router for URL params
 import { useState } from 'react' // State management
-import { Navigation } from './Navigation' // Navigation component
 import { RemainingCredits } from './RemainingCredits'
 import { ProposalBlocks } from './ProposalBlocks'
 import { useUser } from './useUser'
@@ -94,162 +92,150 @@ function Vote() {
   }
 
   return (
-    <Layout>
-      {/* Navigation header */}
-      <Navigation
-        history={{
-          title: 'Home',
-          link: '/',
-        }}
-        title="Place Votes"
-      />
-
-      <div className="vote">
-        {/* Loading state check */}
-        {!loading ? (
-          <>
-            <aside id="table-of-contents_container">
-              <div className="toc-header">
-                <h3>Jump to an Option</h3>
-              </div>
-              <div id="table-of-contents">
-                {vote_data.map((option, i) => {
-                  // Loop through each voteable option
-                  return (
-                    <div key={i} className="toc-item">
-                      <a href={'#' + i}>{option.title}</a>
-                    </div>
-                  )
-                })}
-              </div>
-            </aside>
-            <aside id="budget-container">
-              <RemainingCredits creditBalance={credits_per_voter} creditsRemaining={credits} />
-              {eventHasEnded ? (
-                <></>
-              ) : (
-                <>
-                  {/* Submission button states */}
-                  {submitting ? (
-                    // Check for existing button loading state
-                    <button className="submit__button" disabled>
-                      <Loader />
-                    </button>
-                  ) : (
-                    // Else, enable submission
-                    <button name="input-element" onClick={submitVotes} className="submit__button">
-                      Submit Votes
-                    </button>
-                  )}
-                </>
-              )}
-            </aside>
-            <div className="ballot_container">
-              <div className="vote__info">
-                {/* General voting header */}
-                <div className="vote__info_heading">
-                  <h1>Place your votes</h1>
-                  <p>
-                    You can use up to <strong>{credits_per_voter} credits</strong> to vote during this event.
-                  </p>
-                </div>
-
-                {/* Project name and description */}
-                <div className="event__details">
-                  <div className="vote__loading event__summary">
-                    <h2>EVENT_TITLE_PLACEHOLDER</h2>
-                    <p>event_description lorem ipsum placeholder</p>
-                    <>
-                      {eventHasEnded ? (
-                        <>
-                          <h3>This event has concluded. Click below to to see the results!</h3>
-                          {/* Redirect to event dashboard */}
-                          <Link href={`/event`}>
-                            <a>See event dashboard</a>
-                          </Link>
-                        </>
-                      ) : (
-                        <>{<h3>This event closes {end_event_date.toLocaleString()}</h3>}</>
-                      )}
-                    </>
+    <div className="vote">
+      {/* Loading state check */}
+      {!loading ? (
+        <>
+          <aside id="table-of-contents_container">
+            <div className="toc-header">
+              <h3>Jump to an Option</h3>
+            </div>
+            <div id="table-of-contents">
+              {vote_data.map((option, i) => {
+                // Loop through each voteable option
+                return (
+                  <div key={i} className="toc-item">
+                    <a href={'#' + i}>{option.title}</a>
                   </div>
-                </div>
+                )
+              })}
+            </div>
+          </aside>
+          <aside id="budget-container">
+            <RemainingCredits creditBalance={credits_per_voter} creditsRemaining={credits} />
+            {eventHasEnded ? (
+              <></>
+            ) : (
+              <>
+                {/* Submission button states */}
+                {submitting ? (
+                  // Check for existing button loading state
+                  <button className="submit__button" disabled>
+                    <Loader />
+                  </button>
+                ) : (
+                  // Else, enable submission
+                  <button name="input-element" onClick={submitVotes} className="submit__button">
+                    Submit Votes
+                  </button>
+                )}
+              </>
+            )}
+          </aside>
+          <div className="ballot_container">
+            <div className="vote__info">
+              {/* General voting header */}
+              <div className="vote__info_heading">
+                <h1>Place your votes</h1>
+                <p>
+                  You can use up to <strong>{credits_per_voter} credits</strong> to vote during this event.
+                </p>
+              </div>
 
-                {/* Ballot */}
-                <div className="event__options">
-                  <h2>Voteable Options</h2>
-                  <div className="divider" />
-                  <div className="event__options_list">
-                    {projects.map(([title, Allocation_Amount, description], i) => {
-                      // Loop through each voteable option
-                      return (
-                        <div key={i} id={'' + i} className="event__option_item">
-                          <div>
-                            <button className="title-container" onClick={() => toggleDescription(i)}>
-                              <label>Title</label>
-                              <h3>{title}</h3>
-                              <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
-                            </button>
-                            {!!description && (
-                              // If description exists, show description
-                              <div id={`description-container-${i}`}>
-                                <label>Description</label>
-                                <p className="event__option_item_desc">{description}</p>
-                              </div>
-                            )}
-                          </div>
-                          {votes[i] !== 0 ? <ProposalBlocks cost={votes[i] ** 2} /> : null}
-                          <div className="event__option_item_vote">
-                            <label>Votes</label>
-                            <input type="number" value={votes[i]} disabled />
-                            <div className="item__vote_buttons">
-                              <>
-                                {eventHasEnded ? (
-                                  <></>
-                                ) : (
-                                  <>
-                                    {/* 0 is min vote */}
-                                    {votes[i] > 0 ? (
-                                      <button name="input-element" onClick={() => makeVote(i, false)}>
-                                        -
-                                      </button>
-                                    ) : (
-                                      <button className="button__disabled" disabled>
-                                        -
-                                      </button>
-                                    )}
-                                    {/* Enough credits remaining? */}
-                                    {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
-                                      <button name="input-element" onClick={() => makeVote(i, true)}>
-                                        +
-                                      </button>
-                                    ) : (
-                                      <button className="button__disabled" disabled>
-                                        +
-                                      </button>
-                                    )}
-                                  </>
-                                )}
-                              </>
+              {/* Project name and description */}
+              <div className="event__details">
+                <div className="vote__loading event__summary">
+                  <h2>EVENT_TITLE_PLACEHOLDER</h2>
+                  <p>event_description lorem ipsum placeholder</p>
+                  <>
+                    {eventHasEnded ? (
+                      <>
+                        <h3>This event has concluded. Click below to to see the results!</h3>
+                        {/* Redirect to event dashboard */}
+                        <Link href={`/event`}>
+                          <a>See event dashboard</a>
+                        </Link>
+                      </>
+                    ) : (
+                      <>{<h3>This event closes {end_event_date.toLocaleString()}</h3>}</>
+                    )}
+                  </>
+                </div>
+              </div>
+
+              {/* Ballot */}
+              <div className="event__options">
+                <h2>Voteable Options</h2>
+                <div className="divider" />
+                <div className="event__options_list">
+                  {projects.map(([title, Allocation_Amount, description], i) => {
+                    // Loop through each voteable option
+                    return (
+                      <div key={i} id={'' + i} className="event__option_item">
+                        <div>
+                          <button className="title-container" onClick={() => toggleDescription(i)}>
+                            <label>Title</label>
+                            <h3>{title}</h3>
+                            <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
+                          </button>
+                          {!!description && (
+                            // If description exists, show description
+                            <div id={`description-container-${i}`}>
+                              <label>Description</label>
+                              <p className="event__option_item_desc">{description}</p>
                             </div>
+                          )}
+                        </div>
+                        {votes[i] !== 0 ? <ProposalBlocks cost={votes[i] ** 2} /> : null}
+                        <div className="event__option_item_vote">
+                          <label>Votes</label>
+                          <input type="number" value={votes[i]} disabled />
+                          <div className="item__vote_buttons">
+                            <>
+                              {eventHasEnded ? (
+                                <></>
+                              ) : (
+                                <>
+                                  {/* 0 is min vote */}
+                                  {votes[i] > 0 ? (
+                                    <button name="input-element" onClick={() => makeVote(i, false)}>
+                                      -
+                                    </button>
+                                  ) : (
+                                    <button className="button__disabled" disabled>
+                                      -
+                                    </button>
+                                  )}
+                                  {/* Enough credits remaining? */}
+                                  {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
+                                    <button name="input-element" onClick={() => makeVote(i, true)}>
+                                      +
+                                    </button>
+                                  ) : (
+                                    <button className="button__disabled" disabled>
+                                      +
+                                    </button>
+                                  )}
+                                </>
+                              )}
+                            </>
                           </div>
                         </div>
-                      )
-                    })}
-                  </div>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>
-          </>
-        ) : (
-          // If loading, show global loading state
-          <div className="vote__loading">
-            <h1>Loading...</h1>
-            <p>Please give us a moment to retrieve your voting profile.</p>
           </div>
-        )}
-      </div>
-
+        </>
+      ) : (
+        // If loading, show global loading state
+        <div className="vote__loading">
+          <h1>Loading...</h1>
+          <p>Please give us a moment to retrieve your voting profile.</p>
+        </div>
+      )}
       {/* Component scoped CSS */}
       <style jsx>{`
         button {
@@ -621,7 +607,7 @@ function Vote() {
           border: 1px solid #fada5e;
         }
       `}</style>
-    </Layout>
+    </div>
   )
 }
 
