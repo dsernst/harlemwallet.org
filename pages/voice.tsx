@@ -30,7 +30,7 @@ const VoicePage: NextPage = () => {
 
         <div>
           {projects.map(([Project_Title, Allocation_Amount, Project_Description], i) => (
-            <div className="mb-6 text-white/80">
+            <div key={Project_Title} className="mb-6 text-white/80">
               <div>
                 {i + 1}. <b className="text-white">{Project_Title}</b>{' '}
                 <span className="text-sm">— ${Allocation_Amount.toLocaleString()}</span>
