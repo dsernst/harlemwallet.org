@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    // enable latest features
+    "lib": ["esnext"],
+    "module": "esnext",
+    "target": "esnext",
+
+    // typescript 5.x+
+    "moduleResolution": "bundler",
+
+    // best practices
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    // add Bun type definitions
+    "types": ["bun-types"]
+  }
+}
