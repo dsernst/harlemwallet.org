@@ -8,40 +8,21 @@ import { Navigation } from './Navigation' // Navigation component
 import { RemainingCredits } from './RemainingCredits'
 import { ProposalBlocks } from './ProposalBlocks'
 import { useUser } from './useUser'
+import { projects } from '../projects'
 
 const eventHasEnded = false
 const credits_per_voter = 100
 
 function Vote() {
-  const router = useRouter() // Hook into router
+  const router = useRouter()
   const { query } = router
-  // const [data, setData] = useState(null) // Data retrieved from DB
-  const [loading, setLoading] = useState(true) // Global loading state
-  const { vote_data } = useUser({ setLoading })
-  const [name, setName] = useState('') // Voter name
-  const [votes, setVotes] = useState<number[] | null>(null) // Option votes array
-  const [credits, setCredits] = useState(0) // Total available credits
-  const [submitLoading, setSubmitLoading] = useState(false) // Component (button) submission loading state
+  const { vote_data, loading, name } = useUser()
+  const [votes, setVotes] = useState<number[]>(projects.map(() => 0))
+  const quadraticVotes = votes.map((itemVote, _) => itemVote ** 2)
+  const totalQVUsed = quadraticVotes.reduce((a, b) => a + b, 0)
+  const credits = credits_per_voter - totalQVUsed
 
-  /**
-   * Calculates cumulative number of votes and available credits on load
-   * @param {object} rData vote data object
-   */
-  const calculateVotes = (rData: { vote_data: { votes: number }[] }) => {
-    // Collect array of all user votes per option
-    const votesArr = rData.vote_data.map((item, _) => item.votes)
-    // Multiple user votes (Quadratic Voting)
-    const votesArrMultiple = votesArr.map((item, _) => item * item)
-    // Set votes variable to array
-    setVotes(votesArr)
-    // Set credits to:
-    setCredits(
-      // Maximum votes -
-      credits_per_voter -
-        // Sum of all QV multiplied votes
-        votesArrMultiple.reduce((a, b) => a + b, 0)
-    )
-  }
+  const [submitLoading, setSubmitLoading] = useState(false) // Component (button) submission loading state
 
   /**
    * Update votes array with QV weighted vote increment/decrement
@@ -49,15 +30,12 @@ function Vote() {
    * @param {boolean} increment true === increment, else decrement
    */
   const makeVote = (index: number, increment: boolean) => {
-    const tempArr = votes as number[] // Collect all votes
-    // Increment or decrement depending on boolean
-    increment ? (tempArr[index] = tempArr[index] + 1) : (tempArr[index] = tempArr[index] - 1)
+    const updatedVotes = [...votes]
 
-    setVotes(tempArr) // Set votes array
-    // Calculate new sumVotes
-    const sumVotes = tempArr.map((num, _) => num * num).reduce((a, b) => a + b, 0)
-    // Set available credits to maximum credits - sumVotes
-    setCredits(credits_per_voter - sumVotes)
+    // Increment or decrement depending on boolean
+    updatedVotes[index] += increment ? 1 : -1
+
+    setVotes(updatedVotes) // Set votes array
   }
 
   /**
@@ -272,35 +250,33 @@ function Vote() {
                                 <label>Votes</label>
                                 <input type="number" value={votes[i]} disabled />
                                 <div className="item__vote_buttons">
-                                  {data ? (
-                                    <>
-                                      {eventHasEnded ? (
-                                        <></>
-                                      ) : (
-                                        <>
-                                          {/* Toggleable button states based on remaining credits */}
-                                          {calculateShow(votes[i], false) ? (
-                                            <button name="input-element" onClick={() => makeVote(i, false)}>
-                                              -
-                                            </button>
-                                          ) : (
-                                            <button className="button__disabled" disabled>
-                                              -
-                                            </button>
-                                          )}
-                                          {calculateShow(votes[i], true) ? (
-                                            <button name="input-element" onClick={() => makeVote(i, true)}>
-                                              +
-                                            </button>
-                                          ) : (
-                                            <button className="button__disabled" disabled>
-                                              +
-                                            </button>
-                                          )}
-                                        </>
-                                      )}
-                                    </>
-                                  ) : null}
+                                  <>
+                                    {eventHasEnded ? (
+                                      <></>
+                                    ) : (
+                                      <>
+                                        {/* Toggleable button states based on remaining credits */}
+                                        {calculateShow(votes[i], false) ? (
+                                          <button name="input-element" onClick={() => makeVote(i, false)}>
+                                            -
+                                          </button>
+                                        ) : (
+                                          <button className="button__disabled" disabled>
+                                            -
+                                          </button>
+                                        )}
+                                        {calculateShow(votes[i], true) ? (
+                                          <button name="input-element" onClick={() => makeVote(i, true)}>
+                                            +
+                                          </button>
+                                        ) : (
+                                          <button className="button__disabled" disabled>
+                                            +
+                                          </button>
+                                        )}
+                                      </>
+                                    )}
+                                  </>
                                 </div>
                                 {data.voter_name !== '' && data.voter_name !== null ? (
                                   // If user has voted before, show historic votes

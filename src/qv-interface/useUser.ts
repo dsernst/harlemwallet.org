@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 
 type Vote_Data = { title: string }[]
+type All_Data = { loading: boolean; vote_data: Vote_Data; name: string }
 
-export const useUser = ({ setLoading }: { setLoading: (l: boolean) => void }): { vote_data: Vote_Data } => {
-  const [data, setData] = useState<{ vote_data: Vote_Data }>({ vote_data: [] })
+export const useUser = (): All_Data => {
+  const [data, setData] = useState<All_Data>({ vote_data: [], loading: false, name: 'TODO_FIX_NAME' })
 
   useEffect(() => {
     console.warn('FindUser replaced w/ placeholder loader')
-    setLoading(false)
     return
 
     // // Collect voter information on load
