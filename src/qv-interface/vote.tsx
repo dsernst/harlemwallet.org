@@ -30,41 +30,8 @@ function Vote() {
    */
   const makeVote = (index: number, increment: boolean) => {
     const updatedVotes = [...votes]
-
-    // Increment or decrement depending on boolean
     updatedVotes[index] += increment ? 1 : -1
-
-    setVotes(updatedVotes) // Set votes array
-  }
-
-  /**
-   * Calculate render state of -/+ buttons based on possible actions
-   * @param {number} current number of option votes
-   * @param {boolean} increment -/+ button toggle
-   */
-  const calculateShow = (current, increment) => {
-    const change = increment ? 1 : -1
-    const canOccur = Math.abs(Math.pow(current, 2) - Math.pow(current + change, 2)) <= credits
-    // Check for absolute squared value of current - absolute squared valueof current + 1 <= credits
-
-    // If current votes === 0, and available credits === 0
-    if (current === 0 && credits === 0) {
-      // Immediately return false
-      return false
-    }
-
-    // Else, if adding
-    if (increment) {
-      // Check for state of current
-      return current <= 0 ? true : canOccur
-    } else {
-      // Or check for inverse state when subtracting
-      if (data.event_data.event_title === 'Wish List Poll') {
-        return (current >= 0 ? true : canOccur) && current !== 0
-      } else {
-        return current >= 0 ? true : canOccur
-      }
-    }
+    setVotes(updatedVotes)
   }
 
   /**
@@ -244,7 +211,7 @@ function Vote() {
                                   </div>
                                 ) : null}
                               </div>
-                              {votes[i] !== 0 ? <ProposalBlocks cost={Math.pow(votes[i], 2)} /> : null}
+                              {votes[i] !== 0 ? <ProposalBlocks cost={votes[i] ** 2} /> : null}
                               <div className="event__option_item_vote">
                                 <label>Votes</label>
                                 <input type="number" value={votes[i]} disabled />
@@ -254,8 +221,8 @@ function Vote() {
                                       <></>
                                     ) : (
                                       <>
-                                        {/* Toggleable button states based on remaining credits */}
-                                        {calculateShow(votes[i], false) ? (
+                                        {/* 0 is min vote */}
+                                        {votes[i] > 0 ? (
                                           <button name="input-element" onClick={() => makeVote(i, false)}>
                                             -
                                           </button>
@@ -264,7 +231,8 @@ function Vote() {
                                             -
                                           </button>
                                         )}
-                                        {calculateShow(votes[i], true) ? (
+                                        {/* Enough credits remaining? */}
+                                        {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
                                           <button name="input-element" onClick={() => makeVote(i, true)}>
                                             +
                                           </button>
