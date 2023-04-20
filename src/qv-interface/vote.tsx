@@ -63,7 +63,7 @@ function Vote() {
    */
   useEffect(() => {
     console.warn('FindUser replaced w/ placeholder loader')
-    setData({ vote_data: [], event_data: { credits_per_voter: 100 } })
+    setData({ vote_data: [] })
     setLoading(false)
     return
 
@@ -209,7 +209,7 @@ function Vote() {
               </div>
             </aside>
             <aside id="budget-container">
-              <RemainingCredits creditBalance={data.event_data.credits_per_voter} creditsRemaining={credits} />
+              <RemainingCredits creditBalance={credits_per_voter} creditsRemaining={credits} />
               {data ? (
                 <>
                   {eventHasEnded ? (
@@ -239,8 +239,7 @@ function Vote() {
                 <div className="vote__info_heading">
                   <h1>Place your votes</h1>
                   <p>
-                    You can use up to <strong>{data.event_data.credits_per_voter} credits</strong> to vote during this
-                    event.
+                    You can use up to <strong>{credits_per_voter} credits</strong> to vote during this event.
                   </p>
                 </div>
 
