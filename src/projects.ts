@@ -56,4 +56,3 @@ export const projects: [Project_Title, Allocation_Amount, Project_Description][]
     'Funding to support composting bins, mural construction, and revitalization of the Abyssinian Tot-Lot at 130 W 139th Street.',
   ],
 ]
-// Total Number of Projects: 11	 / $3,525,000.00
