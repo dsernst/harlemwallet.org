@@ -168,7 +168,12 @@ export function QVInterface() {
                   {<ProposalBlocks cost={votes[i] ** 2} />}
                   <div className="p-4 border-t-2 border-fuchsia-300/20">
                     <label className="block mb-0.5 text-sm opacity-80">VOTES</label>
-                    <input className="!pl-5 font-bold text-center " type="number" value={votes[i]} disabled />
+                    <input
+                      className="py-2 pl-5 pr-1 font-bold text-center text-[18px] rounded-md"
+                      type="number"
+                      value={votes[i]}
+                      disabled
+                    />
                     <div className="flex justify-between mt-3 item__vote_buttons">
                       {!eventHasEnded && (
                         <>
@@ -284,13 +289,6 @@ export function QVInterface() {
             margin: 50px 0 50px auto;
             width: auto;
           }
-        }
-
-        .event__option_item input {
-          width: 100%;
-          font-size: 18px;
-          border-radius: 5px;
-          padding: 10px 5px;
         }
 
         .item__vote_buttons > button {
