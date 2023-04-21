@@ -84,7 +84,7 @@ export function QVInterface() {
         {/* Submit button */}
         {!eventHasEnded && (
           <button
-            className="submit__button"
+            className="inline-block w-full py-3 mt-2.5 text-base text-[#edff38] transition duration-100 ease-in-out bg-black rounded-md outline-none cursor-pointer hover:opacity-80"
             name="input-element"
             onClick={async () => {
               // Toggle button loading state to true
@@ -385,24 +385,6 @@ export function QVInterface() {
           text-align: right;
           display: block;
           transform: translateY(-7.5px);
-        }
-
-        .submit__button {
-          padding: 12px 0px;
-          width: 100%;
-          display: inline-block;
-          border-radius: 5px;
-          background-color: #000;
-          color: #edff38;
-          font-size: 16px;
-          transition: 100ms ease-in-out;
-          border: none;
-          cursor: pointer;
-          margin-top: 10px;
-        }
-
-        .submit__button:hover {
-          opacity: 0.8;
         }
 
         .existing__votes {
