@@ -62,7 +62,7 @@ export function QVInterface() {
   }
 
   return (
-    <div className="vote">
+    <div className="text-center vote">
       {/* Table of Contents */}
       <aside id="table-of-contents_container" className="text-white/80">
         <h3 className="w-full pb-1 pl-4 text-xs opacity-60">Jump to an Option</h3>
@@ -147,7 +147,7 @@ export function QVInterface() {
                       onClick={() => toggleDescription(i)}
                     >
                       <label className="col-start-1 text-sm opacity-60">PROJECT {i + 1}</label>
-                      <h3 className="col-start-1 text-xl font-bold">{title}</h3>
+                      <h3 className="col-start-1 text-xl font-bold my-0.5">{title}</h3>
                       <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
                     </button>
                     {!!description && (
@@ -161,35 +161,31 @@ export function QVInterface() {
                   <div className="event__option_item_vote">
                     <label>Votes</label>
                     <input type="number" value={votes[i]} disabled />
-                    <div className="item__vote_buttons">
-                      <>
-                        {eventHasEnded ? (
-                          <></>
-                        ) : (
-                          <>
-                            {/* 0 is min vote */}
-                            {votes[i] > 0 ? (
-                              <button name="input-element" onClick={() => makeVote(i, false)}>
-                                -
-                              </button>
-                            ) : (
-                              <button className="button__disabled" disabled>
-                                -
-                              </button>
-                            )}
-                            {/* Enough credits remaining? */}
-                            {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
-                              <button name="input-element" onClick={() => makeVote(i, true)}>
-                                +
-                              </button>
-                            ) : (
-                              <button className="button__disabled" disabled>
-                                +
-                              </button>
-                            )}
-                          </>
-                        )}
-                      </>
+                    <div className="flex item__vote_buttons">
+                      {!eventHasEnded && (
+                        <>
+                          {/* 0 is min vote */}
+                          {votes[i] > 0 ? (
+                            <button name="input-element" onClick={() => makeVote(i, false)}>
+                              -
+                            </button>
+                          ) : (
+                            <button className="button__disabled" disabled>
+                              -
+                            </button>
+                          )}
+                          {/* Enough credits remaining? */}
+                          {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
+                            <button name="input-element" onClick={() => makeVote(i, true)}>
+                              +
+                            </button>
+                          ) : (
+                            <button className="button__disabled" disabled>
+                              +
+                            </button>
+                          )}
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -202,9 +198,6 @@ export function QVInterface() {
       <style jsx>{`
         button {
           touch-action: manipulation;
-        }
-        .vote {
-          text-align: center;
         }
 
         .vote__info {
@@ -305,16 +298,8 @@ export function QVInterface() {
           margin-bottom: 5px;
         }
 
-        .event__option_item h3 {
-          margin: 2px 0px;
-        }
-
         .event__option_item p {
           margin-top 5px;
-        }
-
-        .event__option_item a {
-          text-decoration: none;
         }
 
         .event__option_item input {
@@ -374,23 +359,6 @@ export function QVInterface() {
           background-color: #f1f2e5 !important;
           color: #000 !important;
           cursor: not-allowed !important;
-        }
-
-        .item__vote_credits {
-          color: #80806b;
-          font-size: 14px;
-          text-align: right;
-          display: block;
-          transform: translateY(-7.5px);
-        }
-
-        .existing__votes {
-          background-color: #ffffe0;
-          padding: 7.5px 10px;
-          width: calc(100% - 22px);
-          border-radius: 5px;
-          text-align: center;
-          border: 1px solid #fada5e;
         }
       `}</style>
     </div>
