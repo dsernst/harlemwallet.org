@@ -92,16 +92,12 @@ export function QVInterface() {
   return (
     <div className="vote">
       {/* Table of Contents */}
-      <aside id="table-of-contents_container">
-        <h3 className="w-full">Jump to an Option</h3>
-        <div className="sticky h-[calc(100vh-260px)] pb-4 overflow-y-auto border-t border-b border-black">
+      <aside id="table-of-contents_container" className="text-white/80">
+        <h3 className="w-full pb-1 pl-4 text-xs opacity-60">Jump to an Option</h3>
+        <div className="sticky h-[calc(100vh-90px)] pb-4 overflow-y-auto border-t border-b border-white/50">
           {projects.map(([title], i) => (
-            <a
-              key={i}
-              className="block w-full px-4 py-2 text-black text-decoration-none hover:opacity-80"
-              href={'#' + i}
-            >
-              {title}
+            <a key={i} className="block w-full px-4 py-2 rounded text-decoration-none hover:bg-white/10" href={'#' + i}>
+              <span className="text-xs opacity-60">{i + 1}.</span> {title}
             </a>
           ))}
         </div>
@@ -279,7 +275,7 @@ export function QVInterface() {
             position: sticky;
             top: 0;
             height: 100vh;
-            padding: 50px 2rem;
+            padding: 50px 2rem 0px;
             text-align: left;
           }
 
