@@ -2,11 +2,7 @@
 const plugin = require('tailwindcss/plugin')
 
 module.exports = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './src/**/*.{js,ts,jsx,tsx}',
-    './app/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./pages/**/*.{js,ts,jsx,tsx}', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -14,7 +10,6 @@ module.exports = {
         'fuchsia-blush': '#de78b7',
         'magenta-pink': '#c52f8b',
         'cool-december': '#fcfbf9',
-        'knights-armor': '#5d5d5d',
       },
       textShadow: {
         sm: '0 1px 2px var(--tw-shadow-color)',
@@ -22,9 +17,9 @@ module.exports = {
         lg: '0 8px 16px var(--tw-shadow-color)',
       },
       fontFamily: {
-        'body': ['Lora, Georgia, serif'],
-        'form': ['Karla, Arial, sans-serif'],
-      }
+        body: ['Lora, Georgia, serif'],
+        form: ['Karla, Arial, sans-serif'],
+      },
     },
   },
   plugins: [
