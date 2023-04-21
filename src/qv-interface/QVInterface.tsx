@@ -149,10 +149,9 @@ export function QVInterface() {
                       <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
                     </button>
                     {!!description && (
-                      // If description exists, show description
                       <div id={`description-container-${i}`}>
                         <label>Description</label>
-                        <p className="event__option_item_desc">{description}</p>
+                        <p className="whitespace-pre-wrap text-white/70">{description}</p>
                       </div>
                     )}
                   </div>
@@ -366,11 +365,6 @@ export function QVInterface() {
           border: 1px solid #f1f2e5;
           padding: 10px 5px;
           background-color: #fff;
-        }
-
-        .event__option_item_desc {
-          color: #666;
-          white-space: pre-wrap;
         }
 
         .event__option_item_vote {
