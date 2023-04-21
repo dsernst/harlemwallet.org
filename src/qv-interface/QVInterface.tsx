@@ -95,14 +95,15 @@ export function QVInterface() {
       <aside id="table-of-contents_container">
         <h3 className="w-full">Jump to an Option</h3>
         <div className="sticky h-[calc(100vh-260px)] pb-4 overflow-y-auto border-t border-b border-black">
-          {projects.map(([title], i) => {
-            // Loop through each voteable option
-            return (
-              <div key={i} className="toc-item">
-                <a href={'#' + i}>{title}</a>
-              </div>
-            )
-          })}
+          {projects.map(([title], i) => (
+            <a
+              key={i}
+              className="block w-full px-4 py-2 text-black text-decoration-none hover:opacity-80"
+              href={'#' + i}
+            >
+              {title}
+            </a>
+          ))}
         </div>
       </aside>
       {/* Budget Container */}
@@ -280,19 +281,6 @@ export function QVInterface() {
             height: 100vh;
             padding: 50px 2rem;
             text-align: left;
-          }
-
-          .toc-item {
-            box-sizing: border-box;
-            width: 100%;
-            padding: .5rem 1rem;
-          }
-          .toc-item > a {
-            text-decoration: none;
-            color: black;
-          }
-          .toc-item > a:hover {
-            opacity: 0.8;
           }
 
           .ballot_container {
