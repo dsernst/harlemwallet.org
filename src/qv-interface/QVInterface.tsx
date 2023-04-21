@@ -126,7 +126,7 @@ export function QVInterface() {
           {/* General voting header */}
           <h1 className="text-3xl font-bold text-white">Place your votes</h1>
           <p className="text-[18px] leading-1.5 text-white/60">
-            You can use up to <strong>{credits_per_voter} credits</strong> to vote during this event.
+            You can use up to <strong>{credits_per_voter} credits</strong>. Votes cost credits <sup>^ 2</sup>.
           </p>
 
           {/* Ballot */}
@@ -211,7 +211,6 @@ export function QVInterface() {
         .vote__info {
           max-width: 660px;
           width: calc(100% - 40px);
-          margin: 50px 0px;
           padding: 0px 20px;
           display: inline-block;
           position: relative;

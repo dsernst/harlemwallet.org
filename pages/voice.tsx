@@ -18,28 +18,6 @@ const VoicePage: NextPage = () => {
         <h1 className="text-2xl font-bold text-center text-shadow shadow-black font-body">
           The Community Wallet: Bringing Economic Democracy to Harlem
         </h1>
-
-        {/* Intro section */}
-        <div className="my-8 space-y-6 text-xl text-left font-body">
-          <p>Sign in form coming soon :)</p>
-        </div>
-
-        <h3 className="self-start mb-5 text-sm">
-          Finalist Projects{' '}
-          <span className="opacity-80">— Total Allocation Amount: ${total_allocation_amount.toLocaleString()}</span>
-        </h3>
-
-        <div>
-          {projects.map(([Project_Title, Allocation_Amount, Project_Description], i) => (
-            <div key={Project_Title + Allocation_Amount} className="mb-6 text-white/80">
-              <div>
-                {i + 1}. <b className="text-white">{Project_Title}</b>{' '}
-                <span className="text-sm">— ${Allocation_Amount.toLocaleString()}</span>
-              </div>
-              {Project_Description}
-            </div>
-          ))}
-        </div>
       </main>
 
       <QVInterface />
