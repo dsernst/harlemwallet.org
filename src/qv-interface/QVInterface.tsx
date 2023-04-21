@@ -93,9 +93,7 @@ export function QVInterface() {
     <div className="vote">
       {/* Table of Contents */}
       <aside id="table-of-contents_container">
-        <div className="toc-header">
-          <h3>Jump to an Option</h3>
-        </div>
+        <h3 className="w-full">Jump to an Option</h3>
         <div className="sticky h-[calc(100vh-260px)] pb-4 overflow-y-auto border-t border-b border-black">
           {projects.map(([title], i) => {
             // Loop through each voteable option
@@ -282,11 +280,6 @@ export function QVInterface() {
             height: 100vh;
             padding: 50px 2rem;
             text-align: left;
-          }
-
-          .toc-header {
-            box-sizing: border-box;
-            width: 100%;
           }
 
           .toc-item {
