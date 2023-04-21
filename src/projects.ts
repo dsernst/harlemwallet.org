@@ -14,12 +14,12 @@ export const projects: [Project_Title, Allocation_Amount, Project_Description][]
     "Broadway Housing Community plans to develop between 150-175 units of affordable housing over the next 5 years at two properties: 222-226 W 145th Street and 673 St Nicholas Avenue. All units will be below 80% AMI. Tenants of the project will be able to access BHC's tenant services, educational programs, and cultural arts programs.",
   ],
   [
-    'PS 46',
+    'PS 46 Auditorium',
     200_000,
     'The need is a refurbishment or renovation of the floors, the walls, the sound system, the stage, the lighting system, and the seating in the auditorium.',
   ],
   [
-    'PS 46',
+    'PS 46 Gym',
     100_000,
     'The ask is the replacement of the gym floor with regulation flooring; the replacement of the basketball hoops; and the addition of climbing wall and adaptive, sensory gym equipment for special needs students.',
   ],
