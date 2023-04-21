@@ -128,12 +128,10 @@ export function QVInterface() {
       <div className="ballot_container">
         <div className="vote__info">
           {/* General voting header */}
-          <div className="vote__info_heading">
-            <h1 className="text-white">Place your votes</h1>
-            <p>
-              You can use up to <strong>{credits_per_voter} credits</strong> to vote during this event.
-            </p>
-          </div>
+          <h1 className="text-3xl font-bold text-white">Place your votes</h1>
+          <p className="text-[18px] leading-1.5 text-white/60">
+            You can use up to <strong>{credits_per_voter} credits</strong> to vote during this event.
+          </p>
 
           {/* Ballot */}
           <h2 className="mt-16 text-2xl font-bold text-left text-white border-b pb-[5px] border-[#e7eaf3]">
@@ -287,17 +285,6 @@ export function QVInterface() {
             margin: 50px 0 50px auto;
             width: auto;
           }
-        }
-
-        .vote__info_heading > h1 {
-          margin: 0px;
-        }
-
-        .vote__info_heading > p {
-          font-size: 18px;
-          line-height: 150%;
-          color: #80806b;
-          margin: 0px;
         }
 
         .event__option_item {
