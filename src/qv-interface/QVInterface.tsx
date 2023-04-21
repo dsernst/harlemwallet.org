@@ -141,16 +141,22 @@ export function QVInterface() {
             {projects.map(([title, Allocation_Amount, description], i) => {
               // Loop through each voteable option
               return (
-                <div key={i} id={'' + i} className="event__option_item bg-white/5">
+                <div key={i} id={'' + i} className="event__option_item bg-white/5 text-white/80">
                   <div>
-                    <button className="title-container" onClick={() => toggleDescription(i)}>
-                      <label>Title</label>
-                      <h3>{title}</h3>
+                    <button
+                      style={{
+                        gridTemplateColumns: '1fr auto',
+                      }}
+                      className="grid w-full py-2 text-left border-none rounded-md outline-none cursor-pointer hover:bg-white/20"
+                      onClick={() => toggleDescription(i)}
+                    >
+                      <label className="col-start-1 text-sm opacity-60">TITLE</label>
+                      <h3 className="col-start-1 text-xl font-bold">{title}</h3>
                       <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
                     </button>
                     {!!description && (
                       <div id={`description-container-${i}`}>
-                        <label>Description</label>
+                        <label className="text-sm opacity-60">Description</label>
                         <p className="whitespace-pre-wrap text-white/70">{description}</p>
                       </div>
                     )}
@@ -302,40 +308,11 @@ export function QVInterface() {
 
         .event__option_item label {
           display: block;
-          color: #000;
-          font-size: 18px;
           text-transform: uppercase;
         }
 
         .event__option_item > div > div {
           margin: 25px 0px;
-        }
-
-        .title-container {
-          display: grid;
-          grid-template-columns: 1fr auto;
-          font-family: suisse_intlbook;
-          padding: 0px;
-          outline: none;
-          width: 100%;
-          border-radius: 5px;
-          background-color: #fff;
-          transition: 100ms ease-in-out;
-          border: none;
-          cursor: pointer;
-        }
-
-        .title-container > label,
-        .title-container > h3 {
-          grid-column-start: 1;
-          text-align: left;
-          display: block;
-          color: #000;
-          font-size: 18px;
-        }
-
-        .title-container > label {
-          text-transform: uppercase;
         }
 
         .event__option_item > div > div:nth-child(1) {
