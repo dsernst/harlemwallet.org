@@ -1,5 +1,4 @@
 import axios from 'axios' // Axios for requests
-import Link from 'next/link' // Dynamic links
 import { Loader } from './Loader' // Placeholder loader
 import { useRouter } from 'next/router' // Router for URL params
 import { useState } from 'react' // State management
@@ -10,7 +9,6 @@ import { projects } from '../projects'
 
 const eventHasEnded = false
 const credits_per_voter = 100
-const end_event_date = 'Apr 31 2023 11:59:59 pm'
 
 export function QVInterface() {
   const router = useRouter()
@@ -144,31 +142,10 @@ export function QVInterface() {
             <div className="vote__info">
               {/* General voting header */}
               <div className="vote__info_heading">
-                <h1>Place your votes</h1>
+                <h1 className="text-white">Place your votes</h1>
                 <p>
                   You can use up to <strong>{credits_per_voter} credits</strong> to vote during this event.
                 </p>
-              </div>
-
-              {/* Project name and description */}
-              <div className="event__details">
-                <div className="vote__loading event__summary">
-                  <h2>EVENT_TITLE_PLACEHOLDER</h2>
-                  <p>event_description lorem ipsum placeholder</p>
-                  <>
-                    {eventHasEnded ? (
-                      <>
-                        <h3>This event has concluded. Click below to to see the results!</h3>
-                        {/* Redirect to event dashboard */}
-                        <Link href={`/event`}>
-                          <a>See event dashboard</a>
-                        </Link>
-                      </>
-                    ) : (
-                      <>{<h3>This event closes {end_event_date}</h3>}</>
-                    )}
-                  </>
-                </div>
               </div>
 
               {/* Ballot */}
@@ -179,7 +156,7 @@ export function QVInterface() {
                   {projects.map(([title, Allocation_Amount, description], i) => {
                     // Loop through each voteable option
                     return (
-                      <div key={i} id={'' + i} className="event__option_item">
+                      <div key={i} id={'' + i} className="event__option_item bg-white/5">
                         <div>
                           <button className="title-container" onClick={() => toggleDescription(i)}>
                             <label>Title</label>
@@ -364,40 +341,6 @@ export function QVInterface() {
           }
         }
 
-        .event__summary {
-          display: inline-block;
-          box-shadow: 0 0 35px rgba(127, 150, 174, 0.125);
-          background-color: #fff;
-          margin: 20px 0px !important;
-          padding-left: 20px !important;
-          padding-right: 20px !important;
-          box-sizing: border-box;
-        }
-
-        .event__summary > h2 {
-          color: #000;
-          margin: 0px;
-        }
-
-        .event__summary > a {
-          max-width: 200px;
-          width: calc(100% - 40px);
-          margin: 10px 20px;
-          padding: 12px 0px;
-          border-radius: 5px;
-          text-decoration: none;
-          font-size: 18px;
-          display: inline-block;
-          text-decoration: none;
-          transition: 100ms ease-in-out;
-          background-color: #000;
-          color: #edff38;
-        }
-
-        .event__summary > a:hover {
-          opacity: 0.8;
-        }
-
         .vote__loading {
           max-width: 660px;
           width: calc(100% - 40px);
@@ -411,7 +354,6 @@ export function QVInterface() {
 
         .vote__loading > h1,
         .vote__info_heading > h1 {
-          color: #000;
           margin: 0px;
         }
 
@@ -439,7 +381,6 @@ export function QVInterface() {
         }
 
         .event__option_item {
-          background-color: #fff;
           border-radius: 8px;
           border: 1px solid #f1f2e5;
           box-shadow: 0 0 35px rgba(127, 150, 174, 0.125);
