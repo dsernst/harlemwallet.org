@@ -157,7 +157,7 @@ export function QVInterface() {
                       </div>
                     )}
                   </div>
-                  {votes[i] !== 0 ? <ProposalBlocks cost={votes[i] ** 2} /> : null}
+                  {<ProposalBlocks cost={votes[i] ** 2} />}
                   <div className="event__option_item_vote">
                     <label>Votes</label>
                     <input type="number" value={votes[i]} disabled />
