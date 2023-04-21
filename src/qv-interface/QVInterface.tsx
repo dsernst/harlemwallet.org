@@ -15,7 +15,7 @@ const end_event_date = 'Apr 31 2023 11:59:59 pm'
 export function QVInterface() {
   const router = useRouter()
   const { query } = router
-  const { vote_data, loading, name } = useUser()
+  const { loading, name } = useUser()
   const [submitting, setSubmitting] = useState(false) // Submission loading
   const [votes, setVotes] = useState<number[]>(projects.map(() => 0))
   const quadraticVotes = votes.map((itemVote, _) => itemVote ** 2)
@@ -101,11 +101,11 @@ export function QVInterface() {
               <h3>Jump to an Option</h3>
             </div>
             <div id="table-of-contents">
-              {vote_data.map((option, i) => {
+              {projects.map(([title], i) => {
                 // Loop through each voteable option
                 return (
                   <div key={i} className="toc-item">
-                    <a href={'#' + i}>{option.title}</a>
+                    <a href={'#' + i}>{title}</a>
                   </div>
                 )
               })}
