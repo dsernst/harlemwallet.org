@@ -123,7 +123,7 @@ export function QVInterface() {
             Voteable Options
           </h2>
           <div>
-            {projects.map(([title, Allocation_Amount, description], i) => {
+            {projects.map(([title, allocation, description], i) => {
               // Loop through each voteable option
               return (
                 <div key={i} id={'' + i} className="event__option_item bg-white/5 text-white/80">
@@ -147,8 +147,12 @@ export function QVInterface() {
                         className={`invert ${!descShown[i] && 'rotate-180'}`}
                       />
                     </button>
-                    {!!description && descShown[i] && (
-                      <div className="px-4 my-3">
+                    {descShown[i] && (
+                      <div className="px-4 my-2">
+                        <p className="mb-2 text-white/70">
+                          <span className="block text-sm opacity-60">BUDGET</span> ${allocation.toLocaleString()}
+                        </p>
+
                         <label className="text-sm opacity-60">Description</label>
                         <p className="whitespace-pre-wrap text-white/70">{description}</p>
                       </div>
