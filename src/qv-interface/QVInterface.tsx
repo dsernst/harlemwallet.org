@@ -151,7 +151,7 @@ export function QVInterface() {
                       <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
                     </button>
                     {!!description && (
-                      <div id={`description-container-${i}`} className="px-4">
+                      <div id={`description-container-${i}`} className="px-4 my-3">
                         <label className="text-sm opacity-60">Description</label>
                         <p className="whitespace-pre-wrap text-white/70">{description}</p>
                       </div>
@@ -161,7 +161,7 @@ export function QVInterface() {
                   <div className="event__option_item_vote">
                     <label>Votes</label>
                     <input type="number" value={votes[i]} disabled />
-                    <div className="flex justify-between !mt-3 !m-0 item__vote_buttons">
+                    <div className="flex justify-between mt-3 item__vote_buttons">
                       {!eventHasEnded && (
                         <>
                           {/* 0 is min vote */}
@@ -292,22 +292,6 @@ export function QVInterface() {
         .event__option_item label {
           display: block;
           text-transform: uppercase;
-        }
-
-        .event__option_item > div > div {
-          margin: 25px 0px;
-        }
-
-        .event__option_item > div > div:nth-child(1) {
-          margin-top: 5px;
-        }
-
-        .event__option_item > div > div:nth-last-child(1) {
-          margin-bottom: 5px;
-        }
-
-        .event__option_item p {
-          margin-top 5px;
         }
 
         .event__option_item input {
