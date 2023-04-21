@@ -93,9 +93,15 @@ export function QVInterface() {
 
   return (
     <div className="vote">
-      {/* Loading state check */}
-      {!loading ? (
+      {loading ? (
+        // If loading, show global loading state
+        <div className="vote__loading">
+          <h1>Loading...</h1>
+          <p>Please give us a moment to retrieve your voting profile.</p>
+        </div>
+      ) : (
         <>
+          {/* Table of Contents */}
           <aside id="table-of-contents_container">
             <div className="toc-header">
               <h3>Jump to an Option</h3>
@@ -111,15 +117,15 @@ export function QVInterface() {
               })}
             </div>
           </aside>
+          {/* Budget Container */}
           <aside id="budget-container">
             <RemainingCredits creditBalance={credits_per_voter} creditsRemaining={credits} />
-            {eventHasEnded ? (
-              <></>
-            ) : (
+
+            {/* Submit button */}
+            {!eventHasEnded && (
               <>
                 {/* Submission button states */}
                 {submitting ? (
-                  // Check for existing button loading state
                   <button className="submit__button" disabled>
                     <Loader />
                   </button>
@@ -132,6 +138,8 @@ export function QVInterface() {
               </>
             )}
           </aside>
+
+          {/* Intro section */}
           <div className="ballot_container">
             <div className="vote__info">
               {/* General voting header */}
@@ -229,12 +237,6 @@ export function QVInterface() {
             </div>
           </div>
         </>
-      ) : (
-        // If loading, show global loading state
-        <div className="vote__loading">
-          <h1>Loading...</h1>
-          <p>Please give us a moment to retrieve your voting profile.</p>
-        </div>
       )}
       {/* Component scoped CSS */}
       <style jsx>{`
@@ -519,6 +521,7 @@ export function QVInterface() {
         }
 
         .event__option_item_desc {
+          color: #666;
           white-space: pre-wrap;
         }
 
