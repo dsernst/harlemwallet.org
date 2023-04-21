@@ -146,7 +146,7 @@ export function QVInterface() {
                       className="grid w-full p-4 text-left border-none rounded-md outline-none cursor-pointer hover:bg-white/10"
                       onClick={() => toggleDescription(i)}
                     >
-                      <label className="col-start-1 text-sm opacity-60">TITLE</label>
+                      <label className="col-start-1 text-sm opacity-60">PROJECT {i + 1}</label>
                       <h3 className="col-start-1 text-xl font-bold">{title}</h3>
                       <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
                     </button>
