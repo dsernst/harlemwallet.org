@@ -84,14 +84,15 @@ export function QVInterface() {
         {/* Submit button */}
         {!eventHasEnded && (
           <button
-            className="inline-block w-full py-3 mt-2.5 text-base text-[#edff38] transition duration-100 ease-in-out bg-black rounded-md outline-none cursor-pointer hover:opacity-80"
+            className="w-full py-3 mt-2.5 text-base text-fuchsia-100 font-bold bg-black rounded-md cursor-pointer hover:opacity-70"
             name="input-element"
             onClick={async () => {
-              // Toggle button loading state to true
               setSubmitting(true)
 
-              return setTimeout(() => setSubmitting(false), 1000)
-              // alert('Pressed Submit')
+              return setTimeout(() => {
+                setSubmitting(false)
+                alert('Not active yet!')
+              }, 400)
 
               // POST data and collect status
               const { status } = await axios.post('/api/events/vote', {
