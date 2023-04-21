@@ -1,5 +1,4 @@
 import axios from 'axios' // Axios for requests
-import { Loader } from './Loader' // Placeholder loader
 import { useRouter } from 'next/router' // Router for URL params
 import { useState } from 'react' // State management
 import { RemainingCredits } from './RemainingCredits'
@@ -29,33 +28,6 @@ export function QVInterface() {
     const updatedVotes = [...votes]
     updatedVotes[index] += increment ? 1 : -1
     setVotes(updatedVotes)
-  }
-
-  /**
-   * Vote submission POST
-   */
-  const submitVotes = async () => {
-    // Toggle button loading state to true
-    setSubmitting(true)
-
-    // POST data and collect status
-    const { status } = await axios.post('/api/events/vote', {
-      id: query.user, // Voter ID
-      votes: votes, // Vote data
-      name: name, // Voter name
-    })
-
-    // If POST is a success
-    if (status === 200) {
-      // Redirect to success page
-      router.push(`success?user=${query.user}`)
-    } else {
-      // Else, redirect to failure page
-      router.push(`failure?user=${query.user}`)
-    }
-
-    // Toggle button loading state to false
-    setSubmitting(false)
   }
 
   /**
@@ -111,19 +83,39 @@ export function QVInterface() {
 
         {/* Submit button */}
         {!eventHasEnded && (
-          <>
-            {/* Submission button states */}
-            {submitting ? (
-              <button className="submit__button" disabled>
-                <Loader />
-              </button>
-            ) : (
-              // Else, enable submission
-              <button name="input-element" onClick={submitVotes} className="submit__button">
-                Submit Votes
-              </button>
-            )}
-          </>
+          <button
+            className="submit__button"
+            name="input-element"
+            onClick={async () => {
+              // Toggle button loading state to true
+              setSubmitting(true)
+
+              return setTimeout(() => setSubmitting(false), 1000)
+              // alert('Pressed Submit')
+
+              // POST data and collect status
+              const { status } = await axios.post('/api/events/vote', {
+                id: query.user, // Voter ID
+                votes: votes, // Vote data
+                name: name, // Voter name
+              })
+
+              // If POST is a success
+              if (status === 200) {
+                // Redirect to success page
+                router.push(`success?user=${query.user}`)
+              } else {
+                // Else, redirect to failure page
+                router.push(`failure?user=${query.user}`)
+              }
+
+              // Toggle button loading state to false
+              setSubmitting(false)
+            }}
+            disabled={submitting}
+          >
+            {submitting ? 'Submitting...' : 'Submit Votes'}
+          </button>
         )}
       </aside>
 
