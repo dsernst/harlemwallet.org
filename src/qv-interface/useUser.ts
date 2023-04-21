@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
-type All_Data = { loading: boolean; name: string }
+type All_Data = { name: string }
 
 export const useUser = (): All_Data => {
-  const [data, setData] = useState<All_Data>({ loading: false, name: 'TODO_FIX_NAME' })
+  const [data, setData] = useState<All_Data>({ name: 'TODO_FIX_NAME' })
 
   useEffect(() => {
     console.warn('FindUser replaced w/ placeholder loader')

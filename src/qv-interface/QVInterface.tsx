@@ -13,7 +13,7 @@ const credits_per_voter = 100
 export function QVInterface() {
   const router = useRouter()
   const { query } = router
-  const { loading, name } = useUser()
+  const { name } = useUser()
   const [submitting, setSubmitting] = useState(false) // Submission loading
   const [votes, setVotes] = useState<number[]>(projects.map(() => 0))
   const quadraticVotes = votes.map((itemVote, _) => itemVote ** 2)
@@ -91,130 +91,120 @@ export function QVInterface() {
 
   return (
     <div className="vote">
-      {loading ? (
-        // If loading, show global loading state
-        <div className="vote__loading">
-          <h1>Loading...</h1>
-          <p>Please give us a moment to retrieve your voting profile.</p>
+      {/* Table of Contents */}
+      <aside id="table-of-contents_container">
+        <div className="toc-header">
+          <h3>Jump to an Option</h3>
         </div>
-      ) : (
-        <>
-          {/* Table of Contents */}
-          <aside id="table-of-contents_container">
-            <div className="toc-header">
-              <h3>Jump to an Option</h3>
-            </div>
-            <div id="table-of-contents">
-              {projects.map(([title], i) => {
+        <div id="table-of-contents">
+          {projects.map(([title], i) => {
+            // Loop through each voteable option
+            return (
+              <div key={i} className="toc-item">
+                <a href={'#' + i}>{title}</a>
+              </div>
+            )
+          })}
+        </div>
+      </aside>
+      {/* Budget Container */}
+      <aside id="budget-container">
+        <RemainingCredits creditBalance={credits_per_voter} creditsRemaining={credits} />
+
+        {/* Submit button */}
+        {!eventHasEnded && (
+          <>
+            {/* Submission button states */}
+            {submitting ? (
+              <button className="submit__button" disabled>
+                <Loader />
+              </button>
+            ) : (
+              // Else, enable submission
+              <button name="input-element" onClick={submitVotes} className="submit__button">
+                Submit Votes
+              </button>
+            )}
+          </>
+        )}
+      </aside>
+
+      {/* Intro section */}
+      <div className="ballot_container">
+        <div className="vote__info">
+          {/* General voting header */}
+          <div className="vote__info_heading">
+            <h1 className="text-white">Place your votes</h1>
+            <p>
+              You can use up to <strong>{credits_per_voter} credits</strong> to vote during this event.
+            </p>
+          </div>
+
+          {/* Ballot */}
+          <div className="event__options">
+            <h2>Voteable Options</h2>
+            <div className="divider" />
+            <div className="event__options_list">
+              {projects.map(([title, Allocation_Amount, description], i) => {
                 // Loop through each voteable option
                 return (
-                  <div key={i} className="toc-item">
-                    <a href={'#' + i}>{title}</a>
+                  <div key={i} id={'' + i} className="event__option_item bg-white/5">
+                    <div>
+                      <button className="title-container" onClick={() => toggleDescription(i)}>
+                        <label>Title</label>
+                        <h3>{title}</h3>
+                        <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
+                      </button>
+                      {!!description && (
+                        // If description exists, show description
+                        <div id={`description-container-${i}`}>
+                          <label>Description</label>
+                          <p className="event__option_item_desc">{description}</p>
+                        </div>
+                      )}
+                    </div>
+                    {votes[i] !== 0 ? <ProposalBlocks cost={votes[i] ** 2} /> : null}
+                    <div className="event__option_item_vote">
+                      <label>Votes</label>
+                      <input type="number" value={votes[i]} disabled />
+                      <div className="item__vote_buttons">
+                        <>
+                          {eventHasEnded ? (
+                            <></>
+                          ) : (
+                            <>
+                              {/* 0 is min vote */}
+                              {votes[i] > 0 ? (
+                                <button name="input-element" onClick={() => makeVote(i, false)}>
+                                  -
+                                </button>
+                              ) : (
+                                <button className="button__disabled" disabled>
+                                  -
+                                </button>
+                              )}
+                              {/* Enough credits remaining? */}
+                              {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
+                                <button name="input-element" onClick={() => makeVote(i, true)}>
+                                  +
+                                </button>
+                              ) : (
+                                <button className="button__disabled" disabled>
+                                  +
+                                </button>
+                              )}
+                            </>
+                          )}
+                        </>
+                      </div>
+                    </div>
                   </div>
                 )
               })}
             </div>
-          </aside>
-          {/* Budget Container */}
-          <aside id="budget-container">
-            <RemainingCredits creditBalance={credits_per_voter} creditsRemaining={credits} />
-
-            {/* Submit button */}
-            {!eventHasEnded && (
-              <>
-                {/* Submission button states */}
-                {submitting ? (
-                  <button className="submit__button" disabled>
-                    <Loader />
-                  </button>
-                ) : (
-                  // Else, enable submission
-                  <button name="input-element" onClick={submitVotes} className="submit__button">
-                    Submit Votes
-                  </button>
-                )}
-              </>
-            )}
-          </aside>
-
-          {/* Intro section */}
-          <div className="ballot_container">
-            <div className="vote__info">
-              {/* General voting header */}
-              <div className="vote__info_heading">
-                <h1 className="text-white">Place your votes</h1>
-                <p>
-                  You can use up to <strong>{credits_per_voter} credits</strong> to vote during this event.
-                </p>
-              </div>
-
-              {/* Ballot */}
-              <div className="event__options">
-                <h2>Voteable Options</h2>
-                <div className="divider" />
-                <div className="event__options_list">
-                  {projects.map(([title, Allocation_Amount, description], i) => {
-                    // Loop through each voteable option
-                    return (
-                      <div key={i} id={'' + i} className="event__option_item bg-white/5">
-                        <div>
-                          <button className="title-container" onClick={() => toggleDescription(i)}>
-                            <label>Title</label>
-                            <h3>{title}</h3>
-                            <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
-                          </button>
-                          {!!description && (
-                            // If description exists, show description
-                            <div id={`description-container-${i}`}>
-                              <label>Description</label>
-                              <p className="event__option_item_desc">{description}</p>
-                            </div>
-                          )}
-                        </div>
-                        {votes[i] !== 0 ? <ProposalBlocks cost={votes[i] ** 2} /> : null}
-                        <div className="event__option_item_vote">
-                          <label>Votes</label>
-                          <input type="number" value={votes[i]} disabled />
-                          <div className="item__vote_buttons">
-                            <>
-                              {eventHasEnded ? (
-                                <></>
-                              ) : (
-                                <>
-                                  {/* 0 is min vote */}
-                                  {votes[i] > 0 ? (
-                                    <button name="input-element" onClick={() => makeVote(i, false)}>
-                                      -
-                                    </button>
-                                  ) : (
-                                    <button className="button__disabled" disabled>
-                                      -
-                                    </button>
-                                  )}
-                                  {/* Enough credits remaining? */}
-                                  {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
-                                    <button name="input-element" onClick={() => makeVote(i, true)}>
-                                      +
-                                    </button>
-                                  ) : (
-                                    <button className="button__disabled" disabled>
-                                      +
-                                    </button>
-                                  )}
-                                </>
-                              )}
-                            </>
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            </div>
           </div>
-        </>
-      )}
+        </div>
+      </div>
       {/* Component scoped CSS */}
       <style jsx>{`
         button {
@@ -268,10 +258,6 @@ export function QVInterface() {
             top: 0;
             height: 100vh;
             padding: 50px 2rem;
-          }
-
-          .vote__loading {
-            margin: 50px auto 0px auto !important;
           }
         }
 
@@ -334,25 +320,8 @@ export function QVInterface() {
             margin: 50px 0 50px auto;
             width: auto;
           }
-
-          .vote__loading {
-            grid-column-start: column 3;
-            grid-column-end: gutter 8;
-          }
         }
 
-        .vote__loading {
-          max-width: 660px;
-          width: calc(100% - 40px);
-          border-radius: 10px;
-          display: inline-block;
-          margin: 50px 20px 0px 20px;
-          border: 1px solid #f1f2e5;
-          padding: 30px 0px;
-          position: relative;
-        }
-
-        .vote__loading > h1,
         .vote__info_heading > h1 {
           margin: 0px;
         }
@@ -372,7 +341,6 @@ export function QVInterface() {
           margin-top: 5px;
         }
 
-        .vote__loading > p,
         .vote__info_heading > p {
           font-size: 18px;
           line-height: 150%;
