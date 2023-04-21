@@ -161,14 +161,14 @@ export function QVInterface() {
                   <div className="event__option_item_vote">
                     <label>Votes</label>
                     <input type="number" value={votes[i]} disabled />
-                    <div className="flex justify-between item__vote_buttons">
+                    <div className="flex justify-between !mt-3 !m-0 item__vote_buttons">
                       {!eventHasEnded && (
                         <>
                           {/* 0 is min vote */}
                           {votes[i] > 0 ? (
                             <button
                               name="input-element"
-                              className="bg-[#edff38] text-black"
+                              className="text-black hover:opacity-80 active:opacity-90 bg-fuchsia-200"
                               onClick={() => makeVote(i, false)}
                             >
                               -
@@ -181,7 +181,7 @@ export function QVInterface() {
                           {/* Enough credits remaining? */}
                           {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
                             <button
-                              className="text-[#edff38] bg-black"
+                              className="bg-black hover:opacity-70 hover:text-fuchsia-300 text-fuchsia-200 active:opacity-90"
                               name="input-element"
                               onClick={() => makeVote(i, true)}
                             >
@@ -332,10 +332,6 @@ export function QVInterface() {
           font-weight: bold;
         }
 
-        .item__vote_buttons {
-          margin: 10px 0px 0px 0px !important;
-        }
-
         .item__vote_buttons > button {
           width: 49%;
           font-size: 22px;
@@ -345,10 +341,6 @@ export function QVInterface() {
           transition: 50ms ease-in-out;
           padding: 5px 0px;
           cursor: pointer;
-        }
-
-        .item__vote_buttons > button:hover {
-          opacity: 0.8;
         }
 
         .button__disabled {
