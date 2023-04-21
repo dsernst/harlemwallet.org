@@ -10,7 +10,7 @@ import { projects } from '../projects'
 
 const eventHasEnded = false
 const credits_per_voter = 100
-const end_event_date = new Date('Apr 31 2023 11:59:59 pm')
+const end_event_date = 'Apr 31 2023 11:59:59 pm'
 
 export function QVInterface() {
   const router = useRouter()
@@ -157,7 +157,7 @@ export function QVInterface() {
                         </Link>
                       </>
                     ) : (
-                      <>{<h3>This event closes {end_event_date.toLocaleString()}</h3>}</>
+                      <>{<h3>This event closes {end_event_date}</h3>}</>
                     )}
                   </>
                 </div>

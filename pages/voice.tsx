@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { projects } from '../src/projects'
+import { QVInterface } from '../src/qv-interface/QVInterface'
 
 const total_allocation_amount = projects.reduce((sum, [_, amount]) => sum + amount, 0)
 
@@ -30,7 +31,7 @@ const VoicePage: NextPage = () => {
 
         <div>
           {projects.map(([Project_Title, Allocation_Amount, Project_Description], i) => (
-            <div key={Project_Title} className="mb-6 text-white/80">
+            <div key={Project_Title + Allocation_Amount} className="mb-6 text-white/80">
               <div>
                 {i + 1}. <b className="text-white">{Project_Title}</b>{' '}
                 <span className="text-sm">— ${Allocation_Amount.toLocaleString()}</span>
@@ -39,6 +40,8 @@ const VoicePage: NextPage = () => {
             </div>
           ))}
         </div>
+
+        <QVInterface />
 
         <footer className="mt-8 text-xs">
           <a target="_blank" className="text-white font-body hover:underline" href="/privacy-policy">
