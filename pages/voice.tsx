@@ -13,13 +13,36 @@ const VoicePage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center w-full pt-6 mx-auto text-white">
-        {/* Title */}
-        <h1 className="text-2xl font-bold text-center text-shadow shadow-black font-body">The Community Wallet</h1>
-        <h2 className="text-xl font-bold text-center text-shadow shadow-black font-body">
-          Bringing Economic Democracy to Harlem
-        </h2>
-      </main>
+      {/* Title */}
+      <div className="pt-6 mx-auto font-bold text-center text-white text-shadow shadow-black font-body">
+        <h1 className="text-2xl">The Community Wallet</h1>
+        <h2 className="text-xl">Bringing Economic Democracy to Harlem</h2>
+      </div>
+
+      {/* Intro section */}
+      <div className="mt-10 text-center">
+        <h1 className="text-3xl font-bold text-white">Place your votes</h1>
+        <p className="text-[18px] leading-1.5 text-white/60">
+          You can use up to <strong className="text-white/70">{100} credits</strong>. <br />
+        </p>
+        <p className="text-white/60">
+          Votes cost{' '}
+          <span className="text-white/80">
+            credits<sup>^2</sup>
+          </span>{' '}
+          <span className="text-xs">
+            (
+            <a
+              href="https://www.radicalxchange.org/concepts/plural-voting/"
+              target="_blank"
+              className="hover:underline hover:text-white/80"
+            >
+              Learn more
+            </a>
+            )
+          </span>
+        </p>
+      </div>
 
       <QVInterface />
 

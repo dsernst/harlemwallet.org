@@ -30,7 +30,7 @@ export function QVInterface() {
   }
 
   return (
-    <div className="text-center vote">
+    <div className="mt-6 text-center vote">
       {/* Table of Contents */}
       <aside id="table-of-contents_container" className="text-white/80">
         <h3 className="w-full pb-1 pl-4 text-xs opacity-60">Jump to an Option</h3>
@@ -95,124 +95,98 @@ export function QVInterface() {
         )}
       </aside>
 
-      {/* Intro section */}
-      <div className="ballot_container">
-        <div className="vote__info">
-          {/* General voting header */}
-          <h1 className="text-3xl font-bold text-white">Place your votes</h1>
-          <p className="text-[18px] leading-1.5 text-white/60">
-            You can use up to <strong className="text-white/70">{credits_per_voter} credits</strong>. <br />
-          </p>
-          <p className="text-white/60">
-            Votes cost{' '}
-            <span className="text-white/80">
-              credits<sup>^2</sup>
-            </span>{' '}
-            <span className="text-xs">
-              (
-              <a
-                href="https://www.radicalxchange.org/concepts/plural-voting/"
-                target="_blank"
-                className="hover:underline hover:text-white/80"
+      <div className="mx-auto ballot_container">
+        {/* Ballot */}
+        <h2 className="mt-8 text-2xl font-bold text-left text-white border-b pb-[5px] border-[#e7eaf3]">
+          Voteable Options
+        </h2>
+        <div>
+          {projects.map(([title, allocation, description], i) => {
+            // Loop through each voteable option
+            return (
+              <div
+                key={i}
+                id={'' + i}
+                className="w-full max-w-[700px] my-6 text-left border border-fuchsia-300/40 rounded-lg shadow-md  bg-white/5 text-white/80 event__option_item"
               >
-                Learn more
-              </a>
-              )
-            </span>
-          </p>
+                <div>
+                  <button
+                    style={{
+                      gridTemplateColumns: '1fr auto',
+                    }}
+                    className="grid w-full p-4 text-left border-none rounded-md outline-none cursor-pointer hover:bg-white/10"
+                    onClick={() => {
+                      const update = [...descShown]
+                      update[i] = !update[i]
+                      setDescShown(update)
+                    }}
+                  >
+                    <label className="col-start-1 text-sm cursor-pointer opacity-60">PROJECT {i + 1}</label>
+                    <h3 className="col-start-1 text-xl font-bold pr-8 my-0.5">{title}</h3>
+                    <Image
+                      src={DownArrow}
+                      alt={`${descShown[i] ? 'down' : 'up'} arrow`}
+                      className={`invert ${!descShown[i] && 'rotate-180'}`}
+                    />
+                  </button>
+                  {descShown[i] && (
+                    <div className="px-4 my-2">
+                      <p className="mb-2 text-white/70">
+                        <span className="block text-sm opacity-60">BUDGET</span> ${allocation.toLocaleString()}
+                      </p>
 
-          {/* Ballot */}
-          <h2 className="mt-16 text-2xl font-bold text-left text-white border-b pb-[5px] border-[#e7eaf3]">
-            Voteable Options
-          </h2>
-          <div>
-            {projects.map(([title, allocation, description], i) => {
-              // Loop through each voteable option
-              return (
-                <div
-                  key={i}
-                  id={'' + i}
-                  className="w-full max-w-[700px] my-6 text-left border border-fuchsia-300/40 rounded-lg shadow-md  bg-white/5 text-white/80 event__option_item"
-                >
-                  <div>
-                    <button
-                      style={{
-                        gridTemplateColumns: '1fr auto',
-                      }}
-                      className="grid w-full p-4 text-left border-none rounded-md outline-none cursor-pointer hover:bg-white/10"
-                      onClick={() => {
-                        const update = [...descShown]
-                        update[i] = !update[i]
-                        setDescShown(update)
-                      }}
-                    >
-                      <label className="col-start-1 text-sm cursor-pointer opacity-60">PROJECT {i + 1}</label>
-                      <h3 className="col-start-1 text-xl font-bold pr-8 my-0.5">{title}</h3>
-                      <Image
-                        src={DownArrow}
-                        alt={`${descShown[i] ? 'down' : 'up'} arrow`}
-                        className={`invert ${!descShown[i] && 'rotate-180'}`}
-                      />
-                    </button>
-                    {descShown[i] && (
-                      <div className="px-4 my-2">
-                        <p className="mb-2 text-white/70">
-                          <span className="block text-sm opacity-60">BUDGET</span> ${allocation.toLocaleString()}
-                        </p>
-
-                        <label className="text-sm opacity-60">DESCRIPTION</label>
-                        <p className="whitespace-pre-wrap text-white/70">{description}</p>
-                      </div>
+                      <label className="text-sm opacity-60">DESCRIPTION</label>
+                      <p className="whitespace-pre-wrap text-white/70">{description}</p>
+                    </div>
+                  )}
+                </div>
+                {<ProposalBlocks cost={votes[i] ** 2} />}
+                <div className="p-4 border-t-2 border-fuchsia-300/20">
+                  <label className="block mb-0.5 text-sm opacity-80">VOTES</label>
+                  <input
+                    className="py-2 pl-5 w-full pr-1 font-bold text-center text-[18px] rounded-md"
+                    type="number"
+                    value={votes[i]}
+                    disabled
+                  />
+                  <div className="flex justify-between mt-3 item__vote_buttons">
+                    {!eventHasEnded && (
+                      <>
+                        {/* 0 is min vote */}
+                        {votes[i] > 0 ? (
+                          <button
+                            name="input-element"
+                            className="text-black hover:opacity-80 active:opacity-90 bg-fuchsia-200"
+                            onClick={() => updateVotes(i, false)}
+                          >
+                            -
+                          </button>
+                        ) : (
+                          <button className="button__disabled" disabled>
+                            -
+                          </button>
+                        )}
+                        {/* Enough credits remaining? */}
+                        {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
+                          <button
+                            className="bg-black hover:opacity-70 hover:text-fuchsia-300 text-fuchsia-200 active:opacity-90"
+                            name="input-element"
+                            onClick={() => updateVotes(i, true)}
+                          >
+                            +
+                          </button>
+                        ) : (
+                          <button className="button__disabled" disabled>
+                            +
+                          </button>
+                        )}
+                      </>
                     )}
                   </div>
-                  {<ProposalBlocks cost={votes[i] ** 2} />}
-                  <div className="p-4 border-t-2 border-fuchsia-300/20">
-                    <label className="block mb-0.5 text-sm opacity-80">VOTES</label>
-                    <input
-                      className="py-2 pl-5 pr-1 font-bold text-center text-[18px] rounded-md"
-                      type="number"
-                      value={votes[i]}
-                      disabled
-                    />
-                    <div className="flex justify-between mt-3 item__vote_buttons">
-                      {!eventHasEnded && (
-                        <>
-                          {/* 0 is min vote */}
-                          {votes[i] > 0 ? (
-                            <button
-                              name="input-element"
-                              className="text-black hover:opacity-80 active:opacity-90 bg-fuchsia-200"
-                              onClick={() => updateVotes(i, false)}
-                            >
-                              -
-                            </button>
-                          ) : (
-                            <button className="button__disabled" disabled>
-                              -
-                            </button>
-                          )}
-                          {/* Enough credits remaining? */}
-                          {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
-                            <button
-                              className="bg-black hover:opacity-70 hover:text-fuchsia-300 text-fuchsia-200 active:opacity-90"
-                              name="input-element"
-                              onClick={() => updateVotes(i, true)}
-                            >
-                              +
-                            </button>
-                          ) : (
-                            <button className="button__disabled" disabled>
-                              +
-                            </button>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
         </div>
       </div>
       {/* Component scoped CSS */}
@@ -221,7 +195,7 @@ export function QVInterface() {
           touch-action: manipulation;
         }
 
-        .vote__info {
+        .ballot_container {
           max-width: 660px;
           width: calc(100% - 40px);
           padding: 0px 20px;
@@ -241,11 +215,6 @@ export function QVInterface() {
 
           .ballot_container {
             grid-row: 1;
-          }
-
-          .vote__info {
-            grid-column: 1;
-            margin: 50px 0 50px auto;
           }
 
           #budget-container {
@@ -283,11 +252,6 @@ export function QVInterface() {
           .ballot_container {
             grid-column-start: column 3;
             grid-column-end: gutter 8;
-          }
-
-          .vote__info {
-            margin: 50px 0 50px auto;
-            width: auto;
           }
         }
 
