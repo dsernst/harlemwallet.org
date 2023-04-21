@@ -136,67 +136,66 @@ export function QVInterface() {
           </div>
 
           {/* Ballot */}
-          <div className="event__options">
-            <h2>Voteable Options</h2>
-            <div className="divider" />
-            <div className="event__options_list">
-              {projects.map(([title, Allocation_Amount, description], i) => {
-                // Loop through each voteable option
-                return (
-                  <div key={i} id={'' + i} className="event__option_item bg-white/5">
-                    <div>
-                      <button className="title-container" onClick={() => toggleDescription(i)}>
-                        <label>Title</label>
-                        <h3>{title}</h3>
-                        <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
-                      </button>
-                      {!!description && (
-                        // If description exists, show description
-                        <div id={`description-container-${i}`}>
-                          <label>Description</label>
-                          <p className="event__option_item_desc">{description}</p>
-                        </div>
-                      )}
-                    </div>
-                    {votes[i] !== 0 ? <ProposalBlocks cost={votes[i] ** 2} /> : null}
-                    <div className="event__option_item_vote">
-                      <label>Votes</label>
-                      <input type="number" value={votes[i]} disabled />
-                      <div className="item__vote_buttons">
-                        <>
-                          {eventHasEnded ? (
-                            <></>
-                          ) : (
-                            <>
-                              {/* 0 is min vote */}
-                              {votes[i] > 0 ? (
-                                <button name="input-element" onClick={() => makeVote(i, false)}>
-                                  -
-                                </button>
-                              ) : (
-                                <button className="button__disabled" disabled>
-                                  -
-                                </button>
-                              )}
-                              {/* Enough credits remaining? */}
-                              {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
-                                <button name="input-element" onClick={() => makeVote(i, true)}>
-                                  +
-                                </button>
-                              ) : (
-                                <button className="button__disabled" disabled>
-                                  +
-                                </button>
-                              )}
-                            </>
-                          )}
-                        </>
+          <h2 className="mt-16 text-2xl font-bold text-left text-white border-b pb-[5px] border-[#e7eaf3]">
+            Voteable Options
+          </h2>
+          <div>
+            {projects.map(([title, Allocation_Amount, description], i) => {
+              // Loop through each voteable option
+              return (
+                <div key={i} id={'' + i} className="event__option_item bg-white/5">
+                  <div>
+                    <button className="title-container" onClick={() => toggleDescription(i)}>
+                      <label>Title</label>
+                      <h3>{title}</h3>
+                      <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
+                    </button>
+                    {!!description && (
+                      // If description exists, show description
+                      <div id={`description-container-${i}`}>
+                        <label>Description</label>
+                        <p className="event__option_item_desc">{description}</p>
                       </div>
+                    )}
+                  </div>
+                  {votes[i] !== 0 ? <ProposalBlocks cost={votes[i] ** 2} /> : null}
+                  <div className="event__option_item_vote">
+                    <label>Votes</label>
+                    <input type="number" value={votes[i]} disabled />
+                    <div className="item__vote_buttons">
+                      <>
+                        {eventHasEnded ? (
+                          <></>
+                        ) : (
+                          <>
+                            {/* 0 is min vote */}
+                            {votes[i] > 0 ? (
+                              <button name="input-element" onClick={() => makeVote(i, false)}>
+                                -
+                              </button>
+                            ) : (
+                              <button className="button__disabled" disabled>
+                                -
+                              </button>
+                            )}
+                            {/* Enough credits remaining? */}
+                            {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
+                              <button name="input-element" onClick={() => makeVote(i, true)}>
+                                +
+                              </button>
+                            ) : (
+                              <button className="button__disabled" disabled>
+                                +
+                              </button>
+                            )}
+                          </>
+                        )}
+                      </>
                     </div>
                   </div>
-                )
-              })}
-            </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
@@ -292,21 +291,6 @@ export function QVInterface() {
 
         .vote__info_heading > h1 {
           margin: 0px;
-        }
-
-        .event__options {
-          margin-top: 60px;
-          text-align: left;
-        }
-
-        .event__options > h2 {
-          color: #000;
-          margin-block-end: 0px;
-        }
-
-        .divider {
-          border-top: 1px solid #e7eaf3;
-          margin-top: 5px;
         }
 
         .vote__info_heading > p {
