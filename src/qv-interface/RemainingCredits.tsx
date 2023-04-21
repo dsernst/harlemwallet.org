@@ -7,7 +7,7 @@ export const RemainingCredits = ({
 }) => (
   <div>
     <i>
-      RemainingCredits: {creditsRemaining} / {creditBalance}
+      Remaining Credits: {creditsRemaining} / {creditBalance}
     </i>
   </div>
 )

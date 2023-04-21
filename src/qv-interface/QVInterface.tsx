@@ -103,7 +103,10 @@ export function QVInterface() {
         </div>
       </aside>
       {/* Budget Container */}
-      <aside id="budget-container" className="sticky top-0 left-0 z-10 bg-white px-[2vw] py-[1vw]">
+      <aside
+        id="budget-container"
+        className="sticky top-0 left-0 z-10 bg-eggplant-purple px-[2vw] pt-3 pb-2 text-white"
+      >
         <RemainingCredits creditBalance={credits_per_voter} creditsRemaining={credits} />
 
         {/* Submit button */}
@@ -403,7 +406,7 @@ export function QVInterface() {
           transition: 100ms ease-in-out;
           border: none;
           cursor: pointer;
-          margin-top: 20px;
+          margin-top: 10px;
         }
 
         .submit__button:hover {
