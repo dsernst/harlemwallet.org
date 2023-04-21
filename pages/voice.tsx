@@ -40,15 +40,15 @@ const VoicePage: NextPage = () => {
             </div>
           ))}
         </div>
-
-        <QVInterface />
-
-        <footer className="mt-8 text-xs">
-          <a target="_blank" className="text-white font-body hover:underline" href="/privacy-policy">
-            Privacy Policy
-          </a>
-        </footer>
       </main>
+
+      <QVInterface />
+
+      <footer className="mt-8 mb-4 text-xs text-center">
+        <a target="_blank" className="text-white font-body hover:underline" href="/privacy-policy">
+          Privacy Policy
+        </a>
+      </footer>
     </div>
   )
 }
