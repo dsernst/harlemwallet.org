@@ -5,6 +5,8 @@ import { RemainingCredits } from './RemainingCredits'
 import { ProposalBlocks } from './ProposalBlocks'
 import { useUser } from './useUser'
 import { projects } from '../projects'
+import DownArrow from './down_arrow.svg'
+import Image from 'next/image'
 
 const eventHasEnded = false
 const credits_per_voter = 100
@@ -14,7 +16,8 @@ export function QVInterface() {
   const { query } = router
   const { name } = useUser()
   const [submitting, setSubmitting] = useState(false) // Submission loading
-  const [votes, setVotes] = useState<number[]>(projects.map(() => 0))
+  const [votes, setVotes] = useState(projects.map(() => 0))
+  const [descShown, setDescShown] = useState(projects.map(() => true))
   const quadraticVotes = votes.map((itemVote, _) => itemVote ** 2)
   const totalQVUsed = quadraticVotes.reduce((a, b) => a + b, 0)
   const credits = credits_per_voter - totalQVUsed
@@ -28,37 +31,6 @@ export function QVInterface() {
     const updatedVotes = [...votes]
     updatedVotes[index] += increment ? 1 : -1
     setVotes(updatedVotes)
-  }
-
-  /**
-   * Toggle show/hide description
-   * @param {number} key identifying the option the user clicked on
-   */
-  const toggleDescription = (key: number) => {
-    const description = document.getElementById('description-container-' + key)
-    const link = document.getElementById('link-container-' + key)
-    const toggleButton = document.getElementById('toggle-button-' + key) as HTMLImageElement
-    if (toggleButton.alt === 'down arrow') {
-      toggleButton.src = '/vectors/up_arrow.svg'
-      toggleButton.alt = 'up arrow'
-    } else {
-      toggleButton.src = '/vectors/down_arrow.svg'
-      toggleButton.alt = 'down arrow'
-    }
-    if (description) {
-      if (description.style.display === 'none') {
-        description.style.display = 'block'
-      } else {
-        description.style.display = 'none'
-      }
-    }
-    if (link) {
-      if (link.style.display === 'none') {
-        link.style.display = 'block'
-      } else {
-        link.style.display = 'none'
-      }
-    }
   }
 
   return (
@@ -161,14 +133,22 @@ export function QVInterface() {
                         gridTemplateColumns: '1fr auto',
                       }}
                       className="grid w-full p-4 text-left border-none rounded-md outline-none cursor-pointer hover:bg-white/10"
-                      onClick={() => toggleDescription(i)}
+                      onClick={() => {
+                        const update = [...descShown]
+                        update[i] = !update[i]
+                        setDescShown(update)
+                      }}
                     >
                       <label className="col-start-1 text-sm cursor-pointer opacity-60">PROJECT {i + 1}</label>
-                      <h3 className="col-start-1 text-xl font-bold my-0.5">{title}</h3>
-                      <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
+                      <h3 className="col-start-1 text-xl font-bold pr-8 my-0.5">{title}</h3>
+                      <Image
+                        src={DownArrow}
+                        alt={`${descShown[i] ? 'down' : 'up'} arrow`}
+                        className={`invert ${!descShown[i] && 'rotate-180'}`}
+                      />
                     </button>
-                    {!!description && (
-                      <div id={`description-container-${i}`} className="px-4 my-3">
+                    {!!description && descShown[i] && (
+                      <div className="px-4 my-3">
                         <label className="text-sm opacity-60">Description</label>
                         <p className="whitespace-pre-wrap text-white/70">{description}</p>
                       </div>
