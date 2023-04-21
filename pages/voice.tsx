@@ -13,11 +13,12 @@ const VoicePage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center w-full max-w-3xl p-6 mx-auto text-white">
+      <main className="flex flex-col items-center justify-center w-full pt-6 mx-auto text-white">
         {/* Title */}
-        <h1 className="text-2xl font-bold text-center text-shadow shadow-black font-body">
-          The Community Wallet: Bringing Economic Democracy to Harlem
-        </h1>
+        <h1 className="text-2xl font-bold text-center text-shadow shadow-black font-body">The Community Wallet</h1>
+        <h2 className="text-xl font-bold text-center text-shadow shadow-black font-body">
+          Bringing Economic Democracy to Harlem
+        </h2>
       </main>
 
       <QVInterface />
