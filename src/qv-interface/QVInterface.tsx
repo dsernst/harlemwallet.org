@@ -161,12 +161,16 @@ export function QVInterface() {
                   <div className="event__option_item_vote">
                     <label>Votes</label>
                     <input type="number" value={votes[i]} disabled />
-                    <div className="flex item__vote_buttons">
+                    <div className="flex justify-between item__vote_buttons">
                       {!eventHasEnded && (
                         <>
                           {/* 0 is min vote */}
                           {votes[i] > 0 ? (
-                            <button name="input-element" onClick={() => makeVote(i, false)}>
+                            <button
+                              name="input-element"
+                              className="bg-[#edff38] text-black"
+                              onClick={() => makeVote(i, false)}
+                            >
                               -
                             </button>
                           ) : (
@@ -176,7 +180,11 @@ export function QVInterface() {
                           )}
                           {/* Enough credits remaining? */}
                           {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
-                            <button name="input-element" onClick={() => makeVote(i, true)}>
+                            <button
+                              className="text-[#edff38] bg-black"
+                              name="input-element"
+                              onClick={() => makeVote(i, true)}
+                            >
                               +
                             </button>
                           ) : (
@@ -303,7 +311,7 @@ export function QVInterface() {
         }
 
         .event__option_item input {
-          width: calc(100% - 10px);
+          width: 100%;
           font-size: 18px;
           border-radius: 5px;
           border: 1px solid #f1f2e5;
@@ -320,6 +328,7 @@ export function QVInterface() {
 
         .event__option_item_vote input {
           text-align: center;
+          padding-left: 20px;
           font-weight: bold;
         }
 
@@ -336,19 +345,6 @@ export function QVInterface() {
           transition: 50ms ease-in-out;
           padding: 5px 0px;
           cursor: pointer;
-          color: #fff;
-        }
-
-        .item__vote_buttons > button:nth-child(1) {
-          margin-right: 1%;
-          background-color: #edff38;
-          color: #000;
-        }
-
-        .item__vote_buttons > button:nth-child(2) {
-          margin-left: 1%;
-          background-color: #000;
-          color: #edff38;
         }
 
         .item__vote_buttons > button:hover {
