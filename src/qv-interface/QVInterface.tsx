@@ -143,7 +143,7 @@ export function QVInterface() {
                       style={{
                         gridTemplateColumns: '1fr auto',
                       }}
-                      className="grid w-full py-2 text-left border-none rounded-md outline-none cursor-pointer hover:bg-white/20"
+                      className="grid w-full p-4 text-left border-none rounded-md outline-none cursor-pointer hover:bg-white/10"
                       onClick={() => toggleDescription(i)}
                     >
                       <label className="col-start-1 text-sm opacity-60">TITLE</label>
@@ -151,7 +151,7 @@ export function QVInterface() {
                       <img id={`toggle-button-${i}`} src="/vectors/down_arrow.svg" alt="down arrow" />
                     </button>
                     {!!description && (
-                      <div id={`description-container-${i}`}>
+                      <div id={`description-container-${i}`} className="px-4">
                         <label className="text-sm opacity-60">Description</label>
                         <p className="whitespace-pre-wrap text-white/70">{description}</p>
                       </div>
@@ -286,10 +286,6 @@ export function QVInterface() {
           width: 100%;
           margin: 25px 0px;
           text-align: left;
-        }
-
-        .event__option_item > div:nth-child(1) {
-          padding: 15px;
         }
 
         .event__option_item label {

@@ -1,5 +1,5 @@
 export const ProposalBlocks = ({ cost }: { cost: number }) => (
-  <div>
+  <div className="my-2 ml-4">
     <i>Proposal blocks: {cost}</i>
   </div>
 )
