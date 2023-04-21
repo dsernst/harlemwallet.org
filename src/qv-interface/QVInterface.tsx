@@ -103,7 +103,7 @@ export function QVInterface() {
         </div>
       </aside>
       {/* Budget Container */}
-      <aside id="budget-container">
+      <aside id="budget-container" className="sticky top-0 left-0 z-10 bg-white px-[2vw] py-[1vw]">
         <RemainingCredits creditBalance={credits_per_voter} creditsRemaining={credits} />
 
         {/* Submit button */}
@@ -220,15 +220,6 @@ export function QVInterface() {
           position: relative;
         }
 
-        #budget-container {
-          padding: 1vw 2vw;
-          position: sticky;
-          top: 0;
-          left: 0;
-          z-index: 1;
-          background: white;
-        }
-
         #table-of-contents_container {
           display: none;
         }
@@ -252,7 +243,6 @@ export function QVInterface() {
             background: none;
             grid-column: 2;
             position: sticky;
-            top: 0;
             height: 100vh;
             padding: 50px 2rem;
           }
