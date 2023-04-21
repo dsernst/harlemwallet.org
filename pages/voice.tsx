@@ -7,7 +7,7 @@ const total_allocation_amount = projects.reduce((sum, [_, amount]) => sum + amou
 
 const VoicePage: NextPage = () => {
   return (
-    <div className="absolute inset-0 min-h-screen py-2 overflow-scroll bg-eggplant-purple">
+    <div className="absolute inset-0 min-h-screen overflow-scroll bg-eggplant-purple">
       <Head>
         <title>Harlem Wallet: Participate</title>
         <link rel="icon" href="/favicon.ico" />
@@ -44,7 +44,7 @@ const VoicePage: NextPage = () => {
 
       <QVInterface />
 
-      <footer className="mt-8 mb-4 text-xs text-center">
+      <footer className="my-8 text-xs text-center">
         <a target="_blank" className="text-white font-body hover:underline" href="/privacy-policy">
           Privacy Policy
         </a>
