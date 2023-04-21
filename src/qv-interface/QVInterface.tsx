@@ -22,12 +22,8 @@ export function QVInterface() {
   const totalQVUsed = quadraticVotes.reduce((a, b) => a + b, 0)
   const credits = credits_per_voter - totalQVUsed
 
-  /**
-   * Update votes array with QV weighted vote increment/decrement
-   * @param {number} index of option to update
-   * @param {boolean} increment true === increment, else decrement
-   */
-  const makeVote = (index: number, increment: boolean) => {
+  /** Update votes array with QV weighted vote increment/decrement */
+  const updateVotes = (index: number, increment: boolean) => {
     const updatedVotes = [...votes]
     updatedVotes[index] += increment ? 1 : -1
     setVotes(updatedVotes)
@@ -133,7 +129,11 @@ export function QVInterface() {
             {projects.map(([title, allocation, description], i) => {
               // Loop through each voteable option
               return (
-                <div key={i} id={'' + i} className="event__option_item bg-white/5 text-white/80">
+                <div
+                  key={i}
+                  id={'' + i}
+                  className="w-full max-w-[700px] my-6 text-left border border-fuchsia-300/40 rounded-lg shadow-md  bg-white/5 text-white/80 event__option_item"
+                >
                   <div>
                     <button
                       style={{
@@ -160,15 +160,15 @@ export function QVInterface() {
                           <span className="block text-sm opacity-60">BUDGET</span> ${allocation.toLocaleString()}
                         </p>
 
-                        <label className="text-sm opacity-60">Description</label>
+                        <label className="text-sm opacity-60">DESCRIPTION</label>
                         <p className="whitespace-pre-wrap text-white/70">{description}</p>
                       </div>
                     )}
                   </div>
                   {<ProposalBlocks cost={votes[i] ** 2} />}
-                  <div className="event__option_item_vote">
-                    <label>Votes</label>
-                    <input type="number" value={votes[i]} disabled />
+                  <div className="p-4 border-t-2 border-fuchsia-300/20">
+                    <label className="block mb-0.5 text-sm opacity-80">VOTES</label>
+                    <input className="!pl-5 font-bold text-center " type="number" value={votes[i]} disabled />
                     <div className="flex justify-between mt-3 item__vote_buttons">
                       {!eventHasEnded && (
                         <>
@@ -177,7 +177,7 @@ export function QVInterface() {
                             <button
                               name="input-element"
                               className="text-black hover:opacity-80 active:opacity-90 bg-fuchsia-200"
-                              onClick={() => makeVote(i, false)}
+                              onClick={() => updateVotes(i, false)}
                             >
                               -
                             </button>
@@ -191,7 +191,7 @@ export function QVInterface() {
                             <button
                               className="bg-black hover:opacity-70 hover:text-fuchsia-300 text-fuchsia-200 active:opacity-90"
                               name="input-element"
-                              onClick={() => makeVote(i, true)}
+                              onClick={() => updateVotes(i, true)}
                             >
                               +
                             </button>
@@ -286,41 +286,11 @@ export function QVInterface() {
           }
         }
 
-        .event__option_item {
-          border-radius: 8px;
-          border: 1px solid #f1f2e5;
-          box-shadow: 0 0 35px rgba(127, 150, 174, 0.125);
-          max-width: 700px;
-          width: 100%;
-          margin: 25px 0px;
-          text-align: left;
-        }
-
-        .event__option_item label {
-          display: block;
-          text-transform: uppercase;
-        }
-
         .event__option_item input {
           width: 100%;
           font-size: 18px;
           border-radius: 5px;
-          border: 1px solid #f1f2e5;
           padding: 10px 5px;
-          background-color: #fff;
-        }
-
-        .event__option_item_vote {
-          border-top: 2px solid #e7eaf3;
-          border-bottom-left-radius: 5px;
-          border-bottom-right-radius: 5px;
-          padding: 15px;
-        }
-
-        .event__option_item_vote input {
-          text-align: center;
-          padding-left: 20px;
-          font-weight: bold;
         }
 
         .item__vote_buttons > button {
