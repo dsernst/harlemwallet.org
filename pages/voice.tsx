@@ -19,28 +19,17 @@ const VoicePage: NextPage = () => {
         <h2 className="text-xl">Bringing Economic Democracy to Harlem</h2>
       </div>
 
+      <div className="summary-text text-[18px] leading-1.5 text-white/60">
+        <p>Welcome to this pilot of the Harlem Community Wallet participatory budgeting process! Below, you will see a list of spending proposals for District 9. If you want to express support for a spending proposal, click “+”. You can cast more than one vote for a spending proposal by clicking “+” multiple times. If you change your mind, just click “-” to take back votes.</p>
+        <p className="mt-4">Placing votes costs voice credits. When you run out of voice credits, you can’t place any more votes. The cost increases as you add more votes to a single option. So one vote costs 1 credit, two votes cost 4 credits, three votes cost 9 credits, and so on. This means that if you want to strongly support a proposal you can, but it will be very expensive.</p>
+        <p className="mt-4">Spread your votes across all the options that you want to support. When you are finished, click the Submit button to finalize your votes. Your votes will be added up with everyone else’s, resulting in a clear and detailed representation of the group’s preferences.</p>
+      </div>
+
       {/* Intro section */}
       <div className="mt-10 text-center">
         <h1 className="text-3xl font-bold text-white">Place your votes</h1>
         <p className="text-[18px] leading-1.5 text-white/60">
           You can use up to <strong className="text-white/70">{100} credits</strong>. <br />
-        </p>
-        <p className="text-white/60">
-          Votes cost{' '}
-          <span className="text-white/80">
-            credits<sup>^2</sup>
-          </span>{' '}
-          <span className="text-xs">
-            (
-            <a
-              href="https://www.radicalxchange.org/concepts/plural-voting/"
-              target="_blank"
-              className="hover:underline hover:text-white/80"
-            >
-              Learn more
-            </a>
-            )
-          </span>
         </p>
       </div>
 
@@ -51,6 +40,21 @@ const VoicePage: NextPage = () => {
           Privacy Policy
         </a>
       </footer>
+      {/* Component scoped CSS */}
+      <style jsx>{`
+        .summary-text {
+          text-align: center;
+          margin: 1.5rem 2rem;
+        }
+
+        @media only screen and (min-width: 768px) {
+          .summary-text {
+            text-align: left;
+            max-width: 700px;
+            margin: 1.5rem auto;
+          }
+        }
+      `}</style>
     </div>
   )
 }
