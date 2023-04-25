@@ -197,7 +197,6 @@ export function QVInterface() {
 
         .ballot_container {
           max-width: 660px;
-          width: calc(100% - 40px);
           padding: 0px 20px;
           display: inline-block;
           position: relative;
