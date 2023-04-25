@@ -140,7 +140,7 @@ export function QVInterface() {
                     </div>
                   )}
                 </div>
-                {<ProposalBlocks cost={votes[i] ** 2} />}
+                {<ProposalBlocks votes={votes[i]} />}
                 <div className="p-4 border-t-2 border-fuchsia-300/20">
                   <label className="block mb-0.5 text-sm opacity-80">VOTES</label>
                   <input

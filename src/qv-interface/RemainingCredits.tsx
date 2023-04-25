@@ -7,7 +7,7 @@ export const RemainingCredits = ({
 }) => (
   <div>
     <i>
-      Remaining Credits: {creditsRemaining} / {creditBalance}
+      Remaining Credits: <span className="inline-block w-7">{creditsRemaining}</span> / {creditBalance}
     </i>
   </div>
 )
