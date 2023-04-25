@@ -9,7 +9,7 @@ import DownArrow from './down_arrow.svg'
 import Image from 'next/image'
 
 const eventHasEnded = false
-const credits_per_voter = 100
+const creditsPerVoter = 100
 
 export function QVInterface() {
   const router = useRouter()
@@ -20,7 +20,7 @@ export function QVInterface() {
   const [descShown, setDescShown] = useState(projects.map(() => true))
   const quadraticVotes = votes.map((itemVote, _) => itemVote ** 2)
   const totalQVUsed = quadraticVotes.reduce((a, b) => a + b, 0)
-  const credits = credits_per_voter - totalQVUsed
+  const creditsRemaining = creditsPerVoter - totalQVUsed
 
   /** Update votes array with QV weighted vote increment/decrement */
   const updateVotes = (index: number, increment: boolean) => {
@@ -54,12 +54,12 @@ export function QVInterface() {
         id="budget-container"
         className="sticky top-0 left-0 z-10 bg-eggplant-purple px-[2vw] pt-3 pb-2 text-white"
       >
-        <RemainingCredits creditBalance={credits_per_voter} creditsRemaining={credits} />
+        <RemainingCredits {...{ creditsPerVoter, creditsRemaining }} />
 
         {/* Submit button */}
         {!eventHasEnded && (
           <button
-            className="w-full py-3 mt-2.5 text-base text-fuchsia-100 font-bold bg-black rounded-md cursor-pointer hover:opacity-70"
+            className="w-full py-3 mt-1 text-base font-bold bg-black rounded-md cursor-pointer text-fuchsia-100 hover:opacity-70"
             name="input-element"
             onClick={async () => {
               setSubmitting(true)
@@ -140,7 +140,7 @@ export function QVInterface() {
                     </div>
                   )}
                 </div>
-                {<ProposalBlocks cost={votes[i] ** 2} />}
+                {<ProposalBlocks votes={votes[i]} />}
                 <div className="p-4 border-t-2 border-fuchsia-300/20">
                   <label className="block mb-0.5 text-sm opacity-80">VOTES</label>
                   <input
@@ -167,7 +167,7 @@ export function QVInterface() {
                           </button>
                         )}
                         {/* Enough credits remaining? */}
-                        {credits >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
+                        {creditsRemaining >= (votes[i] + 1) ** 2 - votes[i] ** 2 ? (
                           <button
                             className="bg-black hover:opacity-70 hover:text-fuchsia-300 text-fuchsia-200 active:opacity-90"
                             name="input-element"
