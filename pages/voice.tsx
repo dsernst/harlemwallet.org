@@ -1,10 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { projects } from '../src/projects'
 import { QVInterface } from '../src/qv-interface/QVInterface'
-import AuthenticationInterface from './auth'
-
-const total_allocation_amount = projects.reduce((sum, [_, amount]) => sum + amount, 0)
+import { LogInForm } from '../src/qv-interface/LogInForm'
 
 const VoicePage: NextPage = () => {
   return (
@@ -20,9 +17,7 @@ const VoicePage: NextPage = () => {
         <h2 className="text-xl">Bringing Economic Democracy to Harlem</h2>
       </div>
 
-      <div className="mt-10">
-        <AuthenticationInterface />
-      </div>
+      <LogInForm />
 
       {/* Intro section */}
       <div className="mt-10 text-center">
