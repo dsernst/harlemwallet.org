@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { projects } from '../src/projects'
 import { QVInterface } from '../src/qv-interface/QVInterface'
+import AuthenticationInterface from './auth'
 
 const total_allocation_amount = projects.reduce((sum, [_, amount]) => sum + amount, 0)
 
@@ -17,6 +18,10 @@ const VoicePage: NextPage = () => {
       <div className="pt-6 mx-auto font-bold text-center text-white text-shadow shadow-black font-body">
         <h1 className="text-2xl">The Community Wallet</h1>
         <h2 className="text-xl">Bringing Economic Democracy to Harlem</h2>
+      </div>
+
+      <div className="mt-10">
+        <AuthenticationInterface />
       </div>
 
       {/* Intro section */}
