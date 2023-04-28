@@ -33,6 +33,16 @@ const VoicePage: NextPage = () => {
         <div id="collapsible" className="hidden">
           <p className="mt-4">Placing votes costs voice credits. When you run out of voice credits, you can’t place any more votes. The cost increases as you add more votes to a single option. So one vote costs 1 credit, two votes cost 4 credits, three votes cost 9 credits, and so on. This means that if you want to strongly support a proposal you can, but it will be very expensive.</p>
           <p className="mt-4">Spread your votes across all the options that you want to support. When you are finished, click the Submit button to finalize your votes. Your votes will be added up with everyone else’s, resulting in a clear and detailed representation of the group’s preferences.</p>
+          <iframe
+            className="mt-4 mx-auto"
+            width="560" 
+            height="315"
+            src="https://www.youtube.com/embed/2a_kz1ReYXU"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          >
+          </iframe>
         </div>
         <button
           id="toggle-button"
