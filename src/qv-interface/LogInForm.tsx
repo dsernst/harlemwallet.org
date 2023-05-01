@@ -1,12 +1,20 @@
 import React, { useState } from 'react'
+import { useUrlAuth } from './useUrlAuth'
 
 export const LogInForm = () => {
   const [user, setUser] = useState<string | null>(null)
   const [hidForm, setHidForm] = useState(false)
   const [authCode, setAuthCode] = useState('')
 
+  const LogIn = (authCode: string) => {
+    alert(`called LogIn(${authCode})`)
+  }
+
+  useUrlAuth(LogIn)
+
   return (
     <div className="flex">
+      {/* LoginForm */}
       {!hidForm && (
         <form
           onSubmit={(e: React.FormEvent) => {
@@ -27,6 +35,7 @@ export const LogInForm = () => {
             <button
               type="submit"
               className="p-4 py-2 font-bold rounded-md cursor-pointer bg-black/60 text-fuchsia-100 hover:bg-black hover:text-fuchsia-300"
+              onClick={() => LogIn(authCode)}
             >
               Log In
             </button>
@@ -40,6 +49,7 @@ export const LogInForm = () => {
           </div>
         </form>
       )}
+      {/* Login Status in top-right corner */}
       {hidForm && (
         <div className="absolute text-sm right-7 top-6 text-white/90">
           {!user ? (
