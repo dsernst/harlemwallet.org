@@ -9,8 +9,8 @@ export const Instructions = () => {
     <div className="relative">
       {/* Instructions */}
       <div
-        className={`max-w-2xl mx-8 my-6 text-lg text-center sm:text-left sm:mx-auto space-y-4 text-white/60 overflow-y-hidden ${
-          collapsed ? 'h-24' : ''
+        className={`max-w-2xl px-2 mx-8 my-6 space-y-4 overflow-y-hidden text-lg text-center sm:px-4 sm:text-left sm:mx-auto text-white/60 ${
+          collapsed && 'h-24'
         }`}
       >
         <p>
@@ -45,8 +45,8 @@ export const Instructions = () => {
 
       {/* Collapsible controls */}
       <div
-        className={` w-full text-center -bottom-1 bg-gradient-to-b to-eggplant-purple from-eggplant-purple/20 ${
-          collapsed ? 'absolute pt-16' : ''
+        className={`w-full text-center -bottom-1 bg-gradient-to-b to-eggplant-purple from-eggplant-purple/20 ${
+          collapsed && 'absolute pt-16'
         }`}
       >
         <button
