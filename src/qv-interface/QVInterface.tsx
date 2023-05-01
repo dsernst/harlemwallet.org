@@ -3,7 +3,6 @@ import { useRouter } from 'next/router' // Router for URL params
 import { useState } from 'react' // State management
 import { RemainingCredits } from './RemainingCredits'
 import { ProposalBlocks } from './ProposalBlocks'
-import { useUser } from './useUser'
 import { projects } from '../projects'
 import DownArrow from './down_arrow.svg'
 import Image from 'next/image'
@@ -14,7 +13,6 @@ const creditsPerVoter = 100
 export function QVInterface() {
   const router = useRouter()
   const { query } = router
-  const { name } = useUser()
   const [submitting, setSubmitting] = useState(false) // Submission loading
   const [votes, setVotes] = useState(projects.map(() => 0))
   const [descShown, setDescShown] = useState(projects.map(() => true))
