@@ -1,7 +1,9 @@
 import { useReducer } from 'react'
+import { useWindowDimensions } from './useWindowDimensions'
 
 export const Instructions = () => {
   const [collapsed, toggleCollapsed] = useReducer((c) => !c, true)
+  const isMobile = useWindowDimensions().width <= 768
 
   return (
     <div className="max-w-2xl mx-8 my-6 text-lg text-center sm:text-left sm:mx-auto text-white/60">
@@ -27,15 +29,15 @@ export const Instructions = () => {
         {/* Video embed */}
         <iframe
           className="mx-auto mt-4"
-          width="560"
-          height="315"
+          width={isMobile ? '100%' : '560px'}
+          height={isMobile ? '175px' : '315px'}
           src="https://www.youtube.com/embed/2a_kz1ReYXU"
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          title="Instructional video"
+          allow="accelerometer; picture-in-picture; web-share"
           allowFullScreen
         ></iframe>
       </div>
-      <button className="mt-4 transition duration-75  hover:text-white/90" onClick={toggleCollapsed}>
+      <button className="mt-4 transition duration-75 hover:text-white/90" onClick={toggleCollapsed}>
         <span>{collapsed ? 'Show' : 'Collapse'} Full Instructions</span>
       </button>
     </div>
