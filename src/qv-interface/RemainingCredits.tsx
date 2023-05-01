@@ -13,7 +13,9 @@ export const RemainingCredits = ({
   return (
     <div>
       <i className="opacity-75">
-        Remaining Credits: <span className="inline-block w-7">{creditsRemaining}</span> / {creditsPerVoter}
+        Remaining Credits:
+        <br className="hidden sm:block" /> <span className="inline-block w-7">{creditsRemaining}</span> /{' '}
+        {creditsPerVoter}
       </i>
       <div className="flex items-center justify-center w-full ">
         {new Array(Math.ceil(creditsPerVoter / groupSize)).fill(0).map((_, g) => (

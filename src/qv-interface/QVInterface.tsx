@@ -32,7 +32,7 @@ export function QVInterface() {
       {/* Table of Contents */}
       <aside id="table-of-contents_container" className="text-white/80">
         <h3 className="w-full pb-1 pl-4 text-xs opacity-60">Jump to an Option</h3>
-        <div className="sticky h-[calc(100vh-90px)] pb-4 overflow-y-auto border-t border-b border-white/50">
+        <div className="sticky h-[calc(100vh-170px)] pb-4 overflow-y-auto border-t border-b border-white/50">
           {projects.map(([title], i) => (
             <a
               key={i}
@@ -215,11 +215,10 @@ export function QVInterface() {
           }
 
           #budget-container {
-            background: none;
             grid-column: 2;
             position: sticky;
             height: 100vh;
-            padding: 50px 2rem;
+            padding-top: 5rem;
           }
         }
 
@@ -241,8 +240,9 @@ export function QVInterface() {
             display: inline-block;
             position: sticky;
             top: 0;
-            height: 100vh;
-            padding: 50px 2rem 0px;
+            height: 90vh;
+            padding-top: 4rem;
+            padding-left: 1rem;
             text-align: left;
           }
 
