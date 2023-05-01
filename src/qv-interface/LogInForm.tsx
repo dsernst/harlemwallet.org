@@ -46,7 +46,7 @@ export const LogInForm = () => {
                 setError('')
               }}
               placeholder="Auth code"
-              className="p-1 px-3 mr-2 text-lg border-2 rounded border-fuchsia-700/30 focus:outline-none focus:border-fuchsia-400"
+              className="p-1 px-3 mr-2 text-lg border-2 rounded w-36 border-fuchsia-700/30 focus:outline-none focus:border-fuchsia-400"
             />
             <button
               type="submit"
