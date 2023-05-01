@@ -71,7 +71,7 @@ export const LogInForm = () => {
         </form>
       ) : (
         // Login Status in top-right corner
-        <div className="w-full mt-5 text-sm text-center sm:absolute sm:right-7 sm:top-1 text-white/90">
+        <div className="w-full mt-5 text-sm text-center sm:w-auto sm:absolute sm:right-7 sm:top-1 text-white/90">
           {!user ? (
             <a className="px-3 py-2 rounded cursor-pointer hover:bg-white/20" onClick={() => setHidForm(false)}>
               Log In
