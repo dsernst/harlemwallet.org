@@ -21,7 +21,8 @@ export const LogInForm = () => {
     if (response.status === 401) return setError(`Auth code '${authCode}' not found`)
     if (response.status === 200) {
       setAuthCode('')
-      return setUser((await response.json()).name)
+      setUser((await response.json()).name)
+      return true
     }
   }
 
