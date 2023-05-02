@@ -6,7 +6,7 @@ export const Instructions = () => {
   const isMobile = useWindowDimensions().width <= 768
 
   return (
-    <div className="relative">
+    <div className="relative my-10">
       {/* Instructions */}
       <div
         className={`max-w-2xl px-2 mx-8 my-6 space-y-4 overflow-y-hidden text-lg text-center sm:px-4 sm:text-left sm:mx-auto text-white/60 ${
