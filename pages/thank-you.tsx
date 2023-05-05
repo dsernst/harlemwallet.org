@@ -19,7 +19,7 @@ const SuccessPage: NextPage = () => {
         </div>
 
         {/* Feedback Form */}
-        <Widget id="aC2iWSFh" className="h-[32rem]" />
+        <Widget id="aC2iWSFh" className="sm:h-screen h-[32rem] w-full" />
 
         <footer className="mt-8 text-xs">
           <a target="_blank" className="text-white font-body hover:underline" href="/privacy-policy">

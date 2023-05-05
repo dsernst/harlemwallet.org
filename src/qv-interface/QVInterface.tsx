@@ -86,7 +86,7 @@ export function QVInterface({ user }: { user: User }) {
 
               // Otherwise success, redirect
               setSubmitting(false)
-              router.push(`/success`)
+              router.push(`/thank-you`)
             }}
             disabled={submitting}
           >
