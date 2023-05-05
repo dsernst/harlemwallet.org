@@ -50,7 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     // Notify admin
     sendEmail({
-      to: ['david@siv.org'],
+      to: ['david@siv.org', 'paula@radicalxchange.org'],
       subject: `Harlem Wallet Submission: ${user.name}`,
       body: `${user.name} - Submission #${previousSubmissions.length + 1}
 
