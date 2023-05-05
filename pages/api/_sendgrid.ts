@@ -8,15 +8,7 @@ if (!SENDGRID_API_KEY) {
 }
 sgMail.setApiKey(SENDGRID_API_KEY)
 
-export const sendEmail = async ({
-  to,
-  subject,
-  body,
-}: {
-  to: string
-  subject: string
-  body: string
-}) =>
+export const sendEmail = async ({ to, subject, body }: { to: string | string[]; subject: string; body: string }) =>
   sgMail
     .send({
       to,

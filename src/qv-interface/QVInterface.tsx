@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { User } from '../../pages/voice'
 
 const eventHasEnded = false
-const creditsPerVoter = 100
+export const creditsPerVoter = 100
 
 export function QVInterface({ user }: { user: User }) {
   const router = useRouter()
