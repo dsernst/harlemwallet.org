@@ -11,5 +11,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }))
   if (!users.length) return res.status(401).json({ error: 'User not found' })
 
-  return res.status(200).json({ name: users[0].name })
+  return res.status(200).json({ authCode: auth, name: users[0].name })
 }

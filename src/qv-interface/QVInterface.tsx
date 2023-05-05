@@ -1,4 +1,3 @@
-import axios from 'axios' // Axios for requests
 import { useRouter } from 'next/router' // Router for URL params
 import { useState } from 'react' // State management
 import { RemainingCredits } from './RemainingCredits'
@@ -6,13 +5,13 @@ import { ProposalBlocks } from './ProposalBlocks'
 import { projects } from '../projects'
 import DownArrow from './down_arrow.svg'
 import Image from 'next/image'
+import { User } from '../../pages/voice'
 
 const eventHasEnded = false
 const creditsPerVoter = 100
 
-export function QVInterface() {
+export function QVInterface({ user }: { user: User }) {
   const router = useRouter()
-  const { query } = router
   const [submitting, setSubmitting] = useState(false) // Submission loading
   const [votes, setVotes] = useState(projects.map(() => 0))
   const [descShown, setDescShown] = useState(projects.map(() => true))
@@ -60,31 +59,34 @@ export function QVInterface() {
             className="w-full py-3 mt-1 text-base font-bold bg-black rounded-md cursor-pointer text-fuchsia-100 hover:opacity-70"
             name="input-element"
             onClick={async () => {
-              setSubmitting(true)
-
-              return setTimeout(() => {
-                setSubmitting(false)
-                alert('Not active yet :)')
-              }, 400)
-
-              // POST data and collect status
-              const { status } = await axios.post('/api/events/vote', {
-                id: query.user, // Voter ID
-                votes: votes, // Vote data
-                name: name, // Voter name
-              })
-
-              // If POST is a success
-              if (status === 200) {
-                // Redirect to success page
-                router.push(`success?user=${query.user}`)
-              } else {
-                // Else, redirect to failure page
-                router.push(`failure?user=${query.user}`)
+              if (!user) {
+                alert('Please Log In in at the top first :)')
+                return window.scrollTo({ top: 0, behavior: 'smooth' })
               }
 
-              // Toggle button loading state to false
+              if (!confirm('Are you ready to submit your selections?')) return
+
+              setSubmitting(true)
+
+              const response = await fetch('/api/submit-selections', {
+                body: JSON.stringify({ ...user, votes }),
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+              })
+
+              // If error
+              if (response.status >= 400) {
+                const json = await response.json()
+                setSubmitting(false)
+                return alert(json.error)
+              }
+
+              // Otherwise success, redirect
               setSubmitting(false)
+              router.push(`/success`)
             }}
             disabled={submitting}
           >
@@ -187,6 +189,7 @@ export function QVInterface() {
           })}
         </div>
       </div>
+
       {/* Component scoped CSS */}
       <style jsx>{`
         button {

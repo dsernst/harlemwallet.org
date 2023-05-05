@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useUrlAuth } from './useUrlAuth'
 import { Spinner } from '../Spinner'
+import { User } from '../../pages/voice'
 
-export const LogInForm = () => {
-  const [user, setUser] = useState<string | null>(null)
-  const [hidForm, setHidForm] = useState(false)
+export const LogInForm = ({ setUser, user }: { setUser: (u: User) => void; user: User }) => {
   const [authCode, setAuthCode] = useState('')
+  const [hidForm, setHidForm] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -25,7 +25,7 @@ export const LogInForm = () => {
     if (response.status === 401) return setError(`Auth code '${authCode}' not found`)
     if (response.status === 200) {
       setAuthCode('')
-      setUser((await response.json()).name)
+      setUser(await response.json())
       return true
     }
   }
@@ -80,7 +80,7 @@ export const LogInForm = () => {
             <div className="flex flex-col sm:items-end">
               <span>
                 <span className="inline sm:hidden">Logged in as: </span>
-                {user}
+                {user.name}
               </span>
               <button className="block underline text-white/50 hover:text-white/70" onClick={() => setUser(null)}>
                 Log Out

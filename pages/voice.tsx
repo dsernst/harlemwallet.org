@@ -3,8 +3,12 @@ import Head from 'next/head'
 import { QVInterface } from '../src/qv-interface/QVInterface'
 import { LogInForm } from '../src/qv-interface/LogInForm'
 import { Instructions } from '../src/qv-interface/Instructions'
+import { useState } from 'react'
+
+export type User = { name: string; authCode: string } | null
 
 const VoicePage: NextPage = () => {
+  const [user, setUser] = useState<User>(null)
   return (
     <div className="bg-eggplant-purple">
       <Head>
@@ -18,7 +22,7 @@ const VoicePage: NextPage = () => {
         <h2 className="text-xl">Bringing Economic Democracy to Harlem</h2>
       </div>
 
-      <LogInForm />
+      <LogInForm {...{ user, setUser }} />
 
       {/* Intro section */}
       <div className="mt-10 text-center">
@@ -30,7 +34,7 @@ const VoicePage: NextPage = () => {
 
       <Instructions />
 
-      <QVInterface />
+      <QVInterface {...{ user }} />
 
       <footer className="py-8 text-xs text-center">
         <a target="_blank" className="text-white font-body hover:underline" href="/privacy-policy">
