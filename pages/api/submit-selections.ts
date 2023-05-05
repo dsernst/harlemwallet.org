@@ -29,20 +29,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     id: doc.id,
   }
 
+  const previousSubmissions = user.submission || []
+
   await Promise.all([
     // Store in DB
     firebase
       .firestore()
       .collection('registrations')
       .doc(user.id)
-      .update({ submission: [...(user.submission || []), { createdAt: new Date(), votes, headers: req.headers }] }),
+      .update({ submission: [...previousSubmissions, { createdAt: new Date(), votes, headers: req.headers }] }),
 
     // Notify admin
-    // sendEmail({
-    //   to: 'submission@harlemwallet.org',
-    //   subject: 'Harlem Wallet: Submission',
-    //   body: `${user.name} - ${user.email}\n\n\n${user.mailing_address}`,
-    // }),
+    sendEmail({
+      to: 'submission@harlemwallet.org',
+      subject: `Harlem Wallet: Submission ${previousSubmissions.length + 1}`,
+      body: `${user.name}\n\n${JSON.stringify(votes)}`,
+    }),
   ])
 
   return res.status(201).json({ success: true })
