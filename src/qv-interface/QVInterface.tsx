@@ -59,6 +59,8 @@ export function QVInterface({ user }: { user: User }) {
             className="w-full py-3 mt-1 text-base font-bold bg-black rounded-md cursor-pointer text-fuchsia-100 hover:opacity-70"
             name="input-element"
             onClick={async () => {
+              if (!totalQVUsed) return alert('Vote for at least one option before submitting :)')
+
               if (!user) {
                 alert('Please Log In in at the top first :)')
                 return window.scrollTo({ top: 0, behavior: 'smooth' })
