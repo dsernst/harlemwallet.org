@@ -13,6 +13,17 @@ export const Instructions = () => {
           collapsed && 'h-24'
         }`}
       >
+        {/* Video embed */}
+        <iframe
+          className="mx-auto"
+          width={isMobile ? '100%' : '560px'}
+          height={isMobile ? '175px' : '315px'}
+          src="https://www.youtube.com/embed/2a_kz1ReYXU"
+          title="Instructional video"
+          allow="accelerometer; picture-in-picture; web-share"
+          allowFullScreen
+        ></iframe>
+
         <p>
           Welcome to this pilot of the Harlem Community Wallet participatory budgeting process! Below, you will see a
           list of spending proposals for District 9. If you want to express support for a spending proposal, click “+”.
@@ -30,17 +41,6 @@ export const Instructions = () => {
           button to finalize your votes. Your votes will be added up with everyone else's, resulting in a clear and
           detailed representation of the group's preferences.
         </p>
-
-        {/* Video embed */}
-        <iframe
-          className="mx-auto"
-          width={isMobile ? '100%' : '560px'}
-          height={isMobile ? '175px' : '315px'}
-          src="https://www.youtube.com/embed/2a_kz1ReYXU"
-          title="Instructional video"
-          allow="accelerometer; picture-in-picture; web-share"
-          allowFullScreen
-        ></iframe>
       </div>
 
       {/* Collapsible controls */}
