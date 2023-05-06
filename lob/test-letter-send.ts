@@ -1,27 +1,38 @@
-import {
-  Configuration,
-  LetterEditable,
-  LettersApi,
-} from '@lob/lob-typescript-sdk'
+import { Configuration, LetterEditable, LettersApi } from '@lob/lob-typescript-sdk'
+// @ts-ignore (local file only)
+import registrations from '../db/registrations.json'
 
-const config: Configuration = new Configuration({
-  username: process.env.LOB_API_KEY,
-})
+const template = {
+  live: 'tmpl_2f55b559c7834a4',
+  test: 'tmpl_ce09b2de72a4ae9',
+}
+const councilMembersOffice = 'adr_f67b995a9422101e'
+const councilMembersOfficeTest = 'adr_54e8aa9c860fc502'
+// const mattsAddress = 'adr_572d829ce2099f72'
 
-const letterCreate = new LetterEditable({
-  to: 'adr_572d829ce2099f72', // Matt
-  from: 'adr_f67b995a9422101e', // Councilmember's office
-  color: false,
-  use_type: 'operational',
-  file: 'tmpl_1466f26633d3e5a',
-  merge_variables: {
-    name: 'Matt',
-  },
-})
+const testUsers = registrations.filter((r) => r.authCode?.startsWith('DEMO'))
+// console.log(testUsers.length)
+for (let index = 0; index < testUsers.length; index++) {
+  const testUser = testUsers[index]
+  // console.log(testUser.name)
 
-try {
-  const myLetter = await new LettersApi(config).create(letterCreate)
-  console.log('myLetter:', myLetter)
-} catch (err: any) {
-  console.error(err)
+  try {
+    const letters = new LettersApi(new Configuration({ username: process.env.LOB_TEST_API_KEY }))
+    const myLetter = await letters.create(
+      new LetterEditable({
+        to: councilMembersOfficeTest,
+        from: councilMembersOfficeTest,
+        color: false,
+        use_type: 'operational',
+        file: template.test,
+        merge_variables: {
+          first_name: testUser.name.split(' ')[0],
+          code: testUser.authCode,
+        },
+      })
+    )
+    console.log('myLetter:', myLetter)
+  } catch (err: any) {
+    console.error(err)
+  }
 }
