@@ -66,7 +66,12 @@ export function QVInterface({ user }: { user: User }) {
                 return window.scrollTo({ top: 0, behavior: 'smooth' })
               }
 
-              if (!confirm('Are you ready to submit your selections?')) return
+              if (
+                !confirm(
+                  `Are you ready to submit your selections? ${creditsRemaining} of ${creditsPerVoter} credits remaining`
+                )
+              )
+                return
 
               setSubmitting(true)
 
