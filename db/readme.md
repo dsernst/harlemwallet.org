@@ -11,6 +11,7 @@ We could then match the registrants name & mailing address against this file, be
    - This file was an API route rather than a CLI script, because our API was already configured with Firebase credentials, and this `db/` folder was configured to run the node alternative `bun` (faster, built in Typescript support, built in SQLite), which wasn't quickly cooperating with Firebase.
 2. We then split the list of registrants into 3 groups — `group-1.csv`, 2, and 3 — to divide the validation workload. This logic is `in ./make-3-csvs.ts`.
 3. I (David) then took my group (`group-1`), and adjusted the csv using `setup-reviewed-list.ts` to create a `reviewed-1.csv` file to track progress so far, with new rows `dupe_of, found_VSN, notes`.
+4. We then initially checked over our `reviewed-1.csv` to mark any registrations we already knew were invalid, by adding `was test` to their `notes` field.
 
 ### Making the Official Voter File easily query-able
 
