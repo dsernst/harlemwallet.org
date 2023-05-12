@@ -59,6 +59,11 @@ const foundVSNs = entries.map(function reviewRow(row) {
     return row
   }
 
+  if (row.mailing_address.includes('P.O. Box')) {
+    console.log(`🟡 Skipped #${row['#']} ${row.name}: PO Box listed`)
+    return row
+  }
+
   const [streetNum, ...rest] = row.mailing_address.split(' ')
   let skip = false
   const good = sameFirstAndLastName.find(function reviewNameMatches(match, i) {
