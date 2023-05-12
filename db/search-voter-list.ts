@@ -64,12 +64,12 @@ const foundVSNs = entries.map(function reviewRow(row) {
     const addr_rest = rest.join(' ')
 
     // Regex to test for numeric streets like 'W 152nd St'
-    const RE_w152nd_st = /^(w.?|west|east) ?(\d\d\d)(nd|th)? (st.|street|ave)/i
+    const RE_w152nd_st = /^(w.?|west|east) ?(\d\d\d)(nd|th)? ?(st.|street|ave)?/i
     const first_regex_match = addr_rest.match(RE_w152nd_st)
     if (first_regex_match) {
       const [, eastWest, street, , streetType] = first_regex_match
       const streetName = `${eastWest.toLowerCase().startsWith('w') ? 'WEST' : 'EAST'} ${street} ${
-        streetType.toLowerCase().startsWith('st') ? 'STREET' : 'AVENUE'
+        !streetType || streetType.toLowerCase().startsWith('st') ? 'STREET' : 'AVENUE'
       }`
       if (streetName !== match.RegStreetName)
         return console.log('❌ Street Names mismatch', streetName, 'vs', match.RegStreetName)
