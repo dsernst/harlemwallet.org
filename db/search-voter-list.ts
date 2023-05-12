@@ -54,6 +54,11 @@ const foundVSNs = entries.map(function reviewRow(row) {
     return row
   }
 
+  if (/^\w+@\w+\.com$/.test(row.mailing_address)) {
+    console.log(`🟡 Skipped #${row['#']} ${row.name}: Gave email instead of mailing addr`)
+    return row
+  }
+
   const [streetNum, ...rest] = row.mailing_address.split(' ')
   const good = sameFirstAndLastName.find(function reviewNameMatches(match, i) {
     // console.log(`Match #${i + 1}`, match)
