@@ -6,10 +6,14 @@ console.log(entries.length)
 
 // Track names seen so far
 const names: Record<string, string> = {}
-entries.forEach((e, i) => {
-  if (names[e.name]) entries[i].dupe_of = names[e.name]
-  names[e.name] = e['#']
-})
-// console.log(entries)
+const dupesMarked = entries
+  .reverse()
+  .map((e) => {
+    if (names[e.name]) return { ...e, dupe_of: names[e.name] }
+    names[e.name] = e['#']
+    return e
+  })
+  .reverse()
+// console.log(dupesMarked)
 
-saveReviewed(entries)
+saveReviewed(dupesMarked)
