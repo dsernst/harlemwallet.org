@@ -4,48 +4,54 @@ const table = 'd9_voters'
 
 // Load json file of all voters
 import d9Voters from './d9-voters.json'
-const voters = d9Voters as string[][]
-console.log(`Loaded voter file: ${voters.length} rows\n`)
+const voterFile = d9Voters as string[][]
 
 // Get column names
-const columns = voters[0]
+const columns = voterFile[0]
 console.log('columns', columns)
 
-// Grab a random row for testing
-const randRow = voters[Math.floor(Math.random() * voters.length)]
-console.log('randRow', randRow)
+// Voters are every row after the first one
+const voters = voterFile.slice(1)
+console.log(`\nLoaded voter file: ${voters.length} rows\n`)
 
-// Drop the table to restart the db
-console.log(db.query(`drop table ${table}`).all())
-
-// Create the SQLite table
+// Reset & create the SQLite table
+db.query(`drop table if exists ${table}`).run()
 const createTableQuery = `
   create table ${table} (
       ${columns.map((column) => `${column} text`).join(', ')},
       primary key (VSN)
-  )
-`
-console.log('createTableQuery', createTableQuery)
-console.log(db.query(createTableQuery).all())
+  )`
+// console.log('createTableQuery', createTableQuery)
+db.query(createTableQuery).run()
+console.log(`dropped and created table ${table}`)
 
 // Insert row into the SQLite table
-// const query = db.query('INSERT INTO voters (name, party) VALUES (?, ?)')
-const insertQuery = `
-  insert into ${table}
-    (${columns.join(', ')}) values
-    (${randRow.map((v) => (v ? `'${v}'` : 'null')).join(', ')})
-`
-console.log('insertQuery', insertQuery)
-console.log(db.query(insertQuery).all())
+voters.forEach((voter, i) => {
+  const insertQuery = `
+    insert into ${table}
+      (${columns.slice(0, voter.length).join(', ')}) values
+      (${voter.map((v) => (v ? `"${v.replace(`"`, `'`)}"` : 'null')).join(', ')})`
+  // console.log('insertQuery', insertQuery)
 
-const getAllQuery = `
+  try {
+    db.query(insertQuery).run()
+  } catch (e) {
+    console.log(i, insertQuery)
+    throw e
+  }
+
+  if (!(i % 5000)) console.log(`Inserted ${i} of ${voterFile.length}`)
+})
+
+const testSelectQuery = `
     SELECT *
     FROM ${table}
-`
-console.log('getAllQuery', getAllQuery)
-console.log(db.query(getAllQuery).all())
+    LIMIT 2;`
+console.log('testSelectQuery', testSelectQuery)
+console.log(db.query(testSelectQuery).all())
 
-// db.run(createTableQuery)
-
-// Close the database connection
-db.close()
+const countQuery = `
+    SELECT count(*)
+    FROM ${table}`
+// console.log('countQuery', countQuery)
+console.log(db.query(countQuery).all())
