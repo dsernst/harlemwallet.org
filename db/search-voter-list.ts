@@ -60,6 +60,7 @@ const foundVSNs = entries.map(function reviewRow(row) {
   }
 
   const [streetNum, ...rest] = row.mailing_address.split(' ')
+  let skip = false
   const good = sameFirstAndLastName.find(function reviewNameMatches(match, i) {
     // console.log(`Match #${i + 1}`, match)
     const streetNumMatch = streetNum.replace(',', '') === match.RegStreetNumber
@@ -92,8 +93,17 @@ const foundVSNs = entries.map(function reviewRow(row) {
       return true
     }
 
+    if (addr_rest.includes(match.RegUnitNumber)) {
+      skip = true
+      console.log(
+        `🟡 Skipped #${row['#']} ${row.name}: VSN ${match.VSN} matches name, street num, unit num, but wrong street name`
+      )
+      return false
+    }
+
     console.log('❌ No Street name regex could match:', addr_rest)
   })
+  if (skip) return row
   if (good) {
     finds++
     console.log(`✅ Matched #${row['#']} ${row.name} to VSN ${good.VSN}`)
