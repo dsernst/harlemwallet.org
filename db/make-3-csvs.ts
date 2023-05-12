@@ -1,28 +1,20 @@
 import fs from 'fs'
 
 import registrations from './registrations.json'
-type Item = (typeof registrations)[0]
 
-function splitIntoGroups(data: Item[]) {
-  const totalItems = data.length
-  const firstSplit = Math.ceil(totalItems / 3)
-  const secondSplit = firstSplit * 2
+// Split the list into thirds
+const data = registrations
+const totalItems = data.length
+const split1 = Math.ceil(totalItems / 3)
+const split2 = split1 * 2
 
-  return [data.slice(0, firstSplit), data.slice(firstSplit, secondSplit), data.slice(secondSplit)]
-}
-
-function convertToCSV(data: Item[]): string {
+// For each group
+;[data.slice(0, split1), data.slice(split1, split2), data.slice(split2)].forEach((group, i) => {
+  // Format each row
   const headers = ['number', 'id', 'name', 'mailing_address']
-  const rows = data.map((item, index) => [index + 1, item.id, item.name, item.mailing_address])
+  const rows = group.map((item, index) => [index + 1, item.id, item.name, item.mailing_address])
 
-  return [headers, ...rows].map((row) => row.join(',')).join('\n')
-}
-
-function createCSVFile(filename: string, data: string): void {
-  fs.writeFileSync(filename, data)
-}
-
-// Save each group to a file
-splitIntoGroups(registrations).forEach((group, i) =>
-  createCSVFile(__dirname + `/group-${i + 1}.csv`, convertToCSV(group))
-)
+  // Save all the data to a csv file
+  const content = [headers, ...rows].map((row) => row.join(',')).join('\n')
+  fs.writeFileSync(__dirname + `/group-${i + 1}.csv`, content)
+})
