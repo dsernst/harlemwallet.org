@@ -91,7 +91,8 @@ const foundVSNs = entries.map(function reviewRow(row) {
     const RE_Avenue = /^([\w ]+) Ave/i
     const second_regex_match = addr_rest.match(RE_Avenue)
     if (second_regex_match) {
-      const [, street] = second_regex_match
+      let [, street] = second_regex_match
+      if (street === 'Fifth') street = '5'
       const streetName = `${street.replace('th', '').toUpperCase()} AVENUE`
       if (streetName !== match.RegStreetName)
         return console.log('❌ Street Names mismatch', streetName, 'vs', match.RegStreetName)
