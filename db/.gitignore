@@ -2,3 +2,4 @@
 *.xlsx
 !tsconfig.json
 db.sqlite
+group-*.csv
