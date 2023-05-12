@@ -14,3 +14,13 @@ export function importReviewed() {
     return obj
   })
 }
+
+/** Saves the current reviewed-1.tsv file */
+export function saveReviewed(entries: Record<string, string>[]) {
+  const headers = Object.keys(entries[0])
+  let content = headers.join('\t') + '\n'
+
+  content += entries.map((entry) => headers.map((h) => entry[h]).join('\t')).join('\n')
+
+  fs.writeFileSync(path, content)
+}

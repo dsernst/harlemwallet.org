@@ -1,4 +1,4 @@
-import { importReviewed } from './import-reviewed'
+import { importReviewed, saveReviewed } from './import-reviewed'
 
 const entries = importReviewed()
 console.log(entries.length)
@@ -10,5 +10,6 @@ entries.forEach((e, i) => {
   if (names[e.name]) entries[i].dupe_of = names[e.name]
   names[e.name] = e.number
 })
+// console.log(entries)
 
-console.log(entries)
+saveReviewed(entries)
