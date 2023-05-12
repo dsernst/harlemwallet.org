@@ -1,0 +1,35 @@
+## Cleaning up Registrations
+
+In order to validate registrants, we needed to confirm who was actually a registered voter within the district.
+
+To accomplish this, we were given a large Excel file of the 91k officially registered voters in the district.
+We could then match the registrants name & mailing address against this file, before sending them their unique postal mailer to verify their address.
+
+### Here are the steps we took — all data files were .gitignore'd for security:
+
+1. Downloaded the registrants to local machine by visiting the http://localhost:3000//api/pull-db route (`pages/api/pull-db.ts`).
+   - This file was an API route rather than a CLI script, because our API was already configured with Firebase credentials, and this `db/` folder was configured to run the node alternative `bun` (faster, built in Typescript support, built in SQLite), which wasn't quickly cooperating with Firebase.
+2. We then split the list of registrants into 3 groups — `group-1.csv`, 2, and 3 — to divide the validation workload. This logic is `in ./make-3-csvs.ts`.
+3. I (David) then took my group (`group-1`), and adjusted the csv using `setup-reviewed-list.ts` to create a `reviewed-1.csv` file to track progress so far, with new rows `dupe_of, found_VSN, notes`.
+
+### Making the Official Voter File easily query-able
+
+As mentioned above, we were given a large (91k+ rows) .xlsx file of all the officially registered voters in the district.
+
+We could load this file into JS using `node-xlsx`. But doing this led to slow parsing / startup times: an extra 12 seconds every time. So in order to speed up development, we first converted it json, using the `./xlsx-to-json.ts` script.
+
+We then wanted to be able to directly query individual rows of the voter list, to search for specific name / address matches. In order to make this faster and easier, we set up a simple SQLite db of the 91k voters, using the `./load-d9-file-into-sql.ts` script. Running this took approximately 70 seconds to build the 91k `d9-voters` table. (We suspect it could have been sped up by combining the queries, but didn't care to optimize it since it is only needed once).
+
+### Note on setting up dev environment for bun
+
+We decided to use `bun` (a new alternative to `node`) because it is very fast, especially for running Typescript files, which enables a more rapid development cycle. This requires first installing `bun` to the machine. Next, in order to make using it as easy as possible, we configured our VSCode Code Runner Extension to always execute .ts files with `bun`, by adding this setting to our workspace's `.vscode/settings.json`:
+
+```
+  "code-runner.executorMap": {
+    "typescript": "bun $fullFileName"
+  },
+```
+
+This makes running any individual script as easy as pressing `Cmd+I` (we had previously set Code Runner to this hotkey).
+
+This is not necessary, but it makes things faster and easier 🙂
