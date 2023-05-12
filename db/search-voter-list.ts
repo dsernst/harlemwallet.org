@@ -122,3 +122,5 @@ const foundVSNs = entries.map(function reviewRow(row) {
   console.log('Name matches:', sameFirstAndLastName)
   throw `Don't know what to with this one`
 })
+
+console.log(`\nFound ${finds} VSNs`)

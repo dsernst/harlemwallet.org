@@ -16,6 +16,7 @@ We could then match the registrants name & mailing address against this file, be
    3. After getting close to accidentally overwriting the initial work in it, I decided it would be great to have version control. But for privacy reasons it couldn't be checked into this public repository, so it lived in a separate fresh folder in `~/Desktop`, where it wouldn't need to be .gitignore'd. `import-reviewed.ts` handles easily grabbing this file.
 4. We then initially checked over our `reviewed-1.tsv` to mark any registrations we already knew were invalid, by adding `was test` to their `notes` field.
 5. We then wanted to identify the obvious duplicates — `mark-duplicates.ts` — which would be a waste of effort to match against the voter file.
+6. Next, we began a first pass at querying the 91k list for each registrant. We wrote a script `search-voter-list.ts` that would try them one at a time to find a match. Whenever it got stuck, we added custom logic: e.g more adaptable regexes to parse their mailing address, or special handling if they did something weird. Slowly but surely this became more flexible, applying the rules it had learned from the first-of-that-type to later similar situations. Our first pass was able to find VSNs about 50% of the time with matching name and address.
 
 ### Making the Official Voter File easily query-able
 
