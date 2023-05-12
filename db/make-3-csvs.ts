@@ -11,7 +11,7 @@ const split2 = split1 * 2
 // For each group
 ;[data.slice(0, split1), data.slice(split1, split2), data.slice(split2)].forEach((group, i) => {
   // Format each row
-  const headers = ['number', 'id', 'name', 'mailing_address']
+  const headers = ['#', 'id', 'name', 'mailing_address']
   const rows = group.map((item, index) => [index + 1, item.id, item.name, item.mailing_address])
 
   // Save all the data to a csv file

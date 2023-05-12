@@ -8,7 +8,7 @@ console.log(entries.length)
 const names: Record<string, string> = {}
 entries.forEach((e, i) => {
   if (names[e.name]) entries[i].dupe_of = names[e.name]
-  names[e.name] = e.number
+  names[e.name] = e['#']
 })
 // console.log(entries)
 
