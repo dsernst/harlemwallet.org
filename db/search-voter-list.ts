@@ -68,7 +68,7 @@ const foundVSNs = entries.map(function reviewRow(row) {
   let skip = false
   const good = sameFirstAndLastName.find(function reviewNameMatches(match, i) {
     // console.log(`Match #${i + 1}`, match)
-    const streetNumMatch = streetNum.replace(',', '') === match.RegStreetNumber
+    const streetNumMatch = streetNum.replace(',', '').toUpperCase() === match.RegStreetNumber
     if (!streetNumMatch) return console.log('❌ Street Num mismatch', streetNum, 'vs', match.RegStreetNumber)
     // console.log('✅ Street Num match')
 
