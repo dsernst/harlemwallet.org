@@ -1,15 +1,20 @@
 import fs from 'node:fs'
 
+// We'll convert the separator to tabs to avoid the trouble with commas in the mailing_address
+
 // Get the current list
 const file = fs.readFileSync(__dirname + '/group-1.csv', 'utf8')
-const [headers, ...entries] = file.split('\n')
+const [headersRow, ...entries] = file.split('\n')
 
-let content = headers + ',dupe_of,found_VSN,notes' + '\n'
+// Add our new review columns
+const headers = (headersRow + ',dupe_of,found_VSN,notes').split(',')
+
+let content = headers.join('\t') + '\n'
 
 // Stitch the mailing address field back together
-entries.forEach((e) => {
-  const [number, id, name, ...rest] = e.split(',')
-  content += [number, id, name, `"${rest.join(',')}"`].join(',') + ',,,\n'
+entries.forEach((entry) => {
+  const [number, id, name, ...rest] = entry.split(',')
+  content += [number, id, name, rest.join(',')].join('\t') + '\t\t\t\n'
 })
 
-fs.writeFileSync(__dirname + '/reviewed-1.csv', content)
+fs.writeFileSync(`${process.env.HOME}/Desktop/harlem-data/reviewed-1.tsv`, content)

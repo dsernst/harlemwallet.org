@@ -1,4 +1,4 @@
-## Cleaning up Registrations
+# Cleaning up Registrations
 
 In order to validate registrants, we needed to confirm who was actually a registered voter within the district.
 
@@ -10,8 +10,12 @@ We could then match the registrants name & mailing address against this file, be
 1. Downloaded the registrants to local machine by visiting the http://localhost:3000//api/pull-db route (`pages/api/pull-db.ts`).
    - This file was an API route rather than a CLI script, because our API was already configured with Firebase credentials, and this `db/` folder was configured to run the node alternative `bun` (faster, built in Typescript support, built in SQLite), which wasn't quickly cooperating with Firebase.
 2. We then split the list of registrants into 3 groups — `group-1.csv`, 2, and 3 — to divide the validation workload. This logic is `in ./make-3-csvs.ts`.
-3. I (David) then took my group (`group-1`), and adjusted the csv using `setup-reviewed-list.ts` to create a `reviewed-1.csv` file to track progress so far, with new rows `dupe_of, found_VSN, notes`.
-4. We then initially checked over our `reviewed-1.csv` to mark any registrations we already knew were invalid, by adding `was test` to their `notes` field.
+3. I (David) then took my group (`group-1`), and adjusted it using `setup-reviewed-list.ts` to create a `reviewed-1.tsv` file to track progress so far, with new cols `dupe_of`, `found_VSN`, `notes`.
+   1. VSN = Voter Serial Number, a unique number assigned to voters and used as an index in the voter list.
+   2. This was converted to .tsv instead of .csv to avoid needing to parse out the commas within the mailing_addresses.
+   3. After getting close to accidentally overwriting the initial work in it, I decided it would be great to have version control. But for privacy reasons it couldn't be checked into this public repository, so it lived in a separate fresh folder in `~/Desktop`, where it wouldn't need to be .gitignore'd. `import-reviewed.ts` handles easily grabbing this file.
+4. We then initially checked over our `reviewed-1.tsv` to mark any registrations we already knew were invalid, by adding `was test` to their `notes` field.
+5. We then wanted to identify the obvious duplicates — `mark-duplicates.ts` — which would be a waste of effort to match against the voter file.
 
 ### Making the Official Voter File easily query-able
 
