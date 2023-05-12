@@ -48,7 +48,8 @@ const foundVSNs = entries.map(function reviewRow(row) {
       LastNAme = "${last?.toUpperCase()}"`
     )
     .all() as Record<keyof typeof relevantKeys, string>[]
-  // if (sameFirstAndLastName.length == 1) console.log('✅ Found exactly one first & last name match')
+  const onlyOneMatch = sameFirstAndLastName.length == 1
+  // if (onlyOneMatch) console.log('✅ Found exactly one first & last name match')
   if (!sameFirstAndLastName.length) {
     console.log(`❌ #${row['#']} ${row.name}: No voter found with that name`)
     return row
@@ -69,7 +70,8 @@ const foundVSNs = entries.map(function reviewRow(row) {
   const good = sameFirstAndLastName.find(function reviewNameMatches(match, i) {
     // console.log(`Match #${i + 1}`, match)
     const streetNumMatch = streetNum.replace(',', '').split('-')[0].toUpperCase() === match.RegStreetNumber
-    if (!streetNumMatch) return console.log('❌ Street Num mismatch', streetNum, 'vs', match.RegStreetNumber)
+    if (!streetNumMatch)
+      return onlyOneMatch && console.log('❌ Street Num mismatch', streetNum, 'vs', match.RegStreetNumber)
     // console.log('✅ Street Num match')
 
     const addr_rest = rest.join(' ')
