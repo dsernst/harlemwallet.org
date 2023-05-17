@@ -77,7 +77,7 @@ const foundVSNs = entries.map(function reviewRow(row) {
     const addr_rest = rest.join(' ')
 
     // Regex to test for numeric streets like 'W 152nd St'
-    const RE_w152nd_st = /^(w.?|west|east) ?(\d\d\d)(nd|th)? ?(st.|street|ave)?/i
+    const RE_w152nd_st = /^(w.?|west|e|east) ?(\d\d\d)(nd|th)? ?(st.|street|ave)?/i
     const first_regex_match = addr_rest.match(RE_w152nd_st)
     if (first_regex_match) {
       const [, eastWest, street, , streetType] = first_regex_match
