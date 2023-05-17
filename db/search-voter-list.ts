@@ -55,7 +55,7 @@ const foundVSNs = entries.map(function reviewRow(row) {
     return row
   }
 
-  if (/^\w+@\w+\.com$/.test(row.mailing_address)) {
+  if (/^\w+@\w+\.com$/i.test(row.mailing_address)) {
     console.log(`🟡 Skipped #${row['#']} ${row.name}: Gave email instead of mailing addr`)
     return row
   }
