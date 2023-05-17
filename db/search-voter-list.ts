@@ -1,4 +1,4 @@
-import { importReviewed } from './import-reviewed'
+import { importReviewed, saveReviewed } from './import-reviewed'
 const entries = importReviewed()
 
 import { Database } from 'bun:sqlite'
@@ -126,3 +126,5 @@ const foundVSNs = entries.map(function reviewRow(row) {
 })
 
 console.log(`\nFound ${finds} VSNs`)
+
+saveReviewed(foundVSNs)
