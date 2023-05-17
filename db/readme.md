@@ -17,6 +17,7 @@ We could then match the registrants name & mailing address against this file, be
 4. We then initially checked over our `reviewed-1.tsv` to mark any registrations we already knew were invalid, by adding `was test` to their `notes` field.
 5. We then wanted to identify the obvious duplicates — `mark-duplicates.ts` — which would be a waste of effort to match against the voter file.
 6. Next, we began a first pass at querying the 91k list for each registrant. We wrote a script `search-voter-list.ts` that would try them one at a time to find a match. Whenever it got stuck, we added custom logic: e.g more adaptable regexes to parse their mailing address, or special handling if they did something weird. Slowly but surely this became more flexible, applying the rules it had learned from the first-of-that-type to later similar situations. Our first pass was able to find VSNs about 50% of the time with matching name and address.
+7. We adapted this script to also run over group-2 and group-3, with only minimal new handling for edge cases needed. In both these cases it also found VSNs for approximately 50% of registrations. Since approx 25% had been eliminated as dupes, that means there's approximately 25% more room left for this script to still handle.
 
 ### Making the Official Voter File easily query-able
 
