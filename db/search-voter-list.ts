@@ -95,10 +95,11 @@ const foundVSNs = entries.map(function reviewRow(row) {
     if (second_regex_match) {
       let [, street, streetType] = second_regex_match
       if (street === 'Fifth') street = '5'
-      const streetName = `${street.replace('th', '').replace('Saint', 'St').toUpperCase()} ${
+      const streetName = `${street.replace('th', '').toUpperCase()} ${
         streetType.toLowerCase() == 'ave' ? 'AVENUE' : 'PLACE'
       }`
-      if (streetName !== match.RegStreetName)
+      if (streetName !== match.RegStreetName && streetName.replace('SAINT', 'ST') !== match.RegStreetName)
+        // Voter file uses both Saint and St, inconsistently
         return console.log('❌ Street Names mismatch', streetName, 'vs', match.RegStreetName)
       return true
     }
