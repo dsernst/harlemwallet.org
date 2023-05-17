@@ -19,6 +19,7 @@ We could then match the registrants name & mailing address against this file, be
 6. Next, we began a first pass at querying the 91k list for each registrant. We wrote a script `search-voter-list.ts` that would try them one at a time to find a match. Whenever it got stuck, we added custom logic: e.g more adaptable regexes to parse their mailing address, or special handling if they did something weird. Slowly but surely this became more flexible, applying the rules it had learned from the first-of-that-type to later similar situations. Our first pass was able to find VSNs about 50% of the time with matching name and address.
 7. We adapted this script to also run over group-2 and group-3, with only minimal new handling for edge cases needed. In both these cases it also found VSNs for approximately 50% of registrations. Since approx 25% had been eliminated as dupes, that means there's approximately 25% more room left for this script to still handle.
 8. All the results of this process was then saved to the DB using the `api/save-vsns` route (like with step #1 above). The DB was then pulled down again, so all these results are now in our local `registrations.json`.
+9. We then save a Lob address for everyone with a VSN, using the `lob/create-lob-address.ts` script, followed by `api/save-lob-addresses` to persist to the remote db, then another pull down with `api/pull-db`.
 
 ### Making the Official Voter File easily query-able
 

@@ -6,7 +6,9 @@
     "target": "esnext",
 
     // typescript 5.x+
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
 
     // best practices
     "strict": true,
