@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 
-const path = `${process.env.HOME}/Desktop/harlem-data/reviewed-2.tsv`
+const path = `${process.env.HOME}/Desktop/harlem-data/reviewed-3.tsv`
 
 /** Grabs the current reviewed-1.tsv file & converts it into an array of objects */
 export function importReviewed() {
