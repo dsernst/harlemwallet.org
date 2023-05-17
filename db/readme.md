@@ -31,7 +31,7 @@ We then wanted to be able to directly query individual rows of the voter list, t
 
 ### Note on setting up dev environment for bun
 
-We decided to use `bun` (a new alternative to `node`) because it is very fast, especially for running Typescript files, which enables a more rapid development cycle. This requires first installing `bun` to the machine. Next, in order to make using it as easy as possible, we configured our VSCode Code Runner Extension to always execute .ts files with `bun`, by adding this setting to our workspace's `.vscode/settings.json`:
+We decided to use `bun` (a new alternative to `node`) because it is very fast, especially for running Typescript files, which enables a more rapid development cycle. This requires first installing `bun` to the machine: see https://bun.sh. Next, in order to make using it as easy as possible, we configured our VSCode Code Runner Extension to always execute .ts files with `bun`, by adding this setting to our workspace's `.vscode/settings.json`:
 
 ```
   "code-runner.executorMap": {
