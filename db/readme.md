@@ -20,7 +20,7 @@ We could then match the registrants name & mailing address against this file, be
 7. We adapted this script to also run over group-2 and group-3, with only minimal new handling for edge cases needed. In both these cases it also found VSNs for approximately 50% of registrations. Since approx 25% had been eliminated as dupes, that means there's approximately 25% more room left for this script to still handle.
 8. All the results of this process was then saved to the DB using the `api/save-vsns` route (like with step #1 above). The DB was then pulled down again, so all these results are now in our local `registrations.json`.
 9. We then save a Lob address for everyone with a VSN, using the `lob/create-lob-address.ts` script, followed by `api/save-lob-addresses` to persist to the remote db, then another pull down with `api/pull-db`.
-10. We assigned auth codes w/ `api/assign-auth-codes`. Refreshed down w/ `api/pull-db`. Then ran `db/check-auths-unique` to verify the auth codes were assigned properly and each unique.
+10. We assigned auth codes w/ `api/assign-auth-codes`. Refreshed down w/ `api/pull-db`. Then ran `db/check-auths-unique` to verify the auth codes were assigned properly and each unique, and VSNs are unique.
 
 ### Making the Official Voter File easily query-able
 
