@@ -21,6 +21,7 @@ We could then match the registrants name & mailing address against this file, be
 8. All the results of this process was then saved to the DB using the `api/save-vsns` route (like with step #1 above). The DB was then pulled down again, so all these results are now in our local `registrations.json`.
 9. We then save a Lob address for everyone with a VSN, using the `lob/create-lob-address.ts` script, followed by `api/save-lob-addresses` to persist to the remote db, then another pull down with `api/pull-db`.
 10. We assigned auth codes w/ `api/assign-auth-codes`. Refreshed down w/ `api/pull-db`. Then ran `db/check-auths-unique` to verify the auth codes were assigned properly and each unique, and VSNs are unique.
+11. Lastly we used `lob/send-all.ts` to send the custom letters, `api/save-letterSent.ts` to save the unique letter IDs to the DB, and `lob/find-sends.ts` to track down some sends that went out but weren't saved properly the first time.
 
 ### Making the Official Voter File easily query-able
 
