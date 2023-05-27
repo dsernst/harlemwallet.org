@@ -18,7 +18,7 @@ export const Instructions = () => {
           className="mx-auto"
           width={isMobile ? '100%' : '560px'}
           height={isMobile ? '175px' : '315px'}
-          src="https://www.youtube.com/embed/2a_kz1ReYXU"
+          src="https://www.youtube.com/embed/legnmMzR134"
           title="Instructional video"
           allow="accelerometer; picture-in-picture; web-share"
           allowFullScreen
