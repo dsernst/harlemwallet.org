@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { firebase } from './_firebase'
 import { pick } from '../../src/utils/pick'
-import registrations from '../../registrations.json'
+import registrations from '../../registrations.sample.json' // Remove .sample to run locally
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (process.env.VERCEL) return res.status(401).send('Unauthorized')
