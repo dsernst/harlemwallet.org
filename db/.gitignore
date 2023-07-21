@@ -4,3 +4,4 @@
 db.sqlite
 group-*.csv
 reviewed-1.csv
+results.tsv
