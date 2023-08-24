@@ -4,6 +4,7 @@ import { QVInterface } from '../src/qv-interface/QVInterface'
 import { LogInForm } from '../src/qv-interface/LogInForm'
 import { Instructions } from '../src/qv-interface/Instructions'
 import { useState } from 'react'
+import { Closed } from '../src/qv-interface/Closed'
 
 export type User = { name: string; authCode: string } | null
 
@@ -15,6 +16,8 @@ const VoicePage: NextPage = () => {
         <title>Harlem Wallet: Participate</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Closed />
 
       {/* Title */}
       <div className="pt-6 mx-auto font-bold text-center text-white text-shadow shadow-black font-body">
